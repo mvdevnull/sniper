@@ -1,0 +1,18 @@
+=====Sniper (requirements and dependencies)=====
+python 2.7    		----> apt-get install python
+psql python module 	----> apt-get install python-psycopg2
+
+======Suggested Functionality=====
+nessus  ----> https://www.tenable.com/downloads/nessus  
+
+#Future Tools (not needed yet, but maybe at some Point)
+#Third-Party Tools (supplied within the sniper ./third-party-tools directory , but may want to update as needed)
+auto_exploit-darkoperator	-----> git clone https://github.com/darkoperator/Metasploit-Plugins.git 
+smbshell.nbin 			-----> (nessus tool)
+rawr 				-----> https://bitbucket.org/al14s/rawr/src/master/
+nessrest			-----> pip install nessrest
+
+
+#Unsure if you really need these -- may need to check?
+apt-get install msgpack-python
+git clone git://github.com/SpiderLabs/msfrpc.git msfrpc

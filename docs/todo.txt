@@ -1,0 +1,89 @@
+Issues/Bugs/Enhancements Section:
+---------
+sniper.sh
+---------
+Issue/Bugs
+1)nessus_connect not working with the "@" symbol in password. temporary workaround..created acount service/service
+2)For some reason, ESX root logins aren't showing the uname with nessuscmd (need to figure out if issue with nessuscmd or my grep/sed/awk?)
+
+Speed Ideas to consider:
+1) nmap -sV needs to thread and run mult hosts at a time..   (bc we are breaking down by 1 host)
+2) a few msfconsole auxiliary's instead of nessuscmd for OS detection and login
+3) check speed for -sV scans and see what ports tend to go REAL slow on (thinking it's port 139,but test..) consider removing those if not normally any banner anyway?
+
+
+Coding Neatness to consider:
+1) use functions and classes and get rid of the duplicative coding
+2) sometype of debug mode -v -vv
+3) make compatabile with python 3.x  (now only python 2.7)
+4)convert all python.sh  to python.py  (Vince is working on this part)
+5)Take out all hard-coded passwords and put in flat config file for now
+
+
+Enhancements to consider:
+1)Need place to store dn_nmap -oA archived.nmap.results.blah blah (see rawr code to find the .xml results in tmp directory)
+2) cred database functionality
+(need to think about the security aspect - storing password for assessment in clear text..?  maybe a you ok with this?
+(Tie in with something relating to the nessuscmd --sshi  --wmii thingy
+run a "cred -a command to add any *VALID* creds recieved from ssh login,etc"  
+maybe cred -a [IPaddress] -t password -p 22 -u [user] -P [pass]  
+3)remove local eth0/eth1 ip address from msfdatabase results
+
+=============================
+(-)(BETA partial working)-- Nessus automation
+= after kicking off the nessus scan --> import the nessus scans ...
+(see sniper.sh  and ./tools/sniper.rb) (ben said teamsploit waits for this so look at his code)
+msfconsole> load sniper
+---??nessus_report_list (periodically make sure nothing running)
+nessus_report_get 897ad439-1113-6af6-d701-c50dd2849d8fdcd56a59bef6527f
+=========================
+(-)(BETA - partially working)--GAPING HOLES found by msf compatable nessus plugins?
+This code and ideas are in the MAGIC CVE section of sniper.sh and within cve_update in sniper.py
+===============================
+(-)(new code)--gaping HOLE from darkoperator finding??
+see here -->  #~/scripts/sniper/third-party-tools/auto_exploit*
+setup git to get new stuff from darkoperator
+# msf> load auto_exploit
+# msf> vuln_exploit -m
+#   <here's your gaping holes?>
+# msf> unload auto_exploit ### for safety
+====================================
+
+
+----------------
+sniper.py
+--------------
+(-) Convert to python3, change dependency ,etc
+
+(-) Phase X - report findings section
+=detect 3.2.1.42 GEN001120 - FAIL rshd.config
+=detect 3.2.1.38 GEN001020 - FAIL & root <> console
+=plugin 38153, good summary of missing patches(but has to use nessucmd cuz msf db_import doesn't capture)
+=how to check last bigfix update done ? 1)NASL like EPO?  2)nessucmd- policy like custom wireshark -> get file -> etc
+=maybe id=35730 not ilke %virtual% -- helps find USB devices which could show up as unapproved USB devices?
+
+(-) Confirm SAT credential issues
+(need to test all combinations and list definitively)
+=good vs not good ssh - if 11936 and method = ssh, then good  (note 21745 is false positive)
+=plugin 21745 - cred problem - (works win2k8R2 (UAC enabled) what does it do in linux ssh
+=plugin 24786 - you logged in, but without administrator priv's
+=???X)possibly something to be smarter about credential issues  (use nasl -t IP ./third-pary/nessus/smbshell.nbin)
+
+(-)Resurect or kill once and for all the commented out Phase 6 which I removed (services)
+
+
+---------
+Future (Low Priority - if any)
+---------
+Do some logic for Account Credential issues
+=1)See parse_nessus_xml.v19.pl  (specifically in section where it lists accounts)
+=2)NSS-10860 will get local accounts
+=3)NSS-10399 will get domain accounts (may need to change nessus scan policy with ENDUID > 1200)
+
+
+Monitoring Module
+=1)kick off snort
+=2)custom rules =  1)nessus-login failed  2)ssh unix plugin id = ########  or (WMI windows plugin id=#####)
+=3)How to do this?  some type of "app is hung?" function
+=4)Dest unreachable (enough lost) maybe use thresholding
+=5)how todo alerts let user know?  bell taillog?
