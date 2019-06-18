@@ -13,7 +13,7 @@ import re
 dbpass = os.popen("cat /usr/share/metasploit-framework/config/database.yml | grep -m1 password | cut -d \":\" -f 2 | awk '{ gsub (\" \", \"\", $0); print}'").read()
 constring = "dbname='msf' user='msf' host='localhost' port='5432' password='"+str(dbpass)+"'"
 constring = constring.replace('\n', '')
-print constring
+
 #CONNECT TO PostgreSQL DB
 try:
     conn = psycopg2.connect(constring)
