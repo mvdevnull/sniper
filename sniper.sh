@@ -20,6 +20,11 @@ else
         echo "(OK) - Starting $SERVICE service -- `ps ax | grep -v grep | grep $SERVICE`"
 fi
 
+if test -f "$EYEWITNESS"; then
+    echo "$EYEWITNESS exist"
+else
+    echo "(ERROR) - eyewitness not found - install eyewitness (ex: apt-get install eyewitness)"
+fi
 
 echo '  _________      .__                     ' 
 echo ' /   _____/ ____ |__|_____   ___________ '
