@@ -1,9 +1,18 @@
 #!/usr/bin/python
 import psycopg2
+import os
+import re
+
+#dbpass = '6Ja1xODwesQjtxtWF85E8MhNiY1g7lizc+iBQRMmED8='   #alternatively place password manually on this line
+dbpass = os.popen("cat /usr/share/metasploit-framework/config/database.yml | grep -m1 password | cut -d \":\" -f 2 | awk '{ gsub (\" \", \"\", $0); print}'").read()
+constring = "dbname='msf' user='msf' host='localhost' port='5432' password='"+str(dbpass)+"'"
+constring = constring.replace('\n', '')
+
+
 #CONNECT TO DB
 #CONNECT TO DB
 try:
-    conn = psycopg2.connect("dbname='msf' user='msf' host='localhost' port='5432' password='ffGdwOS40ByPi2Pp7RKDStDabxMjgGlC'")
+    conn = psycopg2.connect(constring)
 
 
 except:
