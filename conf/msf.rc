@@ -1,7 +1,1 @@
-set ConsoleLogging true
-set Loglevel 5
-set SessionLogging true
-set TimestampOutput true
-set PROMPT %T S:%S J:%J
-db_nmap -Pn -n --top-ports=200 
-quit -y
+
