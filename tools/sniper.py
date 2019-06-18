@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #Script - sniper.py 
 #Description - script used for DISCOVERY, various targeted nessus scans and Reports.
-#Version 2.2019-5-2
+#Version 2.2019-6-18
 #Author - Chris Hebert
 
 import psycopg2
@@ -9,9 +9,14 @@ import sys
 import os
 import re
 
+#dbpass = '6Ja1xODwesQjtxtWF85E8MhNiY1g7lizc+iBQRMmED8='   #alternatively place password manually on this line
+dbpass = os.popen("cat /usr/share/metasploit-framework/config/database.yml | grep -m1 password | cut -d \":\" -f 2 | awk '{ gsub (\" \", \"\", $0); print}'").read()
+constring = "dbname='msf' user='msf' host='localhost' port='5432' password='"+str(dbpass)+"'"
+constring = constring.replace('\n', '')
+print constring
 #CONNECT TO PostgreSQL DB
 try:
-    conn = psycopg2.connect("dbname='msf' user='msf' host='localhost' port='5432' password='F6eHVob+5d/+GOw93zdi2E1ljr6wRHwju6IAlq808LM='")
+    conn = psycopg2.connect(constring)
 except:
     print "Error: Unable to connect to the database"
 
@@ -43,7 +48,7 @@ def nss_report(nss,desc,vuln):
 #SNIPER-DB-Cleaning
 def db_update(cur):
 
-	print "==========Phase 4 - DB Updating Hosts============="
+	print "==========DB Updating Hosts============="
 
 	#SNIPER-SERVICE-Cleaning
 	#print "==========Phase 4a Cleaning Filtered SERVICES from initial 22,445 discovery"
@@ -72,21 +77,46 @@ def db_update(cur):
 	#SNIPER-OS-UPDATES
 
 	#OS-SUN
-	#print "==========Phase 1.1.2 OS Updating (SUN via SSH SERVICES)"
-	cur.execute("""UPDATE hosts SET os_name = 'Sun', comments = 'OS-Updated-by-sniper.py'\
+	#print "==========Phase 1.1.2 OS Updating (Unix like via SSH SERVICES)"
+	#Sun via ssh
+        cur.execute("""UPDATE hosts SET os_name = 'Sun', comments = 'OS-Updated-by-sniper.py'\
 	where id in (SELECT host_id from services where name = 'ssh' and info like ('%Sun%')) and os_name = 'Unknown' """)
 
-	#OS-MS
+        #Cisco via any service
+        cur.execute("""UPDATE hosts SET os_name = 'Cisco', comments = 'OS-Updated-by-sniper.py'\
+        where id in (SELECT host_id from services where info like ('%isco%')) and os_name = 'Unknown' """)
+
+        #Ubuntu via ssh
+        cur.execute("""UPDATE hosts SET os_name = 'Linux', os_flavor = 'Ubuntu', comments = 'OS-Updated-by-sniper.py'\
+        where id in (SELECT host_id from services where name = 'ssh' and info like ('%buntu%')) and os_name = 'Unknown' """)
+
+        #Linux via telnet
+        cur.execute("""UPDATE hosts SET os_name = 'Linux', comments = 'OS-Updated-by-sniper.py'\
+        where id in (SELECT host_id from services where port = 23 and info like ('%Linux%')) and os_name = 'Unknown' """)
+        #BSD via telnet 
+        cur.execute("""UPDATE hosts SET os_name = 'BSD', comments = 'OS-Updated-by-sniper.py'\
+        where id in (SELECT host_id from services where port = 23 and info like ('%BSD%')) and os_name = 'Unknown' """)
+
+
+
+
+        
+        
+        #OS-MS via any service
  	cur.execute("""UPDATE hosts SET os_name = 'Microsoft Windows', comments = 'OS-Updated-by-sniper.py'
         where id in (SELECT host_id from services where (info like ('%icrosof%') or info like ('%indow%'))) and os_name = 'Unknown' """)
-	
+        #OS-MS via 445  -- (check logic of this one notice the () which means it got at least something back from 445
+        cur.execute("""UPDATE hosts SET os_name = 'Microsoft Windows', comments = 'OS-Updated-by-sniper.py'
+        where id in (SELECT host_id from services where (port = 445 and info <> '' )) and os_name = 'Unknown' """)
+
+
 	#print "==========Phase 1.1.3 OS Updating (ESX via vmware SERVICES)"
 	cur.execute("""UPDATE hosts SET os_name = 'ESX', comments = 'OS-Updated-by-sniper.py'
 	where id in (SELECT host_id from services where name = 'http' and info like ('%ESX%')) and os_name ='Unknown' """)
 	cur.execute("""UPDATE hosts SET os_name = 'ESX', comments = 'OS-Updated-by-sniper.py'
 	where id in (SELECT host_id from services where name = 'vmware-auth' and info like ('%VMware%')) """)
 
-	#OS-F5-BIGIP
+	#OS-F5-BIGIP via www
 	cur.execute("""UPDATE hosts SET os_name = 'F5-BIGIP', comments = 'OS-Updated-by-sniper.py'
 	where id in (SELECT host_id from services where name in ('http', 'www') and info like ('%BIG-IP%')) """)
 
@@ -94,9 +124,15 @@ def db_update(cur):
 	cur.execute("""UPDATE hosts SET os_name = 'NETAPP', comments = 'OS-Updated-by-sniper.py'
 	where id in (SELECT host_id from services where name in ('http', 'www') and info like ('%ONTAP%')) """) 
 
-	#OS-CITRIX-XEN
-	cur.execute("""UPDATE hosts SET os_name = 'Citrix Xen', comments = 'OS-Updated-by-sniper.py'
-	where id in (SELECT host_id from services where name in ('http', 'www') and info like ('%Citrix%Xen%')) """) 
+	#OS-CITRIX
+	cur.execute("""UPDATE hosts SET os_name = 'CITRIX', comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where name in ('http', 'www', 'https') and info like ('%CITRIX%')) """) 
+
+        #OS-CITRIX
+        cur.execute("""UPDATE hosts SET os_name = 'CITRIX', comments = 'OS-Updated-by-sniper.py'
+        where id in (SELECT host_id from services where name in ('ssl/http', 'http', 'www', 'https') and info like ('Citrix%')) """)
+
+
 
 	#OS-Dell-Remote-Access(DRAC)
 	cur.execute("""UPDATE hosts SET os_name = 'DELL', os_flavor = 'DRAC6', comments = 'OS-Updated-by-sniper.py'
@@ -104,7 +140,7 @@ def db_update(cur):
 
 	#BUG-This is not always the case.. there are some goahead's for DELLS found
 	#OS-AVocentKVM or DELL?
-	#cur.execute("""UPDATE hosts SET os_name = 'Avocent KVM or DELL?', comments = 'OS-Updated-by-sniper.py'
+	#cur.execute("""UPDATE hosts SET os_name = 'voceng KVM or DELL?', comments = 'OS-Updated-by-sniper.py'
 	#where id in (SELECT host_id from services where name in ('http', 'www') and info like ('%GoAhead-Webs%')) """) 
 
 	#OS-APC UPS OS
@@ -128,14 +164,47 @@ def db_update(cur):
         #print "==========Phase 1.1.6b OS Updating (HP Printer (Jet Direct) via http SERVICES)"
         cur.execute("""UPDATE hosts SET os_name = 'HP Printer - Jet Direct', comments = 'OS-Updated-by-sniper.py'
         where id in (SELECT host_id from services where name = 'http' and info like ('%JetDirect%')) and os_name ='Unknown' """)
+        #print "==========Phase 1.1.6b OS Updating (HP Printer (Jet Direct) via port 9100 SERVICES)"
+        cur.execute("""UPDATE hosts SET os_name = 'HP Printer - Jet Direct', comments = 'OS-Updated-by-sniper.py'
+        where id in (SELECT host_id from services where name = 'jetdirect' and port = 9100 ) and os_name ='Unknown' """)
 
-	
-	#######OS_FLAVOR######################
-	#OS_FLAVOR-UBUNTU (via ssh service banner)
-	cur.execute("""UPDATE hosts SET os_flavor = 'Ubuntu'
-	where id in (SELECT host_id from services where name = 'ssh' and info like ('%buntu%')) and os_flavor = '' """)
-	cur.execute("""UPDATE hosts SET os_name = 'Linux', comments = 'OS-Updated-by-sniper.py'
-	where os_flavor = 'Ubuntu'""")
+
+        #print "==========Phase 1.1.6b OS Updating (HP LaserJet via SERVICES)"
+        cur.execute("""UPDATE hosts SET os_name = 'HP LaserJet', comments = 'OS-Updated-by-sniper.py'
+        where id in (SELECT host_id from services where info like ('%LaserJet%')) and os_name ='Unknown' """)
+        #print "==========Phase 1.1.4 OS Updating (Axis Cameras ftp SERVICE)"
+        cur.execute("""UPDATE hosts SET os_name = 'Axis Network Camera', comments = 'OS-Updated-by-sniper.py'
+        where id in (SELECT host_id from services where port = 21 and info like ('%xis%amera%')) and os_name ='Unknown' """)
+        cur.execute("""UPDATE hosts SET os_name = 'Axis Network Camera', comments = 'OS-Updated-by-sniper.py'
+        where id in (SELECT host_id from services where port = 21 and info like ('%XIS%amera%')) and os_name ='Unknown' """)
+        #print "==========Phase 1.1.4 OS Updating (Avocent KVM via SERVICE)"
+        cur.execute("""UPDATE hosts SET os_name = 'Avocent KVM', comments = 'OS-Updated-by-sniper.py'
+        where id in (SELECT host_id from services where port = 443 and info like ('%vocent%KVM%')) and os_name ='Unknown' """)
+        #print "==========Phase 1.1.4 OS Updating (iDRAC via SERVICE)"
+        cur.execute("""UPDATE hosts SET os_name = 'DELL iDRAC', comments = 'OS-Updated-by-sniper.py'
+        where id in (SELECT host_id from services where info like ('%iDRAC%')) and os_name ='Unknown' """)
+        #print "==========Phase 1.1.4 OS Updating (TRENnet webcam via SERVICE)"
+        cur.execute("""UPDATE hosts SET os_name = 'TRENDnet webcam', comments = 'OS-Updated-by-sniper.py'
+        where id in (SELECT host_id from services where info like ('TRENDnet%webcam%')) and os_name ='Unknown' """)
+        #print "==========Phase 1.1.4 OS Updating (HP iLO via SERVICE)"
+        cur.execute("""UPDATE hosts SET os_name = 'HP iLO', comments = 'OS-Updated-by-sniper.py'
+        where id in (SELECT host_id from services where info like ('%P Integrated Lights-Ou HP Integrated Lights-Ou%')) and os_name ='Unknown' """)
+        #print "==========Phase 1.1.4 OS Updating (CISCO VOIP via SERVICE)"
+        cur.execute("""UPDATE hosts SET os_name = 'CISCO', os_flavor = 'VOIP',comments = 'OS-Updated-by-sniper.py'
+        where id in (SELECT host_id from services where info like ('%andberg%VoIP%')) and os_name ='Unknown' """)
+        #print "==========Phase 1.1.4 OS Updating (POLYCOM VOIP via SERVICE)"
+        cur.execute("""UPDATE hosts SET os_name = 'POLYCOM', os_flavor = 'VOIP',comments = 'OS-Updated-by-sniper.py'
+        where id in (SELECT host_id from services where info like ('%olycom%VoIP%')) and os_name ='Unknown' """)
+
+
+
+
+        #print Likely UNIX (EXCEPT (like UNION here ecludes the 445 windows and must be unknown os)
+        cur.execute("""UPDATE hosts set os_name = 'UNIX', comments = 'OS-Updated-by-sniper.py' where id in 
+        ((select host_id from services where port in (22) ) EXCEPT SELECT DISTINCT id from hosts where id in 
+        (select host_id from services where port in (445) )) and os_name in ('Unknown') """)
+
+        
 
 	#OS_FLAVOR-SLACKWARE (via hosts.info)
 	cur.execute("""UPDATE hosts SET os_flavor = 'Slackware'
@@ -177,7 +246,9 @@ def db_update(cur):
 	cur.execute("""UPDATE hosts SET os_name = 'Linux', comments = 'OS-Updated-by-sniper.py'
 	where os_flavor = 'Fedora'""")
 
-	#########OS_Service_PACK###############
+        
+        
+        #########OS_Service_PACK###############
 	#OS_SP-Win-SP1-6 (via host.info)
 	cur.execute("""UPDATE hosts SET os_sp = '1'
 	where info like ('%Microsoft Windows%Service Pack 1%') """)
@@ -425,7 +496,6 @@ db_update(cur)
 
 
 #SNIPER-REPORT-Findings
-print "==========Phase 6 - Old REPORT Findings =============="
 print "Report Findings (by nmap)"
 
 ########################
@@ -505,10 +575,19 @@ ORDER by 3,5
 rows = cur.fetchall()
 if rows:
 	print "Insecure Protocols & Services (VulnDB=15)"
-else:
-	pass	
-for row in rows:
-    print "\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")"
+        print "Would you like to list Insecure Protocols & Services? (y/N)"
+        yes = set(['yes','y'])
+        no = set(['no','n',''])
+
+        choice = raw_input().lower()
+        if choice in yes:
+            for row in rows:
+                    print "\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")"
+            print "END -- Insecure Protocols"
+        elif choice in no:
+            pass
+        else:
+            print "Please respond with 'yes' or 'no'"
 
 ###########################################
 print "Report Findings (by Nessus PluginID)"
@@ -723,11 +802,45 @@ for row in rows:
 cur.execute("""select address, name, hosts.mac FROM hosts INNER JOIN (SELECT mac FROM hosts where mac <> ' ' GROUP BY mac HAVING count(mac) > 1) dup ON hosts.mac = dup.mac""")
 rows = cur.fetchall()
 if rows:
-        print "DUPLICATE MAC Addresses/Issues - may want to remove duplicates to prevent redundancy"
-else:  
+    print "Would you like to examine hosts with Duplicate MAC addresses? (y/N)"
+    yes = set(['yes','y'])
+    no = set(['no','n',''])
+
+    choice = raw_input().lower()
+    if choice in yes:
+        for row in rows:
+            print row[0], "\t", row[1], "\t", row[2]
+        print "END -- DUPLICATE MAC Addresses/Issues above - may want to remove duplicates to prevent redundancy"
+    elif choice in no:
         pass
-for row in rows:
-    print row[0], "\t", row[1]
+    else:
+        print "Please respond with 'yes' or 'no'"
+else:
+    pass
+
+
+#UNKNOWN HOSTS - manual review
+cur.execute("""select h.address, s.port, s.name, s.info from hosts h FULL join services s on h.id = s.host_id where (h.os_name = 'Unknown' and s.info <> '')""")
+rows = cur.fetchall()
+if rows:
+    print "Would you like to examine Unknown Host OS's ? (y/N)"
+    yes = set(['yes','y'])
+    no = set(['no','n',''])
+
+    choice = raw_input().lower()
+    if choice in yes:
+        for row in rows:
+            print row[0], "\t", row[1], "\t", row[2], "\t", row[3]
+        print "END -- UNKNOWN Host OS above - may want to investigate"
+    elif choice in no:
+        pass
+    else:
+        print "Please respond with 'yes' or 'no'"
+else:
+    pass
+
+
+
 
 
 ############################
