@@ -3,21 +3,18 @@ Issues/Bugs/Enhancements Section:
 sniper.sh
 ---------
 Issue/Bugs
-1)nessus_connect not working with the "@" symbol in password. temporary workaround..created acount service/service
-2)For some reason, ESX root logins aren't showing the uname with nessuscmd (need to figure out if issue with nessuscmd or my grep/sed/awk?)
+1)none
+
 
 Speed Ideas to consider:
-1) nmap -sV needs to thread and run mult hosts at a time..   (bc we are breaking down by 1 host)
+1) nmap -sV - how is speed?   needs to thread and run mult hosts at a time..   (bc we are breaking down by 1 host)
 2) a few msfconsole auxiliary's instead of nessuscmd for OS detection and login
-3) check speed for -sV scans and see what ports tend to go REAL slow on (thinking it's port 139,but test..) consider removing those if not normally any banner anyway?
-
 
 Coding Neatness to consider:
 1) use functions and classes and get rid of the duplicative coding
 2) sometype of debug mode -v -vv
 3) make compatabile with python 3.x  (now only python 2.7)
 4)convert all python.sh  to python.py  (Vince is working on this part)
-5)Take out all hard-coded passwords and put in flat config file for now
 
 
 Enhancements to consider:
@@ -62,7 +59,7 @@ sniper.py
 =how to check last bigfix update done ? 1)NASL like EPO?  2)nessucmd- policy like custom wireshark -> get file -> etc
 =maybe id=35730 not ilke %virtual% -- helps find USB devices which could show up as unapproved USB devices?
 
-(-) Confirm SAT credential issues
+(-) Confirm credential issues
 (need to test all combinations and list definitively)
 =good vs not good ssh - if 11936 and method = ssh, then good  (note 21745 is false positive)
 =plugin 21745 - cred problem - (works win2k8R2 (UAC enabled) what does it do in linux ssh
