@@ -1,4 +1,4 @@
-# sniper (host discovery)
+# sniper
 
 ##About
 sniper is a command line host discovery tool used to scan a large network
