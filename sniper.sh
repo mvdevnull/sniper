@@ -13,7 +13,7 @@ DB='msf'
 SERVICE='postgresql'
 if ps ax | grep -v grep | grep $SERVICE > /dev/null
 then
-        echo "(OK) - Found $SERVICE service running - skipping"
+        echo "(OK) - Found $SERVICE service running"
 else
         echo "(OK) - Starting $SERVICE .... "
         /etc/init.d/$SERVICE start
@@ -21,7 +21,7 @@ else
 fi
 
 if test -f "$EYEWITNESS"; then
-    echo "$EYEWITNESS exist"
+    echo "(OK0 - Found $EYEWITNESS "
 else
     echo "(ERROR) - eyewitness not found - install eyewitness (ex: apt-get install eyewitness)"
 fi
