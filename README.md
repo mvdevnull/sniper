@@ -3,23 +3,6 @@
 ## About
 sniper is a command line host discovery tool used to scan large networks
 
-## Installation
-```
-git clone https://github.com/mvdevnull/sniper
-cd sniper
-chmod +x ./sniper
-./sniper.sh
-```
-
-## Dependancies
-### Required
-* python 			----> apt-get install python
-* psql python module 	----> apt-get install python-psycopg2
-### Optional
-* eyewitness 		----> apt-get install eyewitness   
-* nessus ----> https://www.tenable.com/downloads/nessus 
-
-
 ## Core Features
 ### Scanning
 * db_nmap (all nmap results located in MSF database)
@@ -31,6 +14,26 @@ chmod +x ./sniper
 * insecure protocols
 * gaping holes
 
-## Future Features TBC
+## Installation
+### Core Application
+```
+git clone https://github.com/mvdevnull/sniper.git
+chmod +x ./sniper/sniper.sh
+
+```
+### Dependancies
+````
+apt-get install python  #Install python 2.x
+apt-get install python-psycopg2  #Install postgresql python module
+apt-get install eyewitness   #Install eyewitness
+````
+## Usage
+```
+cd sniper
+./sniper.sh   #answer questions and wait for scans
+msfconsole #run in separate window and wait for new hosts
+```
+
+## Future Features (TBD)
 * nessus API (standard , gaping holes and compliance)
 * openscap scanning
