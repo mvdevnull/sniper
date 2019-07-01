@@ -36,4 +36,4 @@ msfconsole                                        #run in separate window and wa
 
 ### Future Features (TBD)
 * nessus API (standard , gaping holes and compliance)
-* openscap scanning
+* Other bugs and possible features are kept on the projects [/docs/todo.txt](https://github.com/mvdevnull/sniper/blob/master/docs/todo.txt).
