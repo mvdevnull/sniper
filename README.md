@@ -4,10 +4,12 @@
 sniper is a command line host discovery tool used to scan large networks
 
 ## Installation
-* git clone xxxsniper
-* cd sniper
-* chmod +x ./sniper
-* ./sniper.sh
+```
+git clone https://github.com/mvdevnull/sniper
+cd sniper
+chmod +x ./sniper
+./sniper.sh
+```
 
 ## Dependancies
 ### Required
