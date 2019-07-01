@@ -197,7 +197,7 @@ ALLSVHOSTSCOMMA=$(echo "$ALLSVHOSTSCOMMA" | sed '$s/.$//')
                                         done
                                 DBNMAPCOMMA=$(echo "$DBNMAPCOMMA" | sed '$s/.$//')
 				/bin/cp $CONF/msf_default.rc $CONF/msf.rc
-                		echo "db_nmap -sV -T5 --max-rtt-timeout 5000ms -n $i -p $DBNMAPCOMMA " >> $CONF/msf.rc
+                		echo "db_nmap -sV -Pn -T5 --max-rtt-timeout 5000ms -n $i -p $DBNMAPCOMMA " >> $CONF/msf.rc
                 		echo "quit -y" >> $CONF/msf.rc
                 		$MSFBIN -r $CONF/msf.rc
 				#Now that -sV is done, we may have some blank responses.. we find those and change blank to " " space so we don't rescan later on
