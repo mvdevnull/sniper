@@ -9,7 +9,7 @@ Early dependency checking (check for python, msfconsole, postgres running, eyewi
 
 
 Speed Ideas to consider:
-1) nmap -sV - how does speed compare to db_nmap?  if same, needs to thread and run mult hosts at a time..   (bc we are breaking down by 1 host)
+1) nmap -sV is slowest needs to thread or run mult hosts at a time..   (bc we are breaking down by 1 host) (confirmed db_nmap and nmap -sV same speed)
 2) a few msfconsole auxiliary's prior to nmap -sV for OS detection and login  (there may be some aux modules for misc OS/appliance?)
 
 Coding Neatness to consider:
