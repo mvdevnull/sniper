@@ -24,7 +24,7 @@ chmod +x ./sniper/sniper.sh
 ````
 apt-get install metasploit-framework              #Install metasploit framework
 msfdb init                                        #Initialize postgres for MSF
-apt-get install python-psycopg2                   #Install postgresql python module
+apt-get install python-psycopg2                   #Install postgresql library for python
 apt-get install eyewitness                        #Install eyewitness
 ````
 ## Usage
