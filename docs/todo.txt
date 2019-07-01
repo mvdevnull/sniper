@@ -14,7 +14,7 @@ Coding Neatness to consider:
 1) use functions and classes and get rid of the duplicative coding
 2) sometype of debug mode -v -vv
 3) make compatabile with python 3.x  (now only python 2.7)
-4)convert all python.sh  to python.py  (Vince is working on this part)
+4)convert all python.sh  to python.py
 
 
 Enhancements to consider:
@@ -25,27 +25,18 @@ Enhancements to consider:
 run a "cred -a command to add any *VALID* creds recieved from ssh login,etc"  
 maybe cred -a [IPaddress] -t password -p 22 -u [user] -P [pass]  
 3)remove local eth0/eth1 ip address from msfdatabase results
+4)openscap compliance (keyed off real OS/SP etc)
 
 =============================
 (-)(BETA partial working)-- Nessus automation
 = after kicking off the nessus scan --> import the nessus scans ...
-(see sniper.sh  and ./tools/sniper.rb) (ben said teamsploit waits for this so look at his code)
+(see sniper.sh  and ./tools/sniper.rb) 
 msfconsole> load sniper
 ---??nessus_report_list (periodically make sure nothing running)
 nessus_report_get 897ad439-1113-6af6-d701-c50dd2849d8fdcd56a59bef6527f
 =========================
 (-)(BETA - partially working)--GAPING HOLES found by msf compatable nessus plugins?
 This code and ideas are in the MAGIC CVE section of sniper.sh and within cve_update in sniper.py
-===============================
-(-)(new code)--gaping HOLE from darkoperator finding??
-see here -->  #~/scripts/sniper/third-party-tools/auto_exploit*
-setup git to get new stuff from darkoperator
-# msf> load auto_exploit
-# msf> vuln_exploit -m
-#   <here's your gaping holes?>
-# msf> unload auto_exploit ### for safety
-====================================
-
 
 ----------------
 sniper.py
@@ -68,10 +59,30 @@ sniper.py
 
 (-)Resurect or kill once and for all the commented out Phase 6 which I removed (services)
 
+-----
+
+
+#Future Tools (not needed yet, but maybe at some Point)
+#Third-Party Tools (supplied within the sniper ./third-party-tools directory , but may want to update as needed)
+auto_exploit-darkoperator	-----> git clone https://github.com/darkoperator/Metasploit-Plugins.git 
+smbshell.nbin 			-----> (nessus tool)
+nessrest			-----> pip install nessrest
+nessus ----> https://www.tenable.com/downloads/nessus 
+
 
 ---------
 Future (Low Priority - if any)
 ---------
+===============================
+(-)(new code)--gaping HOLE from darkoperator finding??
+see here -->  #~/scripts/sniper/third-party-tools/auto_exploit*
+setup git to get new stuff from darkoperator
+# msf> load auto_exploit
+# msf> vuln_exploit -m
+#   <here's your gaping holes?>
+# msf> unload auto_exploit ### for safety
+====================================
+
 Do some logic for Account Credential issues
 =1)See parse_nessus_xml.v19.pl  (specifically in section where it lists accounts)
 =2)NSS-10860 will get local accounts
