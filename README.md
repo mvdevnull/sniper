@@ -15,15 +15,15 @@ sniper is a command line host discovery tool used to scan large networks
 * gaping holes
 
 ## Installation
-### Core Application
 ```
 git clone https://github.com/mvdevnull/sniper.git
 chmod +x ./sniper/sniper.sh
 
 ```
-### Dependancies
+## Dependencies
 ````
-apt-get install python  #Install python 2.x
+apt-get install metasploit-framework   #Install metasploit framework
+msfdb init
 apt-get install python-psycopg2  #Install postgresql python module
 apt-get install eyewitness   #Install eyewitness
 ````
