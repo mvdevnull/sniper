@@ -5,10 +5,12 @@ sniper.sh
 Issue/Bugs
 1)none
 
+Early dependency checking (check for python, msfconsole, postgres running, eyewitness ,etc)
+
 
 Speed Ideas to consider:
-1) nmap -sV - how is speed?   needs to thread and run mult hosts at a time..   (bc we are breaking down by 1 host)
-2) a few msfconsole auxiliary's instead of nessuscmd for OS detection and login
+1) nmap -sV - how does speed compare to db_nmap?  if same, needs to thread and run mult hosts at a time..   (bc we are breaking down by 1 host)
+2) a few msfconsole auxiliary's prior to nmap -sV for OS detection and login  (there may be some aux modules for misc OS/appliance?)
 
 Coding Neatness to consider:
 1) use functions and classes and get rid of the duplicative coding
