@@ -36,5 +36,5 @@ msfconsole                                        #run in separate window and wa
 
 ### Future Features (TBD)
 * nessus API (standard , gaping holes and compliance)
-* Other potential features are kept in [/docs/todo.txt] (https://github.com/mvdevnull/sniper/blob/master/docs/todo.txt).
+* Other potential features are kept in [todo.txt] (https://github.com/mvdevnull/sniper/blob/master/docs/todo.txt).
 * This site was built using [GitHub Pages](https://pages.github.com/).
