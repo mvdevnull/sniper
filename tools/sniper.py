@@ -198,11 +198,12 @@ def db_update(cur):
 
 
 
-
+	#LOGIC BUG - if we do this too early (before we get top200 and/or -sV) we get mistakes!!
+	#If we do this, we should do it later on when top200 is confirmed to be already done
         #print Likely UNIX (EXCEPT (like UNION here ecludes the 445 windows and must be unknown os)
-        cur.execute("""UPDATE hosts set os_name = 'UNIX', comments = 'OS-Updated-by-sniper.py' where id in 
-        ((select host_id from services where port in (22) ) EXCEPT SELECT DISTINCT id from hosts where id in 
-        (select host_id from services where port in (445) )) and os_name in ('Unknown') """)
+        #cur.execute("""UPDATE hosts set os_name = 'UNIX', comments = 'OS-Updated-by-sniper.py' where id in 
+        #((select host_id from services where port in (22) ) EXCEPT SELECT DISTINCT id from hosts where id in 
+        #(select host_id from services where port in (445) )) and os_name in ('Unknown') """)
 
         
 
