@@ -170,8 +170,41 @@ fi
 ######################################################################
 
 
+
+echo "==========Phase 3 General Metasploit (Aux) Scans ================"
+##########################WINWMI auxiliary MSF a)smb_version, b)nbname(for hostname) and c)endpoint_mapper (for other hostname when nbname doesn't work)
+        read -p "(?) Do you want MSF to definitively determine the Windows OS name/flavor or hostname?(y/N)" yn
+
+        case $yn in
+		[Yy]* ) echo "(OK) - Starting MSF auxiliary scan a)SMB Version b)nbname and c)endpoint_mapper Windows OS Probes==========";
+			echo -n "(Optional) Specify the Windows Domain? (. for none)";
+			read domain;
+			echo -n "(Optional) Specify the Windows username?";
+			read user;
+			echo -n "(Optional) Specify the Windows password?";
+			read pass;
+                        /bin/cp $CONF/msf_default.rc $CONF/msf.rc;
+                	echo "use auxiliary/scanner/smb/smb_version" >> $CONF/msf.rc;
+			echo "services -p 445 -R" >> $CONF/msf.rc;
+			echo "set SMBDomain = $domain" >> $CONF/msf.rc;
+			echo "set SMBUser = $user" >> $CONF/msf.rc;
+			echo "set SMBPass = $pass" >> $CONF/msf.rc;
+			echo "run" >> $CONF/msf.rc;
+			echo "use auxiliary/scanner/netbios/nbname" >> $CONF/msf.rc;
+			echo "services -u -p 137 -R" >> $CONF/msf.rc;
+			echo "run" >> $CONF/msf.rc;
+			echo "use auxiliary/scanner/dcerpc/endpoint_mapper" >> $CONF/msf.rc;
+			echo "services -p 135 -R" >> $CONF/msf.rc;
+                        echo "run" >> $CONF/msf.rc;
+                	echo "quit -y" >> $CONF/msf.rc;
+                	$MSFBIN -r $CONF/msf.rc;;
+
+ 		[Nn]* ) echo "(OK) Skipping MSF Windows login";;
+                * ) echo "(OK) Skipping MSF Windows login";;
+	esac
+
 ########--- Nmap (-sV) Scan ()=========="
-echo "===========Phase 3 - NMAP -sV (version) Scan ============"
+echo "===========Phase 4 - NMAP -sV (version) Scan ============"
 ALLSVHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT DISTINCT H.address from hosts H, services S where S.proto = 'tcp' and S.info = '' and H.id in (Select host_id from services where info = '')  AND S.host_id = H.id """ | grep -v row | grep -v address | grep -v """-""" )"
 cd $CWD
 
@@ -220,41 +253,10 @@ ALLSVHOSTSCOMMA=$(echo "$ALLSVHOSTSCOMMA" | sed '$s/.$//')
 
 
 
-echo "==========Phase 4 General Metasploit (Aux) Scans ================"
 
-##########################WINWMI auxiliary MSF a)smb_version, b)nbname(for hostname) and c)endpoint_mapper (for other hostname when nbname doesn't work)
-        read -p "(?) Do you want MSF to definitively determine the Windows OS name/flavor or hostname?(y/N)" yn
-
-        case $yn in
-		[Yy]* ) echo "(OK) - Starting MSF auxiliary scan a)SMB Version b)nbname and c)endpoint_mapper Windows OS Probes==========";
-			echo -n "(Optional) Specify the Windows Domain? (. for none)";
-			read domain;
-			echo -n "(Optional) Specify the Windows username?";
-			read user;
-			echo -n "(Optional) Specify the Windows password?";
-			read pass;
-                        /bin/cp $CONF/msf_default.rc $CONF/msf.rc;
-                	echo "use auxiliary/scanner/smb/smb_version" >> $CONF/msf.rc;
-			echo "services -p 445 -R" >> $CONF/msf.rc;
-			echo "set SMBDomain = $domain" >> $CONF/msf.rc;
-			echo "set SMBUser = $user" >> $CONF/msf.rc;
-			echo "set SMBPass = $pass" >> $CONF/msf.rc;
-			echo "run" >> $CONF/msf.rc;
-			echo "use auxiliary/scanner/netbios/nbname" >> $CONF/msf.rc;
-			echo "services -u -p 137 -R" >> $CONF/msf.rc;
-			echo "run" >> $CONF/msf.rc;
-			echo "use auxiliary/scanner/dcerpc/endpoint_mapper" >> $CONF/msf.rc;
-			echo "services -p 135 -R" >> $CONF/msf.rc;
-                        echo "run" >> $CONF/msf.rc;
-                	echo "quit -y" >> $CONF/msf.rc;
-                	$MSFBIN -r $CONF/msf.rc;;
-
- 		[Nn]* ) echo "(OK) Skipping MSF Windows login";;
-                * ) echo "(OK) Skipping MSF Windows login";;
-	esac
 
 #======================================================================
-echo "==========*(TODO BROKEN)  Phase 4 General Nessus API  Scans ================"
+#echo "==========*(TODO BROKEN)  Phase ? General Nessus API  Scans ================"
 #SERVICE='nessusd'
 #if ps ax | grep -v grep | grep $SERVICE > /dev/null
 #then
@@ -392,7 +394,7 @@ echo "==========*(TODO BROKEN)  Phase 4 General Nessus API  Scans ==============
 
 #=============================
 
-echo "==========*(TODO BROKEN)  Phase 5 MAGIC CVE report ================"
+#echo "==========*(TODO BROKEN)  Phase ? MAGIC CVE report ================"
 	#echo "============MSF/CVE Magic thing?============="
 
 	#read -p "(?) Do you want SNIPER to run the MAGIC CVE thing?(y/N)" yn
@@ -476,7 +478,7 @@ echo "==========*(TODO BROKEN)  Phase 5 MAGIC CVE report ================"
 
 
 
-echo "==========Phase 6 eyewitness web thumbnail Scans ================"
+echo "==========Phase 5 eyewitness web thumbnail Scans ================"
 #eyewitness#####
 read -p "(?) Do you want to thumbnail ports (80,443,8000,8080,8443) with 'eyewitness' ?(y/N)" yn
 
