@@ -22,16 +22,16 @@ chmod +x ./sniper/sniper.sh
 ```
 ## Dependencies
 ````
-apt-get install metasploit-framework   #Install metasploit framework
-msfdb init
-apt-get install python-psycopg2  #Install postgresql python module
-apt-get install eyewitness   #Install eyewitness
+apt-get install metasploit-framework              #Install metasploit framework
+msfdb init                                        #Initialize postgres for MSF
+apt-get install python-psycopg2                   #Install postgresql python module
+apt-get install eyewitness                        #Install eyewitness
 ````
 ## Usage
 ```
 cd sniper
-./sniper.sh   #answer questions and wait for scans
-msfconsole #run in separate window and wait for new hosts
+./sniper.sh                                       #answer questions and wait for scans
+msfconsole                                        #run in separate window and wait for new hosts
 ```
 
 ## Future Features (TBD)
