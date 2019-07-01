@@ -172,7 +172,7 @@ fi
 
 ########--- Nmap (-sV) Scan ()=========="
 echo "===========Phase 3 - NMAP -sV (version) Scan ============"
-ALLSVHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT DISTINCT H.address from hosts H, services S where S.proto = 'tcp' and S.info = '' and H.id in (Select host_id from services where info = '')  AND S.host_id = H.id and H.os_name = 'Unknown'""" | grep -v row | grep -v address | grep -v """-""" )"
+ALLSVHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT DISTINCT H.address from hosts H, services S where S.proto = 'tcp' and S.info = '' and H.id in (Select host_id from services where info = '')  AND S.host_id = H.id """ | grep -v row | grep -v address | grep -v """-""" )"
 cd $CWD
 
 #echo "Hosts (with empty '' banner ports) that can be nmap -sV scanned.   note hosts with ' ' in banner have been scanned by sniper already: "
@@ -183,33 +183,28 @@ ALLSVHOSTSCOMMA=$(echo "$ALLSVHOSTSCOMMA" | sed '$s/.$//')
         read -p "(?) Do you want nmap to perform a (-sV) scan to get better banner info?(y/N)" yn
 
         case $yn in
-		[Yy]* ) echo "============Nmap (-sV -T5 -n) Scan ()==========";
-                	echo "(OK) - Starting db_Nmap -sV port scan to $DB database - (all Nmap scan output to $DB...)";
-                	# Begin Outer Loop
+                [Yy]* ) echo "============Nmap -sV (version) Scan ()==========";
+                        echo "(OK) - Starting db_nmap -sV port scan to $DB database - (all Nmap scan output to $DB...)";
+                        # Begin Outer Loop
                         for i in $ALLSVHOSTS
-                        do  
+                        do
                                 DBNMAP=`echo `$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT DISTINCT S.port from hosts H, services S where H.address = '$i' and S.proto = 'tcp' and S.info = '' and H.id in (Select host_id from services where info = '')  AND S.host_id = H.id""" | grep -v row | grep -v port | grep -v """-""" )
                                 DBNMAPCOMMA=''
+                                HOSTID=''
                                 #Begin Inner Loop
                                         for a in $DBNMAP
                                         do
                                                 DBNMAPCOMMA=`echo $DBNMAPCOMMA$a\,`
                                         done
                                 DBNMAPCOMMA=$(echo "$DBNMAPCOMMA" | sed '$s/.$//')
-				/bin/cp $CONF/msf_default.rc $CONF/msf.rc
-                		echo "db_nmap -sV -Pn -T5 --max-rtt-timeout 5000ms -n $i -p $DBNMAPCOMMA " >> $CONF/msf.rc
-                		echo "quit -y" >> $CONF/msf.rc
-                		$MSFBIN -r $CONF/msf.rc
-				#Now that -sV is done, we may have some blank responses.. we find those and change blank to " " space so we don't rescan later on
-				SVC=`echo `$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT host_id from services where host_id = (select id from hosts where address = '$i') and info = ''""" | grep -v row | grep -v host_id | grep -v """-""" )
-				for b in $SVC
-				  do
-					SVCCOMMA=`echo $SVCCOMMA$b\,`
-				  done
-				SVCCOMMA=$(echo "$SVCCOMMA" | sed '$s/.$//')	
-				/usr/bin/sudo -u postgres psql -d $DB -c """UPDATE services set info = ' ' where info = '' and host_id in ($SVCCOMMA)"""
-				SVCCOMMA=""
-
+                                /bin/cp $CONF/msf_default.rc $CONF/msf.rc
+                                echo "db_nmap -sV -Pn -T5 --max-rtt-timeout 5000ms -n $i -p $DBNMAPCOMMA " >> $CONF/msf.rc
+                                echo "quit -y" >> $CONF/msf.rc
+                                $MSFBIN -r $CONF/msf.rc
+                                #Now that -sV is done, we may have some blank responses.. we find those and change blank to " " space so we don't rescan later on
+                                HOSTID=`echo `$(/usr/bin/sudo -u postgres psql -d $DB -c """select id from hosts where address = '$i'""" | grep -v row | grep -v id | grep -v """-""" )
+                                echo "(OK) - the following number of blank service banners will not be scanned again"
+                                /usr/bin/sudo -u postgres psql -d $DB -c """UPDATE services set info = ' ' where info = '' and host_id = $HOSTID and port in ($DBNMAPCOMMA)"""
                         done
 
                 /usr/bin/python $CWD/tools/sniper.py db_update
