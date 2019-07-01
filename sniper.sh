@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Author - chrisdhebert@gmail.com
-#Version - 2.2019-6-18
+#Version - 2.2019-07-01
 
 clear
 
@@ -71,7 +71,7 @@ TOTALHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """Select count(*) from h
 cd $CWD
 
 #####Do a Quick & efficient NMAP discovery##########
-echo "============Phase 0 Discovery - Nmap -Pn -n -v --disable-arp-ping -p 22,80,443,445 Scan ()=========="
+echo "============Phase 1 Discovery - Nmap -Pn -n -v --disable-arp-ping -p 22,80,443,445 Scan ()=========="
 
 if [ $TOTALHOSTS -eq "0" ] ; then
 	echo "(Not OK!!) You have *NO* hosts in the database $DB. Enter the IP Range for QUICK host discovery? [Nmap compatible example - 192.168.1.1-200]"
@@ -130,7 +130,7 @@ fi
 
 
 
-echo "===========Phase 1 - NMAP --top-ports=200 Scan==========="
+echo "===========Phase 2 - NMAP --top-ports=200 Scan==========="
 #MINOR Enhancement -- could exclude any hosts who's port 22,80,443 or 445 have a banner done previously  (to avoid duplicate scans)
 
 
@@ -171,7 +171,7 @@ fi
 
 
 ########--- Nmap (-sV) Scan ()=========="
-echo "===========Phase 2 - NMAP -sV (version) Scan ============"
+echo "===========Phase 3 - NMAP -sV (version) Scan ============"
 ALLSVHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT DISTINCT H.address from hosts H, services S where S.proto = 'tcp' and S.info = '' and H.id in (Select host_id from services where info = '')  AND S.host_id = H.id and H.os_name = 'Unknown'""" | grep -v row | grep -v address | grep -v """-""" )"
 cd $CWD
 
@@ -225,7 +225,7 @@ ALLSVHOSTSCOMMA=$(echo "$ALLSVHOSTSCOMMA" | sed '$s/.$//')
 
 
 
-echo "==========Phase 3 General Metasploit (Aux) Scans ================"
+echo "==========Phase 4 General Metasploit (Aux) Scans ================"
 
 ##########################WINWMI auxiliary MSF a)smb_version, b)nbname(for hostname) and c)endpoint_mapper (for other hostname when nbname doesn't work)
         read -p "(?) Do you want MSF to definitively determine the Windows OS name/flavor or hostname?(y/N)" yn
