@@ -10,7 +10,7 @@ Early dependency checking (check for python, msfconsole, postgres running, eyewi
 
 Speed Ideas to consider:
 1) nmap -sV is slowest needs to thread or run mult hosts at a time..   (bc we are breaking down by 1 host) (confirmed db_nmap and nmap -sV same speed)
-2) a few msfconsole auxiliary's prior to nmap -sV for OS detection and login  (there may be some aux modules for misc OS/appliance?)
+2) a few msfconsole auxiliary's prior to nmap -sV for OS detection and login  (there may be some aux modules for misc OS/appliance? might look for ruby code with updates to database and work that way?)
 
 Coding Neatness to consider:
 1) use functions and classes and get rid of the duplicative coding
@@ -27,6 +27,7 @@ Enhancements to consider:
 run a "cred -a command to add any *VALID* creds recieved from ssh login,etc"  
 maybe cred -a [IPaddress] -t password -p 22 -u [user] -P [pass]  
 3)remove local eth0/eth1 ip address from msfdatabase results
+4)other msf aux modules to do all time -  example -- use auxiliary/scanner/ftp/anonymous on all FTP (or snmp public msf)
 4)openscap compliance (keyed off real OS/SP etc)
 
 =============================
