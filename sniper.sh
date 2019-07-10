@@ -71,7 +71,7 @@ TOTALHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """Select count(*) from h
 cd $CWD
 
 #####Do a Quick & efficient NMAP discovery##########
-echo "============Phase 1 Discovery Nmap Scan ============"
+echo "============Phase 1 Nmap Discovery Scan ============"
 
 if [ $TOTALHOSTS -eq "0" ] ; then
 	echo "(OK) You have *NO* hosts in the database $DB. Enter the IP Range for QUICK host discovery? [Nmap compatible example - 192.168.1.1-200]"
@@ -93,7 +93,7 @@ else
 		case $yn in
                 	[Yy]* ) echo "Enter the IP Range for QUICK host discovery? [Nmap compatible example - 192.168.1.1-200]";
                 	read IPRANGE;
-			echo "(OK) Starting 2nd Discovery scan - Nmap -Pn -n -v --disable-arp-ping -p 22,80,443,445 Scan ()==========";
+			echo "(OK) Starting 2nd Discovery scan - Nmap -Pn -n -v --disable-arp-ping -p 22,80,443,445 Scan... ==========";
         		/bin/cp $CONF/msf_default.rc $CONF/msf.rc;
         		echo "db_nmap -Pn -n -v --disable-arp-ping -p 22,80,443,445 $IPRANGE " >> $CONF/msf.rc;
         		echo "quit -y" >> $CONF/msf.rc;
@@ -110,7 +110,7 @@ fi
 
 
 
-#Seems like this section not needed.. remove is so
+#Seems like this section not needed.. remove if so
 #########Subsequent discovery scan ===================="
 
 #        case $yn in
@@ -130,7 +130,7 @@ fi
 
 
 
-echo "===========Phase 2 - NMAP --top-ports=200 Scan==========="
+echo "===========Phase 2 - NMAP top200 Port Scan==========="
 #MINOR Enhancement -- could exclude any hosts who's port 22,80,443 or 445 have a banner done previously  (to avoid duplicate scans)
 
 
@@ -152,17 +152,16 @@ else
 	#Removes trailing comma and add space between commas
 	TODOHOSTSCOMMA=$(echo "$TODOHOSTSCOMMA" | sed '$s/.$//')
 	TODOHOSTSCOMMA=$(echo "$TODOHOSTSCOMMA" | sed 's/,/, /g')
-	read -p "(?) Do you want nmap to perform a nmap --top-ports=200 SYN scan ?(y/N)" yn
+	read -p "(?) Do you want nmap to perform a nmap --top-ports=200 scan ?(y/N)" yn
 
         case $yn in
-		[Yy]* ) echo "============Nmap -Pn -n --top-ports=200 Scan ()=========="
-                echo "(OK) - Starting db_Nmap --top-ports=200 port scan to $DB database - (all Nmap scan output to $DB...)";
+		[Yy]* ) echo "(OK) - Starting Nmap top200 Port Scan ...";
 		/bin/cp $CONF/msf_default.rc $CONF/msf.rc;
         	echo "db_nmap -Pn -n --top-ports=200 $TODOHOSTSCOMMA" >> $CONF/msf.rc ;
         	echo "quit -y" >> $CONF/msf.rc;
         	$MSFBIN -r $CONF/msf.rc;;
-                [Nn]* ) echo "(OK) Skipping DB_Nmap --top-ports=200 ";;
-                * ) echo "(OK) Skipping DB_Nmap --top-ports=200 ";;
+                [Nn]* ) echo "(OK) Skipping Nmap --top-ports=200 ";;
+                * ) echo "(OK) Skipping Nmap --top-ports=200 ";;
         esac
 fi
 /usr/bin/python $CWD/tools/sniper.py db_update
@@ -216,8 +215,8 @@ ALLSVHOSTSCOMMA=$(echo "$ALLSVHOSTSCOMMA" | sed '$s/.$//')
         read -p "(?) Do you want nmap to perform a (-sV) scan to get better banner info?(y/N)" yn
 
         case $yn in
-                [Yy]* ) echo "============Nmap -sV (version) Scan ()==========";
-                        echo "(OK) - Starting db_nmap -sV port scan to $DB database - (all Nmap scan output to $DB...)";
+                [Yy]* ) echo "============Nmap Version (-sV) Scan ==========";
+                        echo "(OK) - Starting Nmap -sV port scan...";
                         # Begin Outer Loop
                         for i in $ALLSVHOSTS
                         do
@@ -241,7 +240,7 @@ ALLSVHOSTSCOMMA=$(echo "$ALLSVHOSTSCOMMA" | sed '$s/.$//')
                         done
 
                 /usr/bin/python $CWD/tools/sniper.py db_update
-                echo "(OK) - db_nmap -sV Scan Complete...";;
+                echo "(OK) - Nmap -sV Scan Complete...";;
 
 
                 [Nn]* ) echo "(OK) Skipping DB_Nmap -sV scan ";;
@@ -478,12 +477,12 @@ ALLSVHOSTSCOMMA=$(echo "$ALLSVHOSTSCOMMA" | sed '$s/.$//')
 
 
 
-echo "==========Phase 5 eyewitness web thumbnail Scans ================"
+echo "==========Phase 5 Eyewitness Web Thumbnail Scans ================"
 #eyewitness#####
 read -p "(?) Do you want to thumbnail ports (80,443,8000,8080,8443) with 'eyewitness' ?(y/N)" yn
 
 case $yn in
-	[Yy]* ) echo "(OK) Starting - eyewitness scan=========="
+	[Yy]* ) echo "(OK) Starting - Eyewitness scan..."
 	    /bin/cp $CONF/msf_default.rc $CONF/msf.rc;
 	    echo "services -p 80,443,8000,8080,8443 -o /tmp/sniper.eyewitness.txt" >> $CONF/msf.rc ;
 	    echo "quit -y" >> $CONF/msf.rc;
@@ -497,8 +496,8 @@ case $yn in
 	    cp -R /usr/share/eyewitness/sniper /var/www/html/sniper;
 	    echo "(OK) eyewitness scan complete - see /var/www/html/sniper for results";;
 
-    [Nn]* ) echo "(OK) Skipping eyewitness ";;
-    * ) echo "(OK) Skipping eyewitness ";;
+    [Nn]* ) echo "(OK) Skipping Eyewitness Scan";;
+    * ) echo "(OK) Skipping Eyewitness Scan";;
 esac
 ##################################################
 	
