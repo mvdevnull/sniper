@@ -18,7 +18,7 @@ Coding Neatness to consider:
 4)convert all python.sh  to python.py
 
 BUG:
-top200 will redo some hosts in some situations.  be careful on the main TODOHOSTS as it was a complicated SQL.
+top200 will redo some hosts in some situations.  be careful on the main TODOHOSTS as it was a complicated SQL. I think  it's getting hosts without '' blank service.info  - look there.
 
 Enhancements to consider:
 1)Need place to store dn_nmap -oA archived.nmap.results.blah blah (see rawr code to find the .xml results in tmp directory)
