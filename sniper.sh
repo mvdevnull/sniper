@@ -153,7 +153,14 @@ fi
 
 echo "==========Phase 3 General Metasploit (Aux) Scans ================"
 ##########################WINWMI auxiliary MSF a)smb_version, b)nbname(for hostname) and c)endpoint_mapper (for other hostname when nbname doesn't work)
-        read -p "(?) Do you want MSF to definitively determine the Windows OS name/flavor or hostname?(y/N)" yn
+TODOHOSTS=""
+TODOHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT DISTINCT host_id from services where port in (139,137,445) and info = '' """| grep -v row | grep -v address | grep -v """-""" )"
+cd $CWD
+if [ -z "$TODOHOSTS" ] ; then
+	: #
+else
+
+	read -p "(?) Do you want MSF to definitively determine the Windows OS name/flavor or hostname?(y/N)" yn
 
         case $yn in
 		[Yy]* ) echo "(OK) - Starting MSF auxiliary scan a)SMB Version b)nbname and c)endpoint_mapper Windows OS Probes==========";
@@ -182,6 +189,9 @@ echo "==========Phase 3 General Metasploit (Aux) Scans ================"
  		[Nn]* ) echo "(OK) Skipping MSF Windows login";;
                 * ) echo "(OK) Skipping MSF Windows login";;
 	esac
+fi
+######################################################################
+
 
 ########--- Nmap (-sV) Scan ()=========="
 echo "===========Phase 4 - NMAP -sV (version) Scan ============"
