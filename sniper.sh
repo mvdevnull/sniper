@@ -123,7 +123,7 @@ WHERE H2b.address IS NULL AND H1.info IS NULL and H1.os_name like '%Unknown%'"""
 
 cd $CWD
 if [ -z "$TODOHOSTS" ] ; then
-	: #
+	echo "(OK) Skipping Nmap top200 Port Scan - No appropriate hosts";
 else
 #########NMAP Probing Top-200 tcp ports for known hosts============"
 	#echo "$TODOHOSTS"
@@ -139,8 +139,8 @@ else
         	echo "db_nmap -Pn -n --top-ports=200 $TODOHOSTSCOMMA" >> $CONF/msf.rc ;
         	echo "quit -y" >> $CONF/msf.rc;
         	$MSFBIN -r $CONF/msf.rc;;
-                [Nn]* ) echo "(OK) Skipping Nmap --top-ports=200 ";;
-                * ) echo "(OK) Skipping Nmap --top-ports=200 ";;
+                [Nn]* ) echo "(OK) Skipping Nmap top200 ";;
+                * ) echo "(OK) Skipping Nmap top200 ";;
         esac
 fi
 /usr/bin/python $CWD/tools/sniper.py db_update
@@ -156,7 +156,7 @@ TODOHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT DISTINCT host_id
 port in (139,137,445) and info = '' """| grep -v row | grep -v host_id | grep -v """-""" )"
 cd $CWD
 if [ -z "$TODOHOSTS" ] ; then
-	: #
+	echo "(OK) Skipping Metasploit (Aux) Scan - No appropriate hosts";
 else
 
 	read -p "(?) Do you want MSF to determine the Windows OS name/flavor or hostname?(y/N)" yn
@@ -201,7 +201,7 @@ for i in $ALLSVHOSTS; do ALLSVHOSTSCOMMA=`echo $ALLSVHOSTSCOMMA$i\,`; done
 ALLSVHOSTSCOMMA=$(echo "$ALLSVHOSTSCOMMA" | sed '$s/.$//')
 
 if [ -z "$ALLSVHOSTSCOMMA" ] ; then
-	: #
+	echo "(OK) Skipping Nmap Version Scan - No appropriate hosts";
 else
         read -p "(?) Do you want nmap to perform a (-sV) scan to get detailed banner info?(y/N)" yn
 
