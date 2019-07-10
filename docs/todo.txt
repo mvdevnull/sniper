@@ -10,7 +10,6 @@ Early dependency checking (check for python, msfconsole, postgres running, eyewi
 
 Speed Ideas to consider:
 1) nmap -sV is slowest needs to thread or run mult hosts at a time..   (bc we are breaking down by 1 host) (confirmed db_nmap and nmap -sV same speed)
-2) a few msfconsole auxiliary's prior to nmap -sV for OS detection and login  (there may be some aux modules for misc OS/appliance? might look for ruby code with updates to database and work that way?)
 
 Coding Neatness to consider:
 1) use functions and classes and get rid of the duplicative coding
@@ -18,28 +17,32 @@ Coding Neatness to consider:
 3) make compatabile with python 3.x  (now only python 2.7)
 4)convert all python.sh  to python.py
 
+BUG:
+top200 will redo some hosts in some situations.  be careful on the main TODOHOSTS as it was a complicated SQL.
 
 Enhancements to consider:
 1)Need place to store dn_nmap -oA archived.nmap.results.blah blah (see rawr code to find the .xml results in tmp directory)
 2) cred database functionality
-(need to think about the security aspect - storing password for assessment in clear text..?  maybe a you ok with this?
+(need to think about the security aspect - storing password for assessment in clear text..? 
 (Tie in with something relating to the nessuscmd --sshi  --wmii thingy
 run a "cred -a command to add any *VALID* creds recieved from ssh login,etc"  
 maybe cred -a [IPaddress] -t password -p 22 -u [user] -P [pass]  
 3)remove local eth0/eth1 ip address from msfdatabase results
-4)other msf aux modules to do all time -  example -- use auxiliary/scanner/ftp/anonymous on all FTP (or snmp public msf)
+4)other msf aux modules to do all time -  example -- use auxiliary/scanner/ftp/anonymous on all FTP (or snmp public msf)  (there may be some aux modules for misc OS/appliance? might look for ruby code with updates to database and work that way?)
 4)openscap compliance (keyed off real OS/SP etc)
 
-=============================
-(-)(BETA partial working)-- Nessus automation
+Nessus Integration (BROKEN now)
 = after kicking off the nessus scan --> import the nessus scans ...
 (see sniper.sh  and ./tools/sniper.rb) 
 msfconsole> load sniper
 ---??nessus_report_list (periodically make sure nothing running)
 nessus_report_get 897ad439-1113-6af6-d701-c50dd2849d8fdcd56a59bef6527f
-=========================
-(-)(BETA - partially working)--GAPING HOLES found by msf compatable nessus plugins?
+
+GAPING HOLES found by msf compatable nessus plugins (BROKEN now)
 This code and ideas are in the MAGIC CVE section of sniper.sh and within cve_update in sniper.py
+
+
+=========================
 
 ----------------
 sniper.py
@@ -92,9 +95,3 @@ Do some logic for Account Credential issues
 =3)NSS-10399 will get domain accounts (may need to change nessus scan policy with ENDUID > 1200)
 
 
-Monitoring Module
-=1)kick off snort
-=2)custom rules =  1)nessus-login failed  2)ssh unix plugin id = ########  or (WMI windows plugin id=#####)
-=3)How to do this?  some type of "app is hung?" function
-=4)Dest unreachable (enough lost) maybe use thresholding
-=5)how todo alerts let user know?  bell taillog?
