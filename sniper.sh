@@ -150,9 +150,10 @@ fi
 
 
 echo "==========Phase 3 General Metasploit (Aux) Scans ================"
-##########################WINWMI auxiliary MSF a)smb_version, b)nbname(for hostname) and c)endpoint_mapper (for other hostname when nbname doesn't work)
+#WINWMI auxiliary MSF a)smb_version, b)nbname(for hostname) and c)endpoint_mapper (for other hostname when nbname doesn't work)
 TODOHOSTS=""
-TODOHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT DISTINCT host_id from services where port in (139,137,445) and info = '' """| grep -v row | grep -v address | grep -v """-""" )"
+TODOHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT DISTINCT host_id from services where 
+port in (139,137,445) and info = '' """| grep -v row | grep -v host_id | grep -v """-""" )"
 cd $CWD
 if [ -z "$TODOHOSTS" ] ; then
 	: #
@@ -191,8 +192,7 @@ fi
 ######################################################################
 
 
-########--- Nmap (-sV) Scan ()=========="
-echo "===========Phase 4 - NMAP -sV (version) Scan ============"
+echo "===========Phase 4 - NMAP Version (-sV) Scan ============"
 ALLSVHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT DISTINCT H.address from hosts H, services S where S.proto = 'tcp' and S.info = '' and H.id in (Select host_id from services where info = '')  AND S.host_id = H.id """ | grep -v row | grep -v address | grep -v """-""" )"
 cd $CWD
 
@@ -201,11 +201,11 @@ for i in $ALLSVHOSTS; do ALLSVHOSTSCOMMA=`echo $ALLSVHOSTSCOMMA$i\,`; done
 ALLSVHOSTSCOMMA=$(echo "$ALLSVHOSTSCOMMA" | sed '$s/.$//')
 #echo  "$ALLSVHOSTSCOMMA"
 
-        read -p "(?) Do you want nmap to perform a (-sV) scan to get better banner info?(y/N)" yn
+        read -p "(?) Do you want nmap to perform a (-sV) scan to get detailed banner info?(y/N)" yn
 
         case $yn in
                 [Yy]* ) echo "============Nmap Version (-sV) Scan ==========";
-                        echo "(OK) - Starting Nmap -sV port scan...";
+                        echo "(OK) - Starting Nmap Version Scan...";
                         # Begin Outer Loop
                         for i in $ALLSVHOSTS
                         do
@@ -229,14 +229,13 @@ ALLSVHOSTSCOMMA=$(echo "$ALLSVHOSTSCOMMA" | sed '$s/.$//')
                         done
 
                 /usr/bin/python $CWD/tools/sniper.py db_update
-                echo "(OK) - Nmap -sV Scan Complete...";;
+                echo "(OK) - Nmap Version Scan Complete...";;
 
 
                 [Nn]* ) echo "(OK) Skipping DB_Nmap -sV scan ";;
                 * ) echo "(OK) Skipping DB_Nmap -sV scan ";;
         esac
-###########--END Nmap -sV Scan ======
-#===================================================
+######################################################################
 
 
 
