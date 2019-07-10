@@ -47,6 +47,11 @@ This code and ideas are in the MAGIC CVE section of sniper.sh and within cve_upd
 ----------------
 sniper.py
 --------------
+
+LOGIC BUG:
+1)UNIX is commented out but would need to do it later on at end if at all.
+
+
 (-) Convert to python3, change dependency ,etc
 
 (-) Phase X - report findings section
