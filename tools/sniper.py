@@ -76,7 +76,6 @@ def db_update(cur):
 	#SNIPER-OS-UPDATES
 
 	#OS-SUN
-	#print "==========Phase 1.1.2 OS Updating (Unix like via SSH SERVICES)"
 	#Sun via ssh
         cur.execute("""UPDATE hosts SET os_name = 'Sun', comments = 'OS-Updated-by-sniper.py'\
 	where id in (SELECT host_id from services where name = 'ssh' and info like ('%Sun%')) and os_name = 'Unknown' """)
