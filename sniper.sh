@@ -71,12 +71,12 @@ TOTALHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """Select count(*) from h
 cd $CWD
 
 #####Do a Quick & efficient NMAP discovery##########
-echo "============Phase 1 Discovery - Nmap -Pn -n -v --disable-arp-ping -p 22,80,443,445 Scan ()=========="
+echo "============Phase 1 Discovery Nmap Scan ============"
 
 if [ $TOTALHOSTS -eq "0" ] ; then
-	echo "(Not OK!!) You have *NO* hosts in the database $DB. Enter the IP Range for QUICK host discovery? [Nmap compatible example - 192.168.1.1-200]"
+	echo "(OK) You have *NO* hosts in the database $DB. Enter the IP Range for QUICK host discovery? [Nmap compatible example - 192.168.1.1-200]"
     	read IPRANGE
-	echo "(OK) Starting Discovery - Nmap -Pn -n -v --disable-arp-ping -p 22,80,443,445 Scan ()=========="
+	echo "(OK) Starting Discovery Scan (Nmap -Pn -n -v --disable-arp-ping -p 22,80,443,445)=========="
 	/bin/cp $CONF/msf_default.rc $CONF/msf.rc
         echo "db_nmap -Pn -n -v --disable-arp-ping -p 22,80,443,445 $IPRANGE " >> $CONF/msf.rc
         echo "quit -y" >> $CONF/msf.rc
@@ -84,7 +84,7 @@ if [ $TOTALHOSTS -eq "0" ] ; then
 
 	#We do this to remove filtered ports
         /usr/bin/python $CWD/tools/sniper.py db_update
-	echo "(OK) - db_nmap -Pn -n -v --disable-arp-ping -p 22,445 Scan Complete..."
+	echo "(OK) Completed Discovery Scan"
 
 else
 	echo "(OK) $TOTALHOSTS Total hosts in database $DB."
