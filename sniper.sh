@@ -110,25 +110,6 @@ fi
 
 
 
-#Seems like this section not needed.. remove if so
-#########Subsequent discovery scan ===================="
-
-#        case $yn in
-#                [Yy]* ) echo "============Phase 1.b - Nmap -Pn -n --top-ports=200 Scan ()=========="
-#                echo "(OK) - About to run db_Nmap --top-ports=200 port scan to $DB database - (all Nmap scan output to $DB...)";
-#                #echo "";;
-#                /bin/cp $CONF/msf_default.rc $CONF/msf.rc;
-#                echo "db_nmap -Pn -n --top-ports=200 $TODOHOSTSCOMMA" >> $CONF/msf.rc ;
-#                echo "quit -y" >> $CONF/msf.rc;
-#                $MSFBIN -r $CONF/msf.rc;;
-#                [Nn]* ) echo "(OK) Skipping 2nd Discovery scan ";;
-#                * ) echo "(OK) Skipping 2nd Discovery scan ";;
-#        esac
-
-
-
-
-
 
 echo "===========Phase 2 - NMAP top200 Port Scan==========="
 #MINOR Enhancement -- could exclude any hosts who's port 22,80,443 or 445 have a banner done previously  (to avoid duplicate scans)
