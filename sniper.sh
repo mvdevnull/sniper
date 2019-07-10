@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Author - chrisdhebert@gmail.com
-#Version - 2.2019-07-01
+#Version - 2.2019-07-10
 
 clear
 
@@ -76,7 +76,7 @@ echo "============Phase 1 Nmap Discovery Scan ============"
 if [ $TOTALHOSTS -eq "0" ] ; then
 	echo "(OK) You have *NO* hosts in the database $DB. Enter the IP Range for QUICK host discovery? [Nmap compatible example - 192.168.1.1-200]"
     	read IPRANGE
-	echo "(OK) Starting Discovery Scan (Nmap -Pn -n -v --disable-arp-ping -p 22,80,443,445)=========="
+	echo "(OK) Starting Nmap Discovery Scan... =========="
 	/bin/cp $CONF/msf_default.rc $CONF/msf.rc
         echo "db_nmap -Pn -n -v --disable-arp-ping -p 22,80,443,445 $IPRANGE " >> $CONF/msf.rc
         echo "quit -y" >> $CONF/msf.rc
@@ -101,7 +101,7 @@ else
 
 			#We do this to remove filtered ports
         		/usr/bin/python $CWD/tools/sniper.py db_update;
-        		echo "(OK) - db_nmap -Pn -n -v --disable-arp-ping -p 22,445 Scan Complete...";;
+        		echo "(OK) - db_nmap -Pn -n -v --disable-arp-ping -p 22,445 Scan Complete";;
 
                 	[Nn]* ) echo "(OK) Skipping 2nd Discovery scan";;
                 	* ) echo "(OK) Skipping 2nd Discovery scan";;
@@ -112,8 +112,6 @@ fi
 
 
 echo "===========Phase 2 - NMAP top200 Port Scan==========="
-#MINOR Enhancement -- could exclude any hosts who's port 22,80,443 or 445 have a banner done previously  (to avoid duplicate scans)
-
 
 #Careful here --> this SQL took a long time to get accurate!!! 
 TODOHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT DISTINCT H1.address                              
@@ -160,10 +158,10 @@ if [ -z "$TODOHOSTS" ] ; then
 	: #
 else
 
-	read -p "(?) Do you want MSF to definitively determine the Windows OS name/flavor or hostname?(y/N)" yn
+	read -p "(?) Do you want MSF to determine the Windows OS name/flavor or hostname?(y/N)" yn
 
         case $yn in
-		[Yy]* ) echo "(OK) - Starting MSF auxiliary scan a)SMB Version b)nbname and c)endpoint_mapper Windows OS Probes==========";
+		[Yy]* ) echo "(OK) - Starting MSF auxiliary scan a)SMB Version b)nbname and c)endpoint_mapper Windows OS Probes... ==========";
 			echo -n "(Optional) Specify the Windows Domain? (. for none)";
 			read domain;
 			echo -n "(Optional) Specify the Windows username?";
