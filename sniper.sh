@@ -76,7 +76,7 @@ echo "============Phase 1 Nmap Discovery Scan ============"
 if [ $TOTALHOSTS -eq "0" ] ; then
 	echo "(OK) You have *NO* hosts in the database $DB. Enter the IP Range for QUICK host discovery? [Nmap compatible example - 192.168.1.1-200]"
     	read IPRANGE
-	echo "(OK) Starting Nmap Discovery Scan... =========="
+	echo "(OK) Starting Nmap Discovery Scan..."
 	/bin/cp $CONF/msf_default.rc $CONF/msf.rc
         echo "db_nmap -Pn -n -v --disable-arp-ping -p 22,80,443,445 $IPRANGE " >> $CONF/msf.rc
         echo "quit -y" >> $CONF/msf.rc
@@ -93,7 +93,7 @@ else
 		case $yn in
                 	[Yy]* ) echo "Enter the IP Range for QUICK host discovery? [Nmap compatible example - 192.168.1.1-200]";
                 	read IPRANGE;
-			echo "(OK) Starting 2nd Discovery scan - Nmap -Pn -n -v --disable-arp-ping -p 22,80,443,445 Scan... ==========";
+			echo "(OK) Starting 2nd Discovery scan - Nmap -Pn -n -v --disable-arp-ping -p 22,80,443,445 Scan... ";
         		/bin/cp $CONF/msf_default.rc $CONF/msf.rc;
         		echo "db_nmap -Pn -n -v --disable-arp-ping -p 22,80,443,445 $IPRANGE " >> $CONF/msf.rc;
         		echo "quit -y" >> $CONF/msf.rc;
@@ -162,7 +162,7 @@ else
 	read -p "(?) Do you want MSF to determine the Windows OS name/flavor or hostname?(y/N)" yn
 
         case $yn in
-		[Yy]* ) echo "(OK) - Starting MSF auxiliary scan a)SMB Version b)nbname and c)endpoint_mapper Windows OS Probes... ==========";
+		[Yy]* ) echo "(OK) - Starting MSF auxiliary scan a)SMB Version b)nbname and c)endpoint_mapper Windows OS Probes... ";
 			echo -n "(Optional) Specify the Windows Domain? (. for none)";
 			read domain;
 			echo -n "(Optional) Specify the Windows username?";
@@ -470,7 +470,7 @@ echo "==========Phase 5 Eyewitness Web Thumbnail Scans ================"
 read -p "(?) Do you want to thumbnail ports (80,443,8000,8080,8443) with 'eyewitness' ?(y/N)" yn
 
 case $yn in
-	[Yy]* ) echo "(OK) Starting - Eyewitness scan..."
+	[Yy]* ) echo "(OK) Starting - Eyewitness Scan..."
 	    /bin/cp $CONF/msf_default.rc $CONF/msf.rc;
 	    echo "services -p 80,443,8000,8080,8443 -o /tmp/sniper.eyewitness.txt" >> $CONF/msf.rc ;
 	    echo "quit -y" >> $CONF/msf.rc;
