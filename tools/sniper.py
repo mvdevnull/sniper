@@ -89,7 +89,11 @@ def db_update(cur):
         cur.execute("""UPDATE hosts SET os_name = 'Linux', os_flavor = 'Ubuntu', comments = 'OS-Updated-by-sniper.py'\
         where id in (SELECT host_id from services where name = 'ssh' and info like ('%buntu%')) and os_name = 'Unknown' """)
 
-        #Linux via telnet
+        #CentOS via http
+        cur.execute("""UPDATE hosts SET os_name = 'Linux', os_flavor = 'CentOS', comments = 'OS-Updated-by-sniper.py'\
+        where id in (SELECT host_id from services where name = 'http' and info like ('%CentOS%')) and os_name = 'Unknown' """)
+	
+	#Linux via telnet
         cur.execute("""UPDATE hosts SET os_name = 'Linux', comments = 'OS-Updated-by-sniper.py'\
         where id in (SELECT host_id from services where port = 23 and info like ('%Linux%')) and os_name = 'Unknown' """)
         #BSD via telnet 
