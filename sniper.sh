@@ -199,8 +199,10 @@ cd $CWD
 #echo "Hosts (with empty '' banner ports) that can be nmap -sV scanned.   note hosts with ' ' in banner have been scanned by sniper already: "
 for i in $ALLSVHOSTS; do ALLSVHOSTSCOMMA=`echo $ALLSVHOSTSCOMMA$i\,`; done
 ALLSVHOSTSCOMMA=$(echo "$ALLSVHOSTSCOMMA" | sed '$s/.$//')
-#echo  "$ALLSVHOSTSCOMMA"
 
+if [ -z "$ALLSVHOSTSCOMMA" ] ; then
+	: #
+else
         read -p "(?) Do you want nmap to perform a (-sV) scan to get detailed banner info?(y/N)" yn
 
         case $yn in
@@ -235,10 +237,8 @@ ALLSVHOSTSCOMMA=$(echo "$ALLSVHOSTSCOMMA" | sed '$s/.$//')
                 [Nn]* ) echo "(OK) Skipping DB_Nmap -sV scan ";;
                 * ) echo "(OK) Skipping DB_Nmap -sV scan ";;
         esac
+fi
 ######################################################################
-
-
-
 
 
 
