@@ -321,36 +321,6 @@ fi
 	###########################END NESSUS BETA STUFF########################3
 
 
-	###################WINWMI NESSUSCMD
-	#WINWMI="$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT DISTINCT H.address from hosts H, services S where S.port = '445' and H.comments not like '%CRED%' and H.id = S.host_id""" | grep -v row | grep -v address | grep -v """-""" )"
-	#cd $CWD
-	#echo "WMI login(s) available to the following WINDOWS device(s)"
-	#for i in $WINWMI; do WINWMICOMMA=`echo $WINWMICOMMA$i\,`; done
-	#WINWMICOMMA=$(echo "$WINWMICOMMA" | sed '$s/.$//');
-
-	#echo "$WINWMICOMMA"
-	#        read -p "(?) BROKEN - TODO - Do you want to provide NESSUS API with WINDOWS credentials to definitively determine the OS name and flavor?(y/N)" yn
-	#
-	#        case $yn in
-	#                [Yy]* ) echo "==========Phase 2.b Starting - WINDOWS(WMI) OS Probes==========";
-	#                        /opt/nessus/bin/nessuscmd --remote localhost --remote-port 1241 --login service --password service -V -p 445 -i 11936 $WINWMICOMMA --smbi > $CWD/tmp/win_os_sp.txt;
-	#/bin/cat $CWD/tmp/win_os_sp.txt | grep "Confidence Level : 100" -B 40 -A 2 | grep -e "Results found" -e "Remote operating system" -A 1 | grep -v "Host information" | grep -v "\-\-" | sed -e 's/\+ Results found on //' | grep -v Confidence  | sed 's/^[ \t]*//' | sed -e :a -e '$!N;s/\n|//;ta' -e 'P;D' | cut -d ":" -f1,3 | awk 'BEGIN {FS=OFS=":"} {temp=$1; $1=$2; $2=temp} {print}'| sed 's/^[ \t]*//;s/[ \t]*$//' | sed -e "s/^/UPDATE hosts SET info = '/" | sed -e "s/\:/', comments = 'OS-Updated-by-sniper.py_CRED' where address = '/" | sed "s/$/';/" > /tmp/win_os_sp.SQL.txt;
-	#cd /tmp;
-	#/usr/bin/sudo -u postgres psql -d $DB -f /tmp/win_os_sp.SQL.txt >> $LOG/nessuscmd.log 2>&1;
-	#/bin/cat /tmp/win_os_sp.SQL.txt >> $LOG/nessuscmd.log 2>&1;
-
-	#Can set next line to only show up in DEBUG level
-	#echo "OS Updates here--"; /bin/cat /tmp/win_os_sp.SQL.txt;
-
-	#Cleanup
-	#rm /tmp/win_os_sp*;
-	#cd $CWD;
-	#rm $CWD/tmp/win_os_sp*;;
-	#                [Nn]* ) echo "(OK) Skipping Nessuscmd Windows login";;
-	#                * ) echo "(OK) Skipping Nessuscmd Windows login";;
-	#        esac
-
-#=============================
 
 #echo "==========*(TODO BROKEN)  Phase ? MAGIC CVE report ================"
 	#echo "============MSF/CVE Magic thing?============="
@@ -393,7 +363,7 @@ fi
 	#fi
 	#######
 
-	#################BEGIN BETA NESSUSCMD/MSF####################
+	#################BEGIN BETA NESSUS/MSF####################
 	#read -p "(**BETA**) Generate NESSUSCMD/Metasploit Correlated (SSH) Scan?(y/N)" yn
 	#       case $yn in
 	#               [Yy]* ) NSSMSF="$(cd /opt/nessus/lib/nessus/plugins; /bin/grep -f $CWD/conf/msf_whitelist1.txt *.nasl | cut -d """:""" -f1 | uniq | xargs grep -f $CWD/conf/msf_whitelist.txt | grep -v -i -f $CWD/conf/msf_blacklist.txt | grep -B1 """metasploit_name""" | cut -d """(""" -f2 | cut -d """:""" -f3 | cut -d """)""" -f1 | cut -d """'""" -f2 | cut -d """'""" -f1 | grep -v """\-\-"""| grep -e ^[0-9][0-9][0-9][0-9][0-9])";
@@ -412,26 +382,7 @@ fi
 	#grep "Results found on" $CWD/results/nss-msf-unix.txt
 	#
 	#
-	#############END BETA NESSUSCMD/MSF########################
-
-
-
-	#################BEGIN BETA NESSUS API MSF ######################
-	#read -p "(**BETA**) Generate API Metasploit Correlated (WMI) Scan?(y/N)" yn
-	#        case $yn in
-	#                [Yy]* ) NSSMSF="$(cd /opt/nessus/lib/nessus/plugins; /bin/grep -f $CWD/conf/msf_whitelist1.txt *.nasl | cut -d """:""" -f1 | uniq | xargs grep -f $CWD/conf/msf_whitelist.txt | grep -v -i -f $CWD/conf/msf_blacklist.txt | grep -B1 """metasploit_name""" | cut -d """(""" -f2 | cut -d """:""" -f3 | cut -d """)""" -f1 | cut -d """'""" -f2 | cut -d """'""" -f1 | grep -v """\-\-"""| grep -e ^[0-9][0-9][0-9][0-9][0-9])";
-	#                        for i in $NSSMSF; do NSSMSFCOMMA=`echo $NSSMSFCOMMA$i\,`; done;
-	#                        NSSMSFCOMMA=$(echo "$NSSMSFCOMMA" | sed '$s/.$//');
-	#                       /opt/nessus/bin/nessuscmd --remote localhost --remote-port 1241 --login service --password service -V -p 22 -i $NSSMSFCOMMA $WINWMICOMMA --smbi > $CWD/results/nss-msf-win.txt;;
-	#
-	#Cleanup
-	#                [Nn]* ) echo "(OK) Skipping WMI login";;
-	#                * ) echo "(OK) Skipping WMI login";;
-	#        esac
-	#
-	#echo "**BETA** - NESSUS API/ Metasploit Correlations (WINDOWS)- see ./results/nss-msf-win.txt"
-	#grep "Results found on" $CWD/results/nss-msf-win.txt
-	#################END BETA NESSUS MSF##########################
+	#################END BETA NESSUS/MSF####################
 
 
 
