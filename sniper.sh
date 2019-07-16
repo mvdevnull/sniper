@@ -253,55 +253,26 @@ fi
 #    /etc/init.d/$SERVICE start
 #    echo "(OK) - Starting $SERVICE service -- `ps ax | grep -v grep | grep $SERVICE`"
 #fi
-#SERVICE='nessusd'
-#if ps ax | grep -v grep | grep $SERVICE > /dev/null
-#then
-#    echo "(OK) - Found $SERVICE service running - skipping"
-#else
-#    echo "(OK) - Starting $SERVICE .... "
-#    /etc/init.d/$SERVICE start
-#    echo "(OK) - Starting $SERVICE service -- `ps ax | grep -v grep | grep $SERVICE`"
-#fi
 
+	#################BEGIN BETA - General Nessus################
+	#echo "============**BETA**==Phase 3 - General Nessus=========="
+	
 #cd /tmp
+
+
 	#UNIXSSH="$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT H.address from hosts H, services S where S.port = '22' and H.comments not like '%CRED%' and H.id = S.host_id""" | grep -v row | grep -v address | grep -v """-""" )"
 	#cd $CWD
 	#echo "SSH login(s) available to the following UNIX server(s)"
 	#for i in $UNIXSSH; do UNIXSSHCOMMA=`echo $UNIXSSHCOMMA$i\,`; done
 	#UNIXSSHCOMMA=$(echo "$UNIXSSHCOMMA" | sed '$s/.$//');
-
-	#echo "$UNIXSSHCOMMA"
-	#       read -p "(?) (BROKEN TODO - Do you want to provide NESSUS API with SSH credentials to definitively determine the OS name and flavor?(y/N)" yn
-	#       case $yn in
-	#               [Yy]* ) echo "==========Phase 2.a Starting - UNIX(SSH) OS Probes==========";
-	#               /opt/nessus/bin/nessuscmd --remote localhost --remote-port 1241 --login service --password service -V -p 22 -i 11936 $UNIXSSHCOMMA --sshi > $CWD/tmp/unix_os_sp.txt;
-	#               /bin/cat $CWD/tmp/unix_os_sp.txt | grep "Confidence Level : 100" -B 40 -A 2 | grep -e "Results found" -e "Remote operating system" -A 1 | grep -v "Host information" | grep -v "\-\-" | sed -e 's/\+ Results found on //' | grep -v Confidence  | sed 's/^[ \t]*//' | sed -e :a -e '$!N;s/\n|//;ta' -e 'P;D' | cut -d ":" -f1,3 | awk 'BEGIN {FS=OFS=":"} {temp=$1; $1=$2; $2=temp} {print}'| sed 's/^[ \t]*//;s/[ \t]*$//' | sed -e "s/^/UPDATE hosts SET info = '/" | sed -e "s/\:/', comments = 'OS-Updated-by-sniper.py_CRED' where address = '/" | sed "s/$/';/" > /tmp/unix_os_sp.SQL.txt;
-	#               cd /tmp;
-	#               /usr/bin/sudo -u postgres psql -d $DB -f /tmp/unix_os_sp.SQL.txt >> $LOG/nessuscmd.log 2>&1;
-	#               /bin/cat /tmp/unix_os_sp.SQL.txt >> $LOG/nessuscmd.log 2>&1;
-
-	#Can set next line to only show up in DEBUG level
-	#               echo "Successful SSH Logins here (OS Updated) --"; /bin/cat /tmp/unix_os_sp.SQL.txt;
-
-	#Cleanup
-	#               rm /tmp/unix_os_sp*;
-	#               cd $CWD;
-	#               rm $CWD/tmp/unix_os_sp*;;
-	#               [Nn]* ) echo "(OK) Skipping SSH login";;
-	#               * ) echo "(OK) Skipping SSH login";;
-	#       esac
-
-
-
-	#################BEGIN BETA - General Nessus################
-	#echo "============**BETA**==Phase 3 - General Nessus=========="
-	#ALLNOWINHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT H.address from hosts H where H.os_name not like ('%indows%') """ | grep -v row | grep -v address | grep -v """-""" )"
+	
+	#ALLNONWINHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT H.address from hosts H where H.os_name not like ('%indows%') """ | grep -v row | grep -v address | grep -v """-""" )"
 	#cd $CWD
 	#echo "All Non-WIN Hosts to be scanned with Nessus: "
-	#for i in $ALLNOWINHOSTS; do ALLNOWINHOSTSCOMMA=`echo $ALLNOWINHOSTSCOMMA$i\,`; done
-	#ALLNOWINHOSTSCOMMA=$(echo "$ALLNOWINHOSTSCOMMA" | sed '$s/.$//')
-	#echo  "$ALLNOWINHOSTSCOMMA"
-	#cp $CWD/tools/sniper.rb /opt/backbox/msf/plugins
+	#for i in $ALLNONWINHOSTS; do ALLNONWINHOSTSCOMMA=`echo $ALLNONWINHOSTSCOMMA$i\,`; done
+	#ALLNONWINHOSTSCOMMA=$(echo "$ALLNONWINHOSTSCOMMA" | sed '$s/.$//')
+	#echo  "$ALLNONWINHOSTSCOMMA"
+	#cp $CWD/tools/sniper.rb /opt/backbox/msf/plugins   #change this to default msf plugins location
 	#        read -p "(?)**BETA** Do you want nessus to perform a non-Windows plugin scan (creds)?(y/N)" yn
 	#        case $yn in
 	#                [Yy]* ) echo "============Phase 3.a - Nessus Scan (NON-WINDOWS) (cred if supplied in policy)==========";
@@ -309,7 +280,7 @@ fi
 	#                echo "(OK) - About to run Nessus port scan to $DB database - (all Nessus scan output to $DB...)";
 	#                echo "load nessus" >> $CONF/msf.rc ;
 	#                echo "nessus_connect service:service@localhost:8834 ok" >> $CONF/msf.rc ;
-	#                @#$@#$DO THIS INSTEAD!!!!  nessus_db_scan -h
+	#                @#$@#$DO THIS INSTEAD!!!!  nessus_db_scan -h    #But nessus 8.x  doesn't work with this
 	#                echo "nessus_scan_new -1 \"Phase 2 non-Win - Plugin scan w creds\" $ALLNOWINHOSTSCOMMA" >> $CONF/msf.rc;
 	#                echo "load sniper" >> $CONF/msf.rc;
 	#                echo "MSF ERROR type quit to continue- here's where we probably have to write our own ruby to know know when job is done , import and quit msf" >> $CONF/msf.rc;
