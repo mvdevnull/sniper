@@ -17,11 +17,11 @@ then
 else
         echo "(OK) - Starting $SERVICE .... "
         /etc/init.d/$SERVICE start
-        echo "(OK) - Starting $SERVICE service -- `ps ax | grep -v grep | grep $SERVICE`"
+        echo "(OK) - Starting $SERVICE service "
 fi
 
 if test -f "$EYEWITNESS"; then
-    echo "(OK0 - Found $EYEWITNESS "
+    echo "(OK) - Found $EYEWITNESS "
 else
     echo "(ERROR) - eyewitness not found - install eyewitness (ex: apt-get install eyewitness)"
 fi
