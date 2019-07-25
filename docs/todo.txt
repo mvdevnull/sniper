@@ -5,7 +5,7 @@ sniper.sh
 Issue/Bugs
 1)none
 
-Early dependency checking (check for python, msfconsole, postgres running, eyewitness ,etc)
+Early dependency checking (check for python library, msfconsole, etc)
 
 
 Speed Ideas to consider:
@@ -14,15 +14,14 @@ Speed Ideas to consider:
 Coding Neatness to consider:
 1) use functions and classes and get rid of the duplicative coding
 2) sometype of debug mode -v -vv
-3) make compatabile with python 3.x  (now only python 2.7)
-4)convert all python.sh  to python.py
+3)convert all python.sh  to python.py
 
 BUG:
 top200 will redo some hosts in some situations.  be careful on the main TODOHOSTS as it was a complicated SQL. I think  it's getting hosts without '' blank service.info  - look there.
 
 Enhancements to consider:
-1)Need place to store dn_nmap -oA archived.nmap.results.blah blah (see rawr code to find the .xml results in tmp directory)
-2) cred database functionality
+1)Need place to store db_nmap -oA archived.nmap.results.[date] (but only for the --top-ports=200)
+2)msf cred database functionality
 (need to think about the security aspect - storing password for assessment in clear text..? 
 (Tie in with something relating to the nessuscmd --sshi  --wmii thingy
 run a "cred -a command to add any *VALID* creds recieved from ssh login,etc"  
@@ -52,9 +51,9 @@ LOGIC BUG:
 1)UNIX is commented out but would need to do it later on at end if at all.
 
 
-(-) Convert to python3, change dependency ,etc
+(-) make compatabile with python 3.x  (now only python 2.7) Convert to python3, change dependency ,etc
 
-(-) Phase X - report findings section
+(-) report findings section
 =detect 3.2.1.42 GEN001120 - FAIL rshd.config
 =detect 3.2.1.38 GEN001020 - FAIL & root <> console
 =plugin 38153, good summary of missing patches(but has to use nessucmd cuz msf db_import doesn't capture)
@@ -67,8 +66,6 @@ LOGIC BUG:
 =plugin 21745 - cred problem - (works win2k8R2 (UAC enabled) what does it do in linux ssh
 =plugin 24786 - you logged in, but without administrator priv's
 =???X)possibly something to be smarter about credential issues  (use nasl -t IP ./third-pary/nessus/smbshell.nbin)
-
-(-)Resurect or kill once and for all the commented out Phase 6 which I removed (services)
 
 -----
 
