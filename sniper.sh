@@ -78,13 +78,13 @@ if [ $TOTALHOSTS -eq "0" ] ; then
     	read IPRANGE
 	echo "(OK) Starting Nmap Discovery Scan..."
 	/bin/cp $CONF/msf_default.rc $CONF/msf.rc
-        echo "db_nmap -Pn -n -v --disable-arp-ping -p 22,80,443,445 $IPRANGE " >> $CONF/msf.rc
+        echo "db_nmap -Pn -v --disable-arp-ping -p 22,80,443,445 $IPRANGE " >> $CONF/msf.rc
         echo "quit -y" >> $CONF/msf.rc
         $MSFBIN -r $CONF/msf.rc
 
 	#We do this to remove filtered ports
         /usr/bin/python $CWD/tools/sniper.py db_update
-	echo "(OK) Completed Discovery Scan"
+	echo "(OK) Completed Nmap Discovery Scan"
 
 else
 	echo "(OK) $TOTALHOSTS Total hosts in database $DB."
@@ -93,18 +93,18 @@ else
 		case $yn in
                 	[Yy]* ) echo "Enter the IP Range for QUICK host discovery? [Nmap compatible example - 192.168.1.1-200]";
                 	read IPRANGE;
-			echo "(OK) Starting 2nd Discovery scan - Nmap -Pn -n -v --disable-arp-ping -p 22,80,443,445 Scan... ";
+			echo "(OK) Starting Nmap (2nd) Discovery scan... ";
         		/bin/cp $CONF/msf_default.rc $CONF/msf.rc;
-        		echo "db_nmap -Pn -n -v --disable-arp-ping -p 22,80,443,445 $IPRANGE " >> $CONF/msf.rc;
+        		echo "db_nmap -Pn -v --disable-arp-ping -p 22,80,443,445 $IPRANGE " >> $CONF/msf.rc;
         		echo "quit -y" >> $CONF/msf.rc;
         		$MSFBIN -r $CONF/msf.rc;
 
 			#We do this to remove filtered ports
         		/usr/bin/python $CWD/tools/sniper.py db_update;
-        		echo "(OK) - db_nmap -Pn -n -v --disable-arp-ping -p 22,445 Scan Complete";;
+        		echo "(OK) Completed Discovery Scan";;
 
-                	[Nn]* ) echo "(OK) Skipping 2nd Discovery scan";;
-                	* ) echo "(OK) Skipping 2nd Discovery scan";;
+                	[Nn]* ) echo "(OK) Skipping Nmap (2nd) Discovery scan";;
+                	* ) echo "(OK) Skipping Nmap (2nd) Discovery scan";;
         	esac
 fi
 
@@ -136,11 +136,11 @@ else
         case $yn in
 		[Yy]* ) echo "(OK) - Starting Nmap top200 Port Scan ...";
 		/bin/cp $CONF/msf_default.rc $CONF/msf.rc;
-        	echo "db_nmap -Pn -n --top-ports=200 $TODOHOSTSCOMMA" >> $CONF/msf.rc ;
+        	echo "db_nmap -Pn -v -n --disable-arp-ping --max-rtt-timeout 200ms --top-ports=200 $TODOHOSTSCOMMA" >> $CONF/msf.rc ;
         	echo "quit -y" >> $CONF/msf.rc;
         	$MSFBIN -r $CONF/msf.rc;;
-                [Nn]* ) echo "(OK) Skipping Nmap top200 ";;
-                * ) echo "(OK) Skipping Nmap top200 ";;
+                [Nn]* ) echo "(OK) Skipping Nmap top200 Port Scan";;
+                * ) echo "(OK) Skipping Nmap top200 Port Scan";;
         esac
 fi
 /usr/bin/python $CWD/tools/sniper.py db_update
@@ -185,8 +185,8 @@ else
                 	echo "quit -y" >> $CONF/msf.rc;
                 	$MSFBIN -r $CONF/msf.rc;;
 
- 		[Nn]* ) echo "(OK) Skipping MSF Windows login";;
-                * ) echo "(OK) Skipping MSF Windows login";;
+ 		[Nn]* ) echo "(OK) Skipping MSF Windows Scan";;
+                * ) echo "(OK) Skipping MSF Windows Scan";;
 	esac
 fi
 ######################################################################
@@ -221,7 +221,7 @@ else
                                         done
                                 DBNMAPCOMMA=$(echo "$DBNMAPCOMMA" | sed '$s/.$//')
                                 /bin/cp $CONF/msf_default.rc $CONF/msf.rc
-                                echo "db_nmap -sV -Pn -T5 --max-rtt-timeout 5000ms -n $i -p $DBNMAPCOMMA " >> $CONF/msf.rc
+                                echo "db_nmap -sV -Pn -v -n -T5 --disable-arp-ping --max-rtt-timeout 200ms $i -p $DBNMAPCOMMA " >> $CONF/msf.rc
                                 echo "quit -y" >> $CONF/msf.rc
                                 $MSFBIN -r $CONF/msf.rc
                                 #Now that -sV is done, we may have some blank responses.. we find those and change blank to " " space so we don't rescan later on
@@ -235,7 +235,7 @@ else
 
 
                 [Nn]* ) echo "(OK) Skipping DB_Nmap -sV scan ";;
-                * ) echo "(OK) Skipping DB_Nmap -sV scan ";;
+                * ) echo "(OK) Skipping Nmap Version scan ";;
         esac
 fi
 ######################################################################
