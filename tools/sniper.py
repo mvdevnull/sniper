@@ -49,8 +49,7 @@ def db_update(cur):
 
 	print "==========DB Updating Hosts============="
 
-	#SNIPER-SERVICE-Cleaning
-	#print "==========Phase 4a Cleaning Filtered SERVICES from initial 22,445 discovery"
+	#SNIPER-SERVICE-Cleaning (Filtered SERVICES from initial discovery)"
 	LIVE = cur.execute("""SELECT DISTINCT H.address from hosts H, services S where S.state in ('open','closed') and S.host_id = H.id """)
 	LIVErows = cur.fetchall()
 	SAVE = cur.execute("""SELECT DISTINCT H.address from hosts H where H.comments <> ''""")
@@ -63,18 +62,17 @@ def db_update(cur):
 		cur.execute("""DELETE FROM hosts WHERE address = '%s' """ %\
 		(DEADrow))
 		conn.commit()
-	
-	#print "==========Phase 4b Cleaning Closed SERVICES (but server still up) ;"
+	#Cleaning Closed SERVICES (but server still up) 
 	cur.execute("""DELETE FROM services S WHERE S.state in ('closed','filtered') """)
 	conn.commit()
-
-	#print "Marking alive hosts"
+	#Marking alive hosts
 	cur.execute("""UPDATE hosts SET comments = 'DISCOVERY-Updated-by-sniper.py' """)
-
 	#At this point, we have all known hosts in the DB
 	
-	#SNIPER-OS-UPDATES
+	##################################################################################
 
+	#OS UPDATES
+	
 	#OS-SUN
 	#Sun via ssh
         cur.execute("""UPDATE hosts SET os_name = 'Sun', comments = 'OS-Updated-by-sniper.py'\
@@ -99,11 +97,6 @@ def db_update(cur):
         cur.execute("""UPDATE hosts SET os_name = 'BSD', comments = 'OS-Updated-by-sniper.py'\
         where id in (SELECT host_id from services where port = 23 and info like ('%BSD%')) and os_name = 'Unknown' """)
 
-
-
-
-        
-        
         #OS-MS via any service
  	cur.execute("""UPDATE hosts SET os_name = 'Microsoft Windows', comments = 'OS-Updated-by-sniper.py'
         where id in (SELECT host_id from services where (info like ('%icrosof%') or info like ('%indow%'))) and os_name = 'Unknown' """)
@@ -111,8 +104,7 @@ def db_update(cur):
         cur.execute("""UPDATE hosts SET os_name = 'Microsoft Windows', comments = 'OS-Updated-by-sniper.py'
         where id in (SELECT host_id from services where (port = 445 and info <> '' )) and os_name = 'Unknown' """)
 
-
-	#OS-ESX via vmware SERVICES"
+	#OS-ESX via SERVICES"
 	cur.execute("""UPDATE hosts SET os_name = 'ESX', comments = 'OS-Updated-by-sniper.py'
 	where id in (SELECT host_id from services where name = 'http' and info like ('%ESX%')) and os_name ='Unknown' """)
 	cur.execute("""UPDATE hosts SET os_name = 'ESX', comments = 'OS-Updated-by-sniper.py'
@@ -180,21 +172,25 @@ def db_update(cur):
         #OS-HP iLO via SERVICE
         cur.execute("""UPDATE hosts SET os_name = 'HP iLO', comments = 'OS-Updated-by-sniper.py'
         where id in (SELECT host_id from services where info like ('%P Integrated Lights-Ou HP Integrated Lights-Ou%')) and os_name ='Unknown' """)
-        #print "==========Phase 1.1.4 OS Updating (CISCO VOIP via SERVICE)"
+        #OS-CISCO VOIP via SERVICE"
         cur.execute("""UPDATE hosts SET os_name = 'CISCO', os_flavor = 'VOIP',comments = 'OS-Updated-by-sniper.py'
         where id in (SELECT host_id from services where info like ('%andberg%VoIP%')) and os_name ='Unknown' """)
-        #print "==========Phase 1.1.4 OS Updating (POLYCOM VOIP via SERVICE)"
+        #OS-POLYCOM VOIP via SERVICE"
         cur.execute("""UPDATE hosts SET os_name = 'POLYCOM', os_flavor = 'VOIP',comments = 'OS-Updated-by-sniper.py'
         where id in (SELECT host_id from services where info like ('%olycom%VoIP%')) and os_name ='Unknown' """)
-
+	#OS-NETGEAR Prosafe via SERVICE"
+        cur.execute("""UPDATE hosts SET os_name = 'Netgear', os_flavor = 'Prosafe',comments = 'OS-Updated-by-sniper.py'
+        where id in (SELECT host_id from services where info like ('%Netgear%ProSafe%')) and os_name ='Unknown' """)
+	
 	#LOGIC BUG - if we do this too early (before we get top200 and/or -sV) we get mistakes!!
 	#If we do this, we should do it later on when top200 is confirmed to be already done
         #print Likely UNIX (EXCEPT (like UNION here ecludes the 445 windows and must be unknown os)
         #cur.execute("""UPDATE hosts set os_name = 'UNIX', comments = 'OS-Updated-by-sniper.py' where id in 
         #((select host_id from services where port in (22) ) EXCEPT SELECT DISTINCT id from hosts where id in 
         #(select host_id from services where port in (445) )) and os_name in ('Unknown') """)
-
-	#SNIPER-OS_FLAVOR-UPDATES
+	
+	############################################################
+	#OS_FLAVOR UPDATES
 	#OS_FLAVOR-SLACKWARE (via hosts.info)
 	cur.execute("""UPDATE hosts SET os_flavor = 'Slackware'
 	where info like ('%lackware%') and os_flavor = '' """)
@@ -235,20 +231,21 @@ def db_update(cur):
 	cur.execute("""UPDATE hosts SET os_name = 'Linux', comments = 'OS-Updated-by-sniper.py'
 	where os_flavor = 'Fedora'""")
 
-        
-        #SNIPER-OS-Service_PACK UPDATES
+        ####################################################
+	#OS Service_PACK UPDATES
+	
 	#OS_SP-Win-SP1-6 (via host.info)
-	cur.execute("""UPDATE hosts SET os_sp = '1'
+	cur.execute("""UPDATE hosts SET os_sp = 'SP1'
 	where info like ('%Microsoft Windows%Service Pack 1%') """)
-	cur.execute("""UPDATE hosts SET os_sp = '2'
+	cur.execute("""UPDATE hosts SET os_sp = 'SP2'
 	where info like ('%Microsoft Windows%Service Pack 2%') """)
-	cur.execute("""UPDATE hosts SET os_sp = '3'
+	cur.execute("""UPDATE hosts SET os_sp = 'SP3'
 	where info like ('%Microsoft Windows%Service Pack 3%') """)
-	cur.execute("""UPDATE hosts SET os_sp = '4'
+	cur.execute("""UPDATE hosts SET os_sp = 'SP4'
 	where info like ('%Microsoft Windows%Service Pack 4%') """)
-	cur.execute("""UPDATE hosts SET os_sp = '5'
+	cur.execute("""UPDATE hosts SET os_sp = 'SP5'
 	where info like ('%Microsoft Windows%Service Pack 5%') """)
-	cur.execute("""UPDATE hosts SET os_sp = '6'
+	cur.execute("""UPDATE hosts SET os_sp = 'SP6'
 	where info like ('%Microsoft Windows%Service Pack 6%') """)
 
 	####Commit all changes above
