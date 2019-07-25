@@ -138,8 +138,10 @@ def db_update(cur):
 
 	#OS-APC UPS OS
 	cur.execute("""UPDATE hosts SET os_name = 'APC OS', comments = 'OS-Updated-by-sniper.py'
-	where id in (SELECT host_id from services where name in ('http', 'ssh', 'www') and info like ('%APC%UPS%')) """)
-
+	where id in (SELECT host_id from services where name in ('http', 'ssh', 'www', 'ftp') and info like ('%APC%UPS%')) """)
+	cur.execute("""UPDATE hosts SET os_name = 'APC OS', comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where port in (80,21,22) and info like ('%APC%UPS%')) """)
+	
 	#OS-Wind River VxWorks
 	#print "==========Phase 1.1.4 OS Updating (Wind River VxWorks via VxWorks SERVICES)"
 	cur.execute("""UPDATE hosts SET os_name = 'Wind River VxWorks', comments = 'OS-Updated-by-sniper.py'
@@ -156,8 +158,6 @@ def db_update(cur):
 	where id in (SELECT host_id from services where name = 'snmp' and info like ('%JETDIRECT%')) and os_name ='Unknown' """) 
         cur.execute("""UPDATE hosts SET os_name = 'HP Printer - Jet Direct', comments = 'OS-Updated-by-sniper.py'
         where id in (SELECT host_id from services where name = 'http' and info like ('%JetDirect%')) and os_name ='Unknown' """)
-        cur.execute("""UPDATE hosts SET os_name = 'HP Printer - Jet Direct', comments = 'OS-Updated-by-sniper.py'
-        where id in (SELECT host_id from services where name = 'jetdirect' and port = 9100 ) and os_name ='Unknown' """)
 
         #OS-HP LaserJet via SERVICES
         cur.execute("""UPDATE hosts SET os_name = 'HP LaserJet', comments = 'OS-Updated-by-sniper.py'
