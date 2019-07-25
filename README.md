@@ -17,19 +17,20 @@ sniper is a command line host discovery tool used to scan large networks
 ### Installation
 ```
 git clone https://github.com/mvdevnull/sniper.git
-chmod +x ./sniper/sniper.sh
+cd sniper
+chmod +x ./sniper.sh
+msfdb init                                        #Initialize postgres for MSF
+
 
 ```
 ###### Dependencies
 ````
 apt-get install metasploit-framework              #Install metasploit framework
-msfdb init                                        #Initialize postgres for MSF
-apt-get install python-psycopg2                   #Install postgresql library for python
+apt-get install python-psycopg2                   #Install postgresql python library
 apt-get install eyewitness                        #Install eyewitness
 ````
 ### Usage
 ```
-cd sniper
 ./sniper.sh                                       #answer questions and wait for scans
 msfconsole                                        #run in separate window and wait for new hosts
 ```
