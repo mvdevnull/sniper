@@ -434,50 +434,6 @@ db_update(cur)
 #else:  
 #                print "Please respond with 'yes' or 'no'"
 #
-###############################################
-#SNIPER-SERVICE-Listings
-#print "==========Phase 6 - SERVICE Listings=============="
-#countIIS2=0
-#countOS2=0
-#IIS
-#try:
-#        cur.execute("""SELECT COUNT (DISTINCT H.address) FROM services S, hosts H WHERE S.state='open' and H.os_name LIKE ('%indows%') and S.info LIKE ('%IIS%') and (S.name='http' or S.name='https-alt' or S.name='www') and S.host_id = H.id""")
-#except:
-#        print "Error: Unable to run SQL command"
-#countIIS = cur.fetchone()
-#print "--TOTAL IIS HOSTS=", countIIS[0]
-##IIS6.x
-#print "--IIS6.x HOSTS"
-#cur.execute("""SELECT DISTINCT H.address FROM services S, hosts H WHERE S.state='open' and H.os_name LIKE ('%indows%') and S.info LIKE ('%IIS%6%') and (S.name='http' or S.name='https-alt' or S.name='www') and S.host_id = H.id ORDER by H.address""")
-#rows = cur.fetchall()
-#for row in rows:
-#    countIIS2 +=1
-#    print row[0]
-
-#IIS7.x
-#print "--IIS7.x HOSTS"
-#cur.execute("""SELECT DISTINCT H.address FROM services S, hosts H WHERE S.state='open' and H.os_name LIKE ('%indows%') and S.info LIKE ('%IIS%7%') and (S.name='http' or S.name='https-alt' or S.name='www') and S.host_id = H.id ORDER by H.address""")
-#rows = cur.fetchall()
-#for row in rows:
-#    countIIS2 +=1
-#    print row[0]
-
-
-#!IIS6,7
-#print "--IIS <>6 <>7  HOSTS"
-#cur.execute("""SELECT DISTINCT H.address FROM services S, hosts H WHERE S.state='open' and H.os_name LIKE ('%indows%') and S.info LIKE ('%IIS%') and H.address not in 
-#(SELECT DISTINCT H.address FROM services S, hosts H WHERE S.state='open' and H.os_name LIKE ('%indows%') and S.info LIKE ('%IIS%6%') or S.info LIKE ('%IIS%7%') and (S.name='http' or S.name='https-alt' or S.name='www') and S.host_id = H.id ) 
-#and (S.name='http' or S.name='https-alt' or S.name='www') and S.host_id = H.id ORDER by H.address""")
-#rows = cur.fetchall()
-#for row in rows:
-#    countIIS2 +=1    
-#    print row[0]
-#IIS (ERROR CHECK)
-#if countIIS[0] == countIIS2:
-#	print "OK-IIS reconcilation successful"
-#else:
-#	print "Error: IIS did not reconcile correctly", countIIS[0], " vs ",countIIS2
-###############################################
 
 
 #SNIPER-REPORT-Findings
