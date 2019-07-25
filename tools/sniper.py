@@ -89,6 +89,10 @@ def db_update(cur):
         #CentOS via http
         cur.execute("""UPDATE hosts SET os_name = 'Linux', os_flavor = 'CentOS', comments = 'OS-Updated-by-sniper.py'\
         where id in (SELECT host_id from services where name = 'http' and info like ('%CentOS%')) """)
+
+	#Debian via http
+        cur.execute("""UPDATE hosts SET os_name = 'Linux', os_flavor = 'Debian', comments = 'OS-Updated-by-sniper.py'\
+        where id in (SELECT host_id from services where name = 'http' and info like ('%Debian%')) """)
 	
 	#Linux via telnet
         cur.execute("""UPDATE hosts SET os_name = 'Linux', comments = 'OS-Updated-by-sniper.py'\
