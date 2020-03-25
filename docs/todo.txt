@@ -23,7 +23,7 @@ Enhancements to consider:
 run a "cred -a command to add any *VALID* creds recieved from ssh login,etc"  
 maybe cred -a [IPaddress] -t password -p 22 -u [user] -P [pass]  
 3)remove local eth0/eth1 ip address from msfdatabase results
-4)other msf aux modules to do all time -  example -- use auxiliary/scanner/ftp/anonymous on all FTP (or snmp public msf)  (there may be some aux modules for misc OS/appliance? might look for ruby code with updates to database and work that way?)
+4)other msf aux modules to do all time -  example -- use auxiliary/scanner/ftp/anonymous on all FTP (msf>snmp public or >smtpenum or >dns zonexfer)  (there may be some aux modules for misc OS/appliance? might look for ruby code with updates to database and work that way?)
 5)openscap compliance (keyed off real OS/SP etc)
 6)Early dependency checking (check for python library, msfconsole, etc)
 
