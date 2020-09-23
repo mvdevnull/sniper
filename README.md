@@ -27,7 +27,7 @@ msfdb init                                        #Initialize postgres for MSF
 ````
 apt-get install metasploit-framework              #Install metasploit framework
 apt-get install eyewitness                        #Install eyewitness
-pip install psycopg2-binary                       #Install postgresql python2 library
+apt-get install python3-psycopg2                  #Install postgresql python3 library
 ````
 ### Usage
 ```
