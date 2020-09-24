@@ -1,8 +1,8 @@
 #!/usr/bin/python
 #Script - sniper.py 
 #Description - script used for DISCOVERY, various targeted nessus scans and Reports.
-#Version 2.2019-07-25
-#Author - Chris Hebert
+#Author - chrisdhebert@gmail.com
+#Version - 2.2020-09-23
 
 import psycopg2
 import sys
@@ -17,7 +17,7 @@ constring = constring.replace('\n', '')
 try:
     conn = psycopg2.connect(constring)
 except:
-    print "Error: Unable to connect to the database"
+    print ("Error: Unable to connect to the database")
 
 #PREPARE for SQL commands
 cur = conn.cursor()
@@ -36,18 +36,18 @@ def nss_report(nss,desc,vuln):
         (nss2))
         rows = cur.fetchall()
         if rows:
-                print desc, "---- Nessus PluginID=", nss, "(Old DB VulnID=", vuln, ")"
+                print(desc,"---- Nessus PluginID=", nss, "(Old DB VulnID=", vuln, ")")
         else:
                 pass
         for row in rows:
-                print "\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")"
+                print("\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")")
 
 
 ###############################################
 #SNIPER-DB-Cleaning
 def db_update(cur):
 
-	print "==========DB Updating Hosts============="
+	print("==========DB Updating Hosts=============")
 
 	#SNIPER-SERVICE-Cleaning (Filtered SERVICES from initial discovery)"
 	LIVE = cur.execute("""SELECT DISTINCT H.address from hosts H, services S where S.state in ('open','closed') and S.host_id = H.id """)
@@ -57,7 +57,7 @@ def db_update(cur):
 	ALL = cur.execute("""SELECT DISTINCT H2.address from hosts H2""")
 	ALLrows = cur.fetchall()
 	DEADrows = list(set(ALLrows) - set(LIVErows) - set(SAVErows))
-	#print "These proposed to delete", DEADrows
+	#print("These proposed to delete", DEADrows)
 	for DEADrow in DEADrows:
 		cur.execute("""DELETE FROM hosts WHERE address = '%s' """ %\
 		(DEADrow))
@@ -75,38 +75,38 @@ def db_update(cur):
 	
 	#OS-SUN
 	#Sun via ssh
-        cur.execute("""UPDATE hosts SET os_name = 'Sun', comments = 'OS-Updated-by-sniper.py'\
+	cur.execute("""UPDATE hosts SET os_name = 'Sun', comments = 'OS-Updated-by-sniper.py'\
 	where id in (SELECT host_id from services where name = 'ssh' and info like ('%Sun%')) and os_name = 'Unknown' """)
 
         #Cisco via any service
-        cur.execute("""UPDATE hosts SET os_name = 'Cisco', comments = 'OS-Updated-by-sniper.py'\
-        where id in (SELECT host_id from services where info like ('%isco%')) and os_name = 'Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'Cisco', comments = 'OS-Updated-by-sniper.py'\
+	where id in (SELECT host_id from services where info like ('%isco%')) and os_name = 'Unknown' """)
 
         #Ubuntu via ssh
-        cur.execute("""UPDATE hosts SET os_name = 'Linux', os_flavor = 'Ubuntu', comments = 'OS-Updated-by-sniper.py'\
-        where id in (SELECT host_id from services where name = 'ssh' and info like ('%buntu%')) and os_name = 'Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'Linux', os_flavor = 'Ubuntu', comments = 'OS-Updated-by-sniper.py'\
+	where id in (SELECT host_id from services where name = 'ssh' and info like ('%buntu%')) and os_name = 'Unknown' """)
 
         #CentOS via http
-        cur.execute("""UPDATE hosts SET os_name = 'Linux', os_flavor = 'CentOS', comments = 'OS-Updated-by-sniper.py'\
-        where id in (SELECT host_id from services where name = 'http' and info like ('%CentOS%')) """)
+	cur.execute("""UPDATE hosts SET os_name = 'Linux', os_flavor = 'CentOS', comments = 'OS-Updated-by-sniper.py'\
+	where id in (SELECT host_id from services where name = 'http' and info like ('%CentOS%')) """)
 
 	#Debian via http
-        cur.execute("""UPDATE hosts SET os_name = 'Linux', os_flavor = 'Debian', comments = 'OS-Updated-by-sniper.py'\
-        where id in (SELECT host_id from services where name = 'http' and info like ('%Debian%')) """)
+	cur.execute("""UPDATE hosts SET os_name = 'Linux', os_flavor = 'Debian', comments = 'OS-Updated-by-sniper.py'\
+	where id in (SELECT host_id from services where name = 'http' and info like ('%Debian%')) """)
 	
 	#Linux via telnet
-        cur.execute("""UPDATE hosts SET os_name = 'Linux', comments = 'OS-Updated-by-sniper.py'\
-        where id in (SELECT host_id from services where port = 23 and info like ('%Linux%')) and os_name = 'Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'Linux', comments = 'OS-Updated-by-sniper.py'\
+	where id in (SELECT host_id from services where port = 23 and info like ('%Linux%')) and os_name = 'Unknown' """)
         #BSD via telnet 
-        cur.execute("""UPDATE hosts SET os_name = 'BSD', comments = 'OS-Updated-by-sniper.py'\
-        where id in (SELECT host_id from services where port = 23 and info like ('%BSD%')) and os_name = 'Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'BSD', comments = 'OS-Updated-by-sniper.py'\
+	where id in (SELECT host_id from services where port = 23 and info like ('%BSD%')) and os_name = 'Unknown' """)
 
         #OS-MS via any service
- 	cur.execute("""UPDATE hosts SET os_name = 'Microsoft Windows', comments = 'OS-Updated-by-sniper.py'
-        where id in (SELECT host_id from services where (info like ('%icrosof%') or info like ('%indow%'))) and os_name = 'Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'Microsoft Windows', comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where (info like ('%icrosof%') or info like ('%indow%'))) and os_name = 'Unknown' """)
         #OS-MS via 445  -- (check logic of this one notice the () which means it got at least something back from 445
-        cur.execute("""UPDATE hosts SET os_name = 'Microsoft Windows', comments = 'OS-Updated-by-sniper.py'
-        where id in (SELECT host_id from services where (port = 445 and info <> '' )) and os_name = 'Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'Microsoft Windows', comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where (port = 445 and info <> '' )) and os_name = 'Unknown' """)
 
 	#OS-ESX via SERVICES"
 	cur.execute("""UPDATE hosts SET os_name = 'ESX', comments = 'OS-Updated-by-sniper.py'
@@ -125,8 +125,8 @@ def db_update(cur):
 	#OS-CITRIX
 	cur.execute("""UPDATE hosts SET os_name = 'CITRIX', comments = 'OS-Updated-by-sniper.py'
 	where id in (SELECT host_id from services where name in ('http', 'www', 'https') and info like ('%CITRIX%')) """) 
-        cur.execute("""UPDATE hosts SET os_name = 'CITRIX', comments = 'OS-Updated-by-sniper.py'
-        where id in (SELECT host_id from services where name in ('ssl/http', 'http', 'www', 'https') and info like ('Citrix%')) """)
+	cur.execute("""UPDATE hosts SET os_name = 'CITRIX', comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where name in ('ssl/http', 'http', 'www', 'https') and info like ('Citrix%')) """)
 
 	#OS-Dell-Remote-Access(DRAC)
 	cur.execute("""UPDATE hosts SET os_name = 'DELL', os_flavor = 'DRAC6', comments = 'OS-Updated-by-sniper.py'
@@ -152,39 +152,39 @@ def db_update(cur):
 	#print "==========Phase 1.1.6 OS Updating (HP Printer (Jet Direct) via snmp SERVICES)"
 	cur.execute("""UPDATE hosts SET os_name = 'HP Printer - Jet Direct', comments = 'OS-Updated-by-sniper.py'
 	where id in (SELECT host_id from services where name = 'snmp' and info like ('%JETDIRECT%')) and os_name ='Unknown' """) 
-        cur.execute("""UPDATE hosts SET os_name = 'HP Printer - Jet Direct', comments = 'OS-Updated-by-sniper.py'
-        where id in (SELECT host_id from services where name = 'http' and info like ('%JetDirect%')) and os_name ='Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'HP Printer - Jet Direct', comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where name = 'http' and info like ('%JetDirect%')) and os_name ='Unknown' """)
 
         #OS-HP LaserJet via SERVICES
-        cur.execute("""UPDATE hosts SET os_name = 'HP LaserJet', comments = 'OS-Updated-by-sniper.py'
-        where id in (SELECT host_id from services where info like ('%LaserJet%')) and os_name ='Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'HP LaserJet', comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where info like ('%LaserJet%')) and os_name ='Unknown' """)
 	
         #OS-Axis Cameras ftp SERVICE
-        cur.execute("""UPDATE hosts SET os_name = 'Axis Network Camera', comments = 'OS-Updated-by-sniper.py'
-        where id in (SELECT host_id from services where port = 21 and info like ('%xis%amera%')) and os_name ='Unknown' """)
-        cur.execute("""UPDATE hosts SET os_name = 'Axis Network Camera', comments = 'OS-Updated-by-sniper.py'
-        where id in (SELECT host_id from services where port = 21 and info like ('%XIS%amera%')) and os_name ='Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'Axis Network Camera', comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where port = 21 and info like ('%xis%amera%')) and os_name ='Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'Axis Network Camera', comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where port = 21 and info like ('%XIS%amera%')) and os_name ='Unknown' """)
         #OS-Avocent KVM via SERVICE
-        cur.execute("""UPDATE hosts SET os_name = 'Avocent KVM', comments = 'OS-Updated-by-sniper.py'
-        where id in (SELECT host_id from services where port = 443 and info like ('%vocent%KVM%')) and os_name ='Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'Avocent KVM', comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where port = 443 and info like ('%vocent%KVM%')) and os_name ='Unknown' """)
         #OS-iDRAC via SERVICE
-        cur.execute("""UPDATE hosts SET os_name = 'DELL iDRAC', comments = 'OS-Updated-by-sniper.py'
-        where id in (SELECT host_id from services where info like ('%iDRAC%')) and os_name ='Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'DELL iDRAC', comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where info like ('%iDRAC%')) and os_name ='Unknown' """)
         #OS-TRENnet webcam via SERVICE
-        cur.execute("""UPDATE hosts SET os_name = 'TRENDnet webcam', comments = 'OS-Updated-by-sniper.py'
-        where id in (SELECT host_id from services where info like ('TRENDnet%webcam%')) and os_name ='Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'TRENDnet webcam', comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where info like ('TRENDnet%webcam%')) and os_name ='Unknown' """)
         #OS-HP iLO via SERVICE
-        cur.execute("""UPDATE hosts SET os_name = 'HP iLO', comments = 'OS-Updated-by-sniper.py'
-        where id in (SELECT host_id from services where info like ('%P Integrated Lights-Ou HP Integrated Lights-Ou%')) and os_name ='Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'HP iLO', comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where info like ('%P Integrated Lights-Ou HP Integrated Lights-Ou%')) and os_name ='Unknown' """)
         #OS-CISCO VOIP via SERVICE"
-        cur.execute("""UPDATE hosts SET os_name = 'CISCO', os_flavor = 'VOIP',comments = 'OS-Updated-by-sniper.py'
-        where id in (SELECT host_id from services where info like ('%andberg%VoIP%')) and os_name ='Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'CISCO', os_flavor = 'VOIP',comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where info like ('%andberg%VoIP%')) and os_name ='Unknown' """)
         #OS-POLYCOM VOIP via SERVICE"
-        cur.execute("""UPDATE hosts SET os_name = 'POLYCOM', os_flavor = 'VOIP',comments = 'OS-Updated-by-sniper.py'
-        where id in (SELECT host_id from services where info like ('%olycom%VoIP%')) and os_name ='Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'POLYCOM', os_flavor = 'VOIP',comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where info like ('%olycom%VoIP%')) and os_name ='Unknown' """)
 	#OS-NETGEAR Prosafe via SERVICE"
-        cur.execute("""UPDATE hosts SET os_name = 'Netgear', os_flavor = 'Prosafe',comments = 'OS-Updated-by-sniper.py'
-        where id in (SELECT host_id from services where info like ('%Netgear%ProSafe%')) and os_name ='Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'Netgear', os_flavor = 'Prosafe',comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where info like ('%Netgear%ProSafe%')) and os_name ='Unknown' """)
 	
 	#LOGIC BUG - if we do this too early (before we get top200 and/or -sV) we get mistakes!!
 	#If we do this, we should do it later on when top200 is confirmed to be already done
@@ -300,7 +300,7 @@ def cve_update(cur):
 		line = data.split(':')
 		GOODNSS += line[0]
 		GOODNSS += "|"
-		print "DEBUG-NSS-->", line[0], "CVE-->",line[1]
+		print("DEBUG-NSS-->", line[0], "CVE-->",line[1])
 
 	#print "DEBUG-GOOD NSS -->", GOODNSS	
 
@@ -308,7 +308,7 @@ def cve_update(cur):
 	########next 2 lines are to remove (pop) the last entry in ARRAY which is not valid in the above loop
 	GOODNSSS.pop()
 	GOODNSSS.pop()
-	print "DEBUG-GOODNSS ARRAY", GOODNSSS
+	print( "DEBUG-GOODNSS ARRAY", GOODNSSS)
 
 	####################################HERE's where we get the GOODNSSS variable
 	###HOLDER FOR GOODNSSS REPORT!!
@@ -318,10 +318,10 @@ def cve_update(cur):
 		SQLstring += "name = \'NSS-"
 		SQLstring += GOODNSS
 		SQLstring += "\' or "
-   		print "DEBUG-growing-->", SQLstring
+		print( "DEBUG-growing-->", SQLstring)
 	#Here we have to remove the last  ---> or 
 	SQLstring = SQLstring[:-4]
-	print "DEBUG-sqlstring-",SQLstring	
+	print( "DEBUG-sqlstring-",SQLstring)
 	cur.execute("""Select DISTINCT H.address, H.name, concat('ALLNSS-MSF'), concat('?NSS-'), V.name, H.os_name from hosts H, vulns V, services S
 	WHERE V.id in
 	(Select vuln_id from vulns_refs where ref_id IN (Select id from refs where %s ))
@@ -330,31 +330,31 @@ def cve_update(cur):
 	(SQLstring))
 	rows = cur.fetchall()
 	if rows:
-        	print "GAPING HOLE (ALLNSS)()() - msf> search cve:XXXXX"
+        	print( "GAPING HOLE (ALLNSS)()() - msf> search cve:XXXXX")
 	else:
         	pass
 	for row in rows:
-        	print "\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")"
+        	print("\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")")
 
 
 
 	#Need to confirm that we are ONLY passing args (cve_update)  and nothing else...
-        if num_args > 1:
-                if str(sys.argv[1]) == "cve_update":
-                        exit(0)
-                else:
-                        pass
+	if num_args > 1:
+		if str(sys.argv[1]) == "cve_update":
+			exit(0)
+		else:
+			pass
 ###################END cve_update(cur) FUNCTION###########################################33
 
 
 
 if num_args > 1:
 	if str(sys.argv[1]) == "db_update":
-        	print "only updating the DB"
+        	print( "only updating the DB")
         	db_update(cur)
 	else:
 		if str(sys.argv[1]) == "cve_update":
-			print "only updating the CVE"
+			print("only updating the CVE")
 			cve_update(cur)
 		else:
 			pass
@@ -441,7 +441,7 @@ db_update(cur)
 
 
 #SNIPER-REPORT-Findings
-print "Report Findings (by nmap)"
+print("Report Findings (by nmap)")
 
 ########################
 #Here is beginiing of nmap results only (not nessus results)
@@ -519,23 +519,23 @@ ORDER by 3,5
 """)
 rows = cur.fetchall()
 if rows:
-	print "Insecure Protocols & Services (VulnDB=15)"
-        print "Would you like to list Insecure Protocols & Services? (y/N)"
-        yes = set(['yes','y'])
-        no = set(['no','n',''])
+	print("Insecure Protocols & Services (VulnDB=15)")
+	print("Would you like to list Insecure Protocols & Services? (y/N)")
+	yes = set(['yes','y'])
+	no = set(['no','n',''])
 
-        choice = raw_input().lower()
-        if choice in yes:
-            for row in rows:
-                    print "\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")"
-            print "END -- Insecure Protocols"
-        elif choice in no:
-            pass
-        else:
-            print "Please respond with 'yes' or 'no'"
+	choice = raw_input().lower()
+	if choice in yes:
+		for row in rows:
+			print("Fix formatting",row[0], row[1], row[4],row[2],row[3])
+		print("END -- Insecure Protocols")
+	elif choice in no:
+		pass
+	else:
+		print("Please respond with 'yes' or 'no'")
 
 ###########################################
-print "Report Findings (by Nessus PluginID)"
+print("Report Findings (by Nessus PluginID)")
 
 nss_report(10079,'Anonymous FTP Enabled',221)
 nss_report(41028,'SNMP Configured with Default RO/RW Community String (public)',38)
@@ -564,7 +564,7 @@ nss_report(19552,'Web Server Information Disclosure: McAfee EPO',92)
 
 
 ###############################
-print "Report Findings (by Nessus Compliance)"
+print("Report Findings (by Nessus Compliance)")
 
 cur.execute("""Select DISTINCT H.address, H.name, H.os_name from hosts H, vulns V 
 WHERE H.os_name not like '%icrosoft%' and H.id in 
@@ -573,11 +573,11 @@ AND V.host_id = H.id;
 """)
 rows = cur.fetchall()
 if rows:
-	print "UNIX- Password Policy - local password length less than 8 ---- Unix Compliance (Keyword)"
+	print("UNIX- Password Policy - local password length less than 8 ---- Unix Compliance (Keyword)")
 else:
 	pass
 for row in rows:
-    print row[0], row[1], row[2]
+	print(row[0], row[1], row[2])
 #################
 cur.execute("""Select DISTINCT H.address, H.name, H.os_name from hosts H, vulns V
 WHERE H.os_name not like '%icrosoft%' and H.id in 
@@ -585,11 +585,11 @@ WHERE H.os_name not like '%icrosoft%' and H.id in
 AND V.host_id = H.id;""")
 rows = cur.fetchall()
 if rows:
-	print "UNIX- Password Policy - local password Age less than 90 day ---- Unix Compliance (Keyword)"
+	print("UNIX- Password Policy - local password Age less than 90 day ---- Unix Compliance (Keyword)")
 else:
 	pass
 for row in rows:
-    print row[0], row[1], row[2]
+	print( row[0], row[1], row[2])
 #####################
 
 cur.execute("""Select DISTINCT H.address, H.name, H.os_name from hosts H, vulns V
@@ -598,11 +598,11 @@ WHERE H.os_name not like '%icrosoft%' and H.id in
 AND V.host_id = H.id;""")
 rows = cur.fetchall()
 if rows:
-	print "(Not confirmed-maybe broken need data) UNIX- Remote Root Login (Shared admin account) ---- Unix Compliance (Keyword) (VulnDB=65)"
+	print( "(Not confirmed-maybe broken need data) UNIX- Remote Root Login (Shared admin account) ---- Unix Compliance (Keyword) (VulnDB=65)")
 else:
 	pass
 for row in rows:
-    print row[0], row[1], row[2]
+	print( row[0], row[1], row[2])
 
 ###################################
 ##print "'GAPING HOLE' Report Findings (by Nessus PluginID)"
@@ -622,11 +622,11 @@ AND V.host_id = H.id;
 """)
 rows = cur.fetchall()
 if rows:
-        print "GAPING HOLE (REMOTE SERVER EXPLOIT) (WINDOWS netapi-RPC) - msf> use exploit/windows/smb/ms08_067_netapi (NessusPluginID=34476, 34821, 34477(uncred))"
+	print( "GAPING HOLE (REMOTE SERVER EXPLOIT) (WINDOWS netapi-RPC) - msf> use exploit/windows/smb/ms08_067_netapi (NessusPluginID=34476, 34821, 34477(uncred))")
 else:   
         pass
 for row in rows:
-	print "\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")"
+	print( "\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")")
 ###############
 #/* MS06-040 suspected false positive w/ NSS-22194 */
 cur.execute("""Select DISTINCT H.address, H.name, concat('MS06-040'), concat('?'), H.os_name from hosts H, vulns V, services S
@@ -636,11 +636,11 @@ AND V.host_id = H.id;
 """)
 rows = cur.fetchall()
 if rows:
-        print "GAPING HOLE (REMOTE SERVER EXPLOIT) (WINDOWS netapi)- msf> use exploit/windows/smb/ms06_040_netapi (NessusPluginID=22182,22194(uncred))"
+	print( "GAPING HOLE (REMOTE SERVER EXPLOIT) (WINDOWS netapi)- msf> use exploit/windows/smb/ms06_040_netapi (NessusPluginID=22182,22194(uncred))")
 else:  
         pass
 for row in rows:
-        print "\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")"
+	print( "\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")")
 ################
 #/* MS03-026 suspected false positive w/ NSS-11808 */
 cur.execute("""Select DISTINCT H.address, H.name, concat('MS03-026'), concat('?'), H.os_name from hosts H, vulns V, services S
@@ -650,11 +650,11 @@ AND V.host_id = H.id;
 """)
 rows = cur.fetchall()
 if rows:
-        print "GAPING HOLE (REMOTE SERVER EXPLOIT) (WINDOWS DCOM) - msf> use exploit/windows/dcerpc/ms03_026_dcom (NessusPluginID=11790,11808(uncred))"
+	print( "GAPING HOLE (REMOTE SERVER EXPLOIT) (WINDOWS DCOM) - msf> use exploit/windows/dcerpc/ms03_026_dcom (NessusPluginID=11790,11808(uncred))")
 else: 
         pass
 for row in rows:
-        print "\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")"
+	print( "\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")")
 ################
 #/* Embedded Windows PDF exploit */
 cur.execute("""Select DISTINCT H.address, H.name, concat('Adobe-'), concat('PDF'), H.os_name from hosts H, vulns V, services S
@@ -664,11 +664,11 @@ AND V.host_id = H.id;
 """)
 rows = cur.fetchall()
 if rows:
-        print "GAPING HOLE (CLIENT SIDE) (Adobe PDF Windows)- msf> use exploit/windows/fileformat/adobe_pdf_embedded_exe* (NessusPluginID=47164,47165,48374,48375)"
+	print("GAPING HOLE (CLIENT SIDE) (Adobe PDF Windows)- msf> use exploit/windows/fileformat/adobe_pdf_embedded_exe* (NessusPluginID=47164,47165,48374,48375)")
 else:  
         pass
 for row in rows:
-        print "\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")"
+	print("\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")")
 ################
 #/* Java Atomic Reference (probably Windows) */
 cur.execute("""Select DISTINCT H.address, H.name, concat('Java-Atomic'), concat('Windows'), H.os_name from hosts H, vulns V, services S
@@ -678,11 +678,11 @@ AND V.host_id = H.id;
 """)
 rows = cur.fetchall()
 if rows:
-        print "GAPING HOLE (CLIENT SIDE) (Java Atomic Ref -likely WINDOWS) - msf> use exploit/multi/browser/java_atomicreferencearray (NessusPluginID=57959,64847,66806)"
+	print("GAPING HOLE (CLIENT SIDE) (Java Atomic Ref -likely WINDOWS) - msf> use exploit/multi/browser/java_atomicreferencearray (NessusPluginID=57959,64847,66806)")
 else: 
-        pass
+	pass
 for row in rows:
-        print "\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")"
+	print( "\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")")
 ################
 #/* Java Atomic Reference (*NIX) */
 cur.execute("""Select DISTINCT H.address, H.name, concat('Java-Atomic'), concat('UNIX'), H.os_name from hosts H, vulns V, services S
@@ -692,11 +692,11 @@ AND V.host_id = H.id;
 """)
 rows = cur.fetchall()
 if rows:
-        print "GAPING HOLE (CLIENT SIDE) (Java Atomic Ref (*NIX)) - msf> use exploit/multi/browser/java_atomicreferencearray (NessusPluginID=57956,57961,57991,58084,58130,58148,58179,58605,58606,58840,58866,64164,68459,68487)"
+	print("GAPING HOLE (CLIENT SIDE) (Java Atomic Ref (*NIX)) - msf> use exploit/multi/browser/java_atomicreferencearray (NessusPluginID=57956,57961,57991,58084,58130,58148,58179,58605,58606,58840,58866,64164,68459,68487)")
 else: 
         pass
 for row in rows:
-        print "\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")"
+	print("\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")")
 ################
 #/* MS05-039 potential false positive 19408*/
 cur.execute("""Select DISTINCT H.address, H.name, concat('MS05-039'), concat('?'), H.os_name from hosts H, vulns V, services S
@@ -706,11 +706,11 @@ AND V.host_id = H.id;
 """)
 rows = cur.fetchall()
 if rows:
-        print "GAPING HOLE (MS05-039) - msf> use exploit/multi/browser/java_atomicreferencearray (NessusPluginID=19402,19408)"
+	print("GAPING HOLE (MS05-039) - msf> use exploit/multi/browser/java_atomicreferencearray (NessusPluginID=19402,19408)")
 else:
-        pass
+	pass
 for row in rows:
-        print "\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")"
+	print( "\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")")
 ################
 #########OTHERS for consideration with msf exploits (see exploitdb and sort by metasploit)
 #vuln			CVE  		NSS
@@ -731,11 +731,11 @@ WHERE H.os_name not like '%icrosoft%' and H.id in
 AND V.host_id = H.id;""")
 rows = cur.fetchall()
 if rows:
-	print "GAPING HOLE Root Login Allowed Without a Password - (rshd & + in hosts.equiv)  (from Nessus Compliance)"
+	print("GAPING HOLE Root Login Allowed Without a Password - (rshd & + in hosts.equiv)  (from Nessus Compliance)")
 else:
 	pass
 for row in rows:
-    print row[0], "\t", row[1], "\t", row[2]
+	print( row[0], "\t", row[1], "\t", row[2])
 
 
 ###################################
@@ -747,42 +747,42 @@ for row in rows:
 cur.execute("""select address, name, hosts.mac FROM hosts INNER JOIN (SELECT mac FROM hosts where mac <> ' ' GROUP BY mac HAVING count(mac) > 1) dup ON hosts.mac = dup.mac""")
 rows = cur.fetchall()
 if rows:
-    print "Would you like to examine hosts with Duplicate MAC addresses? (y/N)"
-    yes = set(['yes','y'])
-    no = set(['no','n',''])
+	print("Would you like to examine hosts with Duplicate MAC addresses? (y/N)")
+	yes = set(['yes','y'])
+	no = set(['no','n',''])
 
-    choice = raw_input().lower()
-    if choice in yes:
-        for row in rows:
-            print row[0], "\t", row[1], "\t", row[2]
-        print "END -- DUPLICATE MAC Addresses/Issues above - may want to remove duplicates to prevent redundancy"
-    elif choice in no:
-        pass
-    else:
-        print "Please respond with 'yes' or 'no'"
+	choice = raw_input().lower()
+	if choice in yes:
+		for row in rows:
+			print(row[0], "\t", row[1], "\t", row[2])
+		print("END -- DUPLICATE MAC Addresses/Issues above - may want to remove duplicates to prevent redundancy")
+	elif choice in no:
+		pass
+	else:
+		print("Please respond with 'yes' or 'no'")
 else:
-    pass
+	pass
 
 
 #UNKNOWN HOSTS - manual review
 cur.execute("""select h.address, s.port, s.name, s.info from hosts h FULL join services s on h.id = s.host_id where (h.os_name = 'Unknown' and s.info <> '')""")
 rows = cur.fetchall()
 if rows:
-    print "Would you like to examine Unknown Host OS's ? (y/N)"
-    yes = set(['yes','y'])
-    no = set(['no','n',''])
+	print("Would you like to examine Unknown Host OS's ? (y/N)")
+	yes = set(['yes','y'])
+	no = set(['no','n',''])
 
-    choice = raw_input().lower()
-    if choice in yes:
-        for row in rows:
-            print row[0], "\t", row[1], "\t", row[2], "\t", row[3]
-        print "END -- UNKNOWN Host OS above - may want to investigate"
-    elif choice in no:
-        pass
-    else:
-        print "Please respond with 'yes' or 'no'"
+	choice = raw_input().lower()
+	if choice in yes:
+		for row in rows:
+			print( row[0], "\t", row[1], "\t", row[2], "\t", row[3])
+		print("END -- UNKNOWN Host OS above - may want to investigate")
+	elif choice in no:
+		pass
+	else:
+		print( "Please respond with 'yes' or 'no'")
 else:
-    pass
+	pass
 
 
 
@@ -794,10 +794,10 @@ cur.execute("""Select DISTINCT H.address, H.os_name, V.name from hosts H, vulns 
 """)
 rows = cur.fetchall()
 if rows:
-	print "Nessus was unable to authenticate on the following hosts - CHECK credentials!!---- NessusID=21745"
+	print( "Nessus was unable to authenticate on the following hosts - CHECK credentials!!---- NessusID=21745")
 	for row in rows:
-		print "\t", row[0], row[1]
-	print "Would you like to clear the 21745 results above? (y/N)"
+		print( "\t", row[0], row[1])
+	print( "Would you like to clear the 21745 results above? (y/N)")
 	yes = set(['yes','y'])
 	no = set(['no','n',''])
 
@@ -805,11 +805,11 @@ if rows:
 	if choice in yes:
 		cur.execute("""DELETE FROM vulns V WHERE V.id in (Select vuln_id from vulns_refs where ref_id = (Select id from refs where name = 'NSS-21745'))
 		""")
-		print "Ok - Cleared hosts from database"
+		print( "Ok - Cleared hosts from database")
 	elif choice in no:
-        	print "Ok - keeping problem hosts "
+        	print( "Ok - keeping problem hosts ")
 	else:  
-        	print "Please respond with 'yes' or 'no'"
+        	print( "Please respond with 'yes' or 'no'")
 else:
 	pass
 ####################
@@ -822,11 +822,11 @@ AND V.host_id = H.id;
 """)
 rows = cur.fetchall()
 if rows:
-	print "Your nessus scan logged in with ssh, but did not have root priv's (sudo,etc)"
+	print( "Your nessus scan logged in with ssh, but did not have root priv's (sudo,etc)")
 else:
 	pass
 for row in rows:
-	print "\t", row[0], row[1], row[2]
+	print( "\t", row[0], row[1], row[2])
 #########
 # Make changes to the database persistent
 #Next line below may not be needed as long as the above update, create, deletes are commited
