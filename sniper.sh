@@ -64,7 +64,7 @@ if ls $RESULTS/new/*.* &> /dev/null; then
 		$MSFBIN -r $CONF/msf.rc
 		mv $RESULTS/new/*.xml $RESULTS/import_complete
 		echo "(OK) - NMAP - DB Import Complete..."
-		/usr/bin/python $CWD/tools/sniper.py db_update
+		/usr/bin/python3 $CWD/tools/sniper.py db_update
 else
 		echo "(OK) - No new nmap files found in ./new directory to import"
 fi
@@ -89,7 +89,7 @@ if [ $TOTALHOSTS -eq "0" ] ; then
         $MSFBIN -r $CONF/msf.rc
 
 	#We do this to remove filtered ports
-        /usr/bin/python $CWD/tools/sniper.py db_update
+        /usr/bin/python3 $CWD/tools/sniper.py db_update
 	echo "(OK) Completed Nmap Discovery Scan"
 
 else
@@ -106,7 +106,7 @@ else
         		$MSFBIN -r $CONF/msf.rc;
 
 			#We do this to remove filtered ports
-        		/usr/bin/python $CWD/tools/sniper.py db_update;
+        		/usr/bin/python3 $CWD/tools/sniper.py db_update;
         		echo "(OK) Completed Discovery Scan";;
 
                 	[Nn]* ) echo "(OK) Skipping Nmap (2nd) Discovery scan";;
@@ -149,7 +149,7 @@ else
                 * ) echo "(OK) Skipping Nmap top200 Port Scan";;
         esac
 fi
-/usr/bin/python $CWD/tools/sniper.py db_update
+/usr/bin/python3 $CWD/tools/sniper.py db_update
 
 ######################################################################
 
@@ -236,7 +236,7 @@ else
                                 /usr/bin/sudo -u postgres psql -d $DB -c """UPDATE services set info = ' ' where info = '' and host_id = $HOSTID and port in ($DBNMAPCOMMA)"""
                         done
 
-                /usr/bin/python $CWD/tools/sniper.py db_update
+                /usr/bin/python3 $CWD/tools/sniper.py db_update
                 echo "(OK) - Nmap Version Scan Complete...";;
 
 
@@ -334,7 +334,7 @@ fi
 	#read -p "(?) Do you want SNIPER to run the MAGIC CVE thing?(y/N)" yn
 
 	#case $yn in
-	#       [Yy]* ) /usr/bin/python $CWD/tools/sniper.py cve_update;;
+	#       [Yy]* ) /usr/bin/python3 $CWD/tools/sniper.py cve_update;;
 	#       [Nn]* ) echo "(OK) Skipping MAGIC CVE report";;
 	#       * ) echo "(OK) Skipping MAGIC CVE report";;
 	#esac
@@ -422,9 +422,9 @@ echo "=============Report====================="
 read -p "(?) Do you want SNIPER to run the sniper report?(Y/n)" yn
 
 case $yn in
-	[Yy]* ) /usr/bin/python $CWD/tools/sniper.py;;
+	[Yy]* ) /usr/bin/python3 $CWD/tools/sniper.py;;
 	[Nn]* ) echo "(OK) Skipping sniper report";;
-	* ) /usr/bin/python $CWD/tools/sniper.py;;
+	* ) /usr/bin/python3 $CWD/tools/sniper.py;;
 esac
  
 echo "(OK) SNIPER COMPLETE"
