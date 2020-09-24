@@ -410,7 +410,7 @@ case $yn in
 	    rm /tmp/sniper.eyewitness.b.txt;
 	    rm /tmp/sniper.eyewitness.c.txt;
 	    mv /tmp/sniper.eyewitness ./eyewitness;
-	    echo "(OK) eyewitness scan complete - see ./eyewitness/report.html;;
+	    echo "(OK) eyewitness scan complete - see ./eyewitness/report.html";;
 
     [Nn]* ) echo "(OK) Skipping Eyewitness Scan";;
     * ) echo "(OK) Skipping Eyewitness Scan";;
