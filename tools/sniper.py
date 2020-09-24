@@ -373,7 +373,7 @@ db_update(cur)
 #print "Would you like to breakdown known hosts by OS ? (y/N)"
 #yes = set(['yes','y'])
 #no = set(['no','n',''])
-#choice = raw_input().lower()
+#choice = input().lower()
 #if choice in yes:
 #                print "(OK) Generating Host OS list"
 #		#OS-MS Windows
@@ -524,7 +524,7 @@ if rows:
 	yes = set(['yes','y'])
 	no = set(['no','n',''])
 
-	choice = raw_input().lower()
+	choice = input().lower()
 	if choice in yes:
 		for row in rows:
 			print("Fix formatting",row[0], row[1], row[4],row[2],row[3])
@@ -751,7 +751,7 @@ if rows:
 	yes = set(['yes','y'])
 	no = set(['no','n',''])
 
-	choice = raw_input().lower()
+	choice = input().lower()
 	if choice in yes:
 		for row in rows:
 			print(row[0], "\t", row[1], "\t", row[2])
@@ -772,7 +772,7 @@ if rows:
 	yes = set(['yes','y'])
 	no = set(['no','n',''])
 
-	choice = raw_input().lower()
+	choice = input().lower()
 	if choice in yes:
 		for row in rows:
 			print( row[0], "\t", row[1], "\t", row[2], "\t", row[3])
@@ -801,7 +801,7 @@ if rows:
 	yes = set(['yes','y'])
 	no = set(['no','n',''])
 
-	choice = raw_input().lower()
+	choice = input().lower()
 	if choice in yes:
 		cur.execute("""DELETE FROM vulns V WHERE V.id in (Select vuln_id from vulns_refs where ref_id = (Select id from refs where name = 'NSS-21745'))
 		""")
