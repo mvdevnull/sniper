@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #Script - sniper.py 
 #Description - script used for DISCOVERY, various targeted nessus scans and Reports.
 #Author - chrisdhebert@gmail.com
