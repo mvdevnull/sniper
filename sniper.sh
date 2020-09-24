@@ -1,7 +1,12 @@
 #!/bin/bash
 
 #Author - chrisdhebert@gmail.com
-#Version - 2.2019-07-25
+#Version - 2.2020-09-23
+
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
 
 clear
 
@@ -24,6 +29,7 @@ if test -f "$EYEWITNESS"; then
     echo "(OK) - Found $EYEWITNESS "
 else
     echo "(ERROR) - eyewitness not found - install eyewitness (ex: apt-get install eyewitness)"
+    exit
 fi
 
 echo '  _________      .__                     ' 
@@ -389,7 +395,7 @@ fi
 
 echo "==========Phase 5 Eyewitness Web Thumbnail Scans ================"
 #eyewitness#####
-read -p "(?) Do you want to thumbnail ports (80,443,8000,8080,8443) with 'eyewitness' ?(y/N)" yn
+read -p "(?) Do you want to create thumbnails on ports (80,443,8000,8080,8443) with 'eyewitness' ?(y/N)" yn
 
 case $yn in
 	[Yy]* ) echo "(OK) Starting - Eyewitness Scan..."
@@ -400,11 +406,11 @@ case $yn in
 	    cut -d "\"" -f2 /tmp/sniper.eyewitness.txt > /tmp/sniper.eyewitness.b.txt;
 	    rm /tmp/sniper.eyewitness.txt;
 	    awk '{if (NR!=1) {print}}' /tmp/sniper.eyewitness.b.txt > /tmp/sniper.eyewitness.c.txt;
-	    $EYEWITNESS --no-prompt --prepend-https -f /tmp/sniper.eyewitness.c.txt --web -d sniper;
+	    $EYEWITNESS --no-prompt --prepend-https -f /tmp/sniper.eyewitness.c.txt --web -d /tmp/sniper.eyewitness;
 	    rm /tmp/sniper.eyewitness.b.txt;
 	    rm /tmp/sniper.eyewitness.c.txt;
-	    cp -R /usr/share/eyewitness/sniper /var/www/html/sniper;
-	    echo "(OK) eyewitness scan complete - see /var/www/html/sniper for results";;
+	    mv /tmp/sniper.eyewitness ./eyewitness;
+	    echo "(OK) eyewitness scan complete - see ./eyewitness/report.html;;
 
     [Nn]* ) echo "(OK) Skipping Eyewitness Scan";;
     * ) echo "(OK) Skipping Eyewitness Scan";;
