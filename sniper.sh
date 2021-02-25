@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Author - chrisdhebert@gmail.com
-#Version - 2.2020-09-23
+#Version - 2.2021-02-25
 
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
