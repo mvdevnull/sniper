@@ -400,16 +400,13 @@ read -p "(?) Do you want to create thumbnails on ports (80,443,8000,8080,8443) w
 case $yn in
 	[Yy]* ) echo "(OK) Starting - Eyewitness Scan..."
 	    /bin/cp $CONF/msf_default.rc $CONF/msf.rc;
-	    echo "services -p 80,443,8000,8080,8443 -o /tmp/sniper.eyewitness.txt" >> $CONF/msf.rc ;
+	    echo "services -p 80,443,8000,8080,8443 -u -o /tmp/sniper.eyewitness.txt"  >> $CONF/msf.rc;
 	    echo "quit -y" >> $CONF/msf.rc;
 	    $MSFBIN -r $CONF/msf.rc;
-	    cut -d "\"" -f2 /tmp/sniper.eyewitness.txt > /tmp/sniper.eyewitness.b.txt;
+	    cat /tmp/sniper.eyewitness.txt | cut -d "\"" -f2-4 | grep -v address | sed 's/\",\"/\:/g' > /tmp/sniper.eyewitness.b.txt;
 	    rm /tmp/sniper.eyewitness.txt;
-	    awk '{if (NR!=1) {print}}' /tmp/sniper.eyewitness.b.txt > /tmp/sniper.eyewitness.c.txt;
-	    $EYEWITNESS --no-prompt --prepend-https -f /tmp/sniper.eyewitness.c.txt --web -d /tmp/sniper.eyewitness;
+	    $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --prepend-https --web -d sniper.eyewitness;
 	    rm /tmp/sniper.eyewitness.b.txt;
-	    rm /tmp/sniper.eyewitness.c.txt;
-	    mv /tmp/sniper.eyewitness ./eyewitness;
 	    echo "(OK) eyewitness scan complete - see ./eyewitness/report.html";;
 
     [Nn]* ) echo "(OK) Skipping Eyewitness Scan";;

@@ -3,7 +3,7 @@ Issues/Bugs/Enhancements Section:
 sniper.sh
 ---------
 Issue/Bugs
-1)eyewitness errors (maybe when run as root?)
+1)eyewitness changed - need to be tested though.
 2)top200 will redo some hosts in some situations.  be careful on the main TODOHOSTS as it was a complicated SQL. I think  it's getting hosts without '' blank service.info  - look there.
 
 
@@ -48,7 +48,7 @@ sniper.py
 LOGIC BUG:
 1)UNIX is commented out but would need to do it later on at end if at all.
 
-(-) make compatabile with python 3.x  (mostly done, but check dependencies,etc)
+(-) make compatible with python 3.x  (mostly done, but check dependencies,etc)
 
 (-) report findings section
 =detect 3.2.1.42 GEN001120 - FAIL rshd.config
