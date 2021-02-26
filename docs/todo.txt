@@ -3,8 +3,7 @@ Issues/Bugs/Enhancements Section:
 sniper.sh
 ---------
 Issue/Bugs
-1)eyewitness changed - need to be tested though.
-2)top200 will redo some hosts in some situations.  be careful on the main TODOHOSTS as it was a complicated SQL. I think  it's getting hosts without '' blank service.info  - look there.
+1)top200 will redo some hosts in some situations.  be careful on the main TODOHOSTS as it was a complicated SQL. I think  it's getting hosts without '' blank service.info  - look there.
 
 
 Speed Ideas to consider:
