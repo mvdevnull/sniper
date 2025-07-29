@@ -1,3 +1,0 @@
-script_cve_id
-metasploit_name
-script_id
