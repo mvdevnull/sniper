@@ -518,7 +518,7 @@ UNION ALL
 -- UNION ALL
 -- /*Insecure Protocols HTTP(80)www (!VMk)*/
 -- Select DISTINCT H.address, H.name, S.name, S.port, H.os_name from hosts H, services S 
--- WHERE (S.name like '%www%' and S.state = 'open' and S.name not like '%https%' and (S.port = '80') and H.os_name not like '%VMk%') 
+-- WHERE (S.name like '%www%' and S.port <> '443' and S.state = 'open' and S.name not like '%https%' and (S.port = '80') and H.os_name not like '%VMk%') 
 -- AND S.host_id = H.id
 -- UNION ALL
 /*Insecure Protocols SNMP v1/2*/
