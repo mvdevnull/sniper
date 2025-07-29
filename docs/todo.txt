@@ -3,7 +3,15 @@ Issues/Bugs/Enhancements Section:
 sniper.sh
 ---------
 Issue/Bugs
-1)top200 will redo some hosts in some situations.  be careful on the main TODOHOSTS as it was a complicated SQL. I think  it's getting hosts without '' blank service.info  - look there.
+1) invalid escape sequence errors:  examples below:
+/usr/local/src/github/sniper/tools/sniper.py:611: SyntaxWarning: invalid escape sequence '\('
+  nss_report(44110,'GAPING HOLE \(CLIENT SIDE\)\(MS10-002\)\(IE-Aurora\) - msf> use exploit/windows/browser/ms10_002_aurora',194)
+/usr/local/src/github/sniper/tools/sniper.py:612: SyntaxWarning: invalid escape sequence '\('
+  nss_report(26187,'GAPING HOLE \(CLIENT SIDE\) IBM Tivoli Storage Manager - MSF> use exploit/windows/misc/ibm_tsm_cad_ping \(or ../http/ibm_tsm_cad_header\)',219)
+/usr/local/src/github/sniper/tools/sniper.py:613: SyntaxWarning: invalid escape sequence '\('
+  nss_report(77823,'GAPING HOLE \(SERVER SIDE\) SHELLSHOCK - msf> search shellshock',000)
+
+2)top200 will redo some hosts in some situations.  be careful on the main TODOHOSTS as it was a complicated SQL. I think  it's getting hosts without '' blank service.info  - look there.
 
 
 Speed Ideas to consider:
