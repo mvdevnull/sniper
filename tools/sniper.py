@@ -154,6 +154,8 @@ def db_update(cur):
 	where id in (SELECT host_id from services where name = 'snmp' and info like ('%JETDIRECT%')) and os_name ='Unknown' """) 
 	cur.execute("""UPDATE hosts SET os_name = 'HP Printer - Jet Direct', comments = 'OS-Updated-by-sniper.py'
 	where id in (SELECT host_id from services where name = 'http' and info like ('%JetDirect%')) and os_name ='Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'HP Printer - Jet Direct', comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where name = 'http' and info like ('%jetdirect%')) and os_name ='Unknown' """)
 
         #OS-HP LaserJet via SERVICES
 	cur.execute("""UPDATE hosts SET os_name = 'HP LaserJet', comments = 'OS-Updated-by-sniper.py'
