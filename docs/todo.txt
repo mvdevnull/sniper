@@ -4,7 +4,8 @@ sniper.sh
 ---------
 Issue/Bugs
 1)top200 will redo some hosts in some situations.  be careful on the main TODOHOSTS as it was a complicated SQL. I think  it's getting hosts without '' blank service.info  - look there.
-
+2)make sure eyewitness is/isn't working.   if eyewitness distro is broken - get rid of it. 
+3)fix sniper_id.py  (python2 -> python3)
 
 Speed Ideas to consider:
 1) nmap -sV is slowest needs to thread or run mult hosts at a time..   (bc we are breaking down by 1 host) (confirmed db_nmap and nmap -sV same speed)
@@ -19,13 +20,11 @@ Enhancements to consider:
 1)Need place to store db_nmap -oA archived.nmap.results.[date] (but only for the --top-ports=200)
 2)msf cred database functionality
 (need to think about the security aspect - storing password for assessment in clear text..? 
-(Tie in with something relating to the nessuscmd --sshi  --wmii thingy
 run a "cred -a command to add any *VALID* creds recieved from ssh login,etc"  
 maybe cred -a [IPaddress] -t password -p 22 -u [user] -P [pass]  
 3)remove local eth0/eth1 ip address from msfdatabase results
 4)other msf aux modules to do all time -  example -- use auxiliary/scanner/ftp/anonymous on all FTP (msf>snmp public or >smtpenum or >dns zonexfer)  (there may be some aux modules for misc OS/appliance? might look for ruby code with updates to database and work that way?)
-5)openscap compliance (keyed off real OS/SP etc)
-6)Early dependency checking (check for python library, msfconsole, etc)
+5)Early dependency checking (check for python library, msfconsole, etc)
 
 Nessus Integration (BROKEN now)
 = after kicking off the nessus scan --> import the nessus scans ...
@@ -46,8 +45,6 @@ sniper.py
 
 LOGIC BUG:
 1)UNIX is commented out but would need to do it later on at end if at all.
-
-(-) make compatible with python 3.x  (mostly done, but check dependencies,etc)
 
 (-) report findings section
 =detect 3.2.1.42 GEN001120 - FAIL rshd.config
