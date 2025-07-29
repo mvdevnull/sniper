@@ -169,6 +169,9 @@ def db_update(cur):
  	#OS-D-Link DCS-2130 or Pelco IDE10DN Cameras rtsp SERVICE
 	cur.execute("""UPDATE hosts SET os_name = 'D-Link DCS-2130 or Pelco IDE10DN Camera', comments = 'OS-Updated-by-sniper.py'
 	where id in (SELECT host_id from services where port = 554 and info like ('%DCS-2130%IDE10DN%')) and os_name ='Unknown' """)
+	#OS-2N Helios IP Intercom/Camera www SERVICE
+	cur.execute("""UPDATE hosts SET os_name = '2N Helios IP Intercom/Camera', comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where port = 80 and info like ('%2N%Helios%')) and os_name ='Unknown' """)
         #OS-Avocent KVM via SERVICE
 	cur.execute("""UPDATE hosts SET os_name = 'Avocent KVM', comments = 'OS-Updated-by-sniper.py'
 	where id in (SELECT host_id from services where port = 443 and info like ('%vocent%KVM%')) and os_name ='Unknown' """)
