@@ -608,9 +608,9 @@ for row in rows:
 ##print "'GAPING HOLE' Report Findings (by Nessus PluginID)"
 
 nss_report(63522,'GAPING HOLE (CLIENT SIDE) (MS13-008)(IE-CButton)  - msf> use exploit/windows/browser/ie_cbutton_uaf - seen false positive when IE7 not IE8',194)
-nss_report(44110,'GAPING HOLE \(CLIENT SIDE\)\(MS10-002\)\(IE-Aurora\) - msf> use exploit/windows/browser/ms10_002_aurora',194)
-nss_report(26187,'GAPING HOLE \(CLIENT SIDE\) IBM Tivoli Storage Manager - MSF> use exploit/windows/misc/ibm_tsm_cad_ping \(or ../http/ibm_tsm_cad_header\)',219)
-nss_report(77823,'GAPING HOLE \(SERVER SIDE\) SHELLSHOCK - msf> search shellshock',000)
+nss_report(44110,'GAPING HOLE (CLIENT SIDE) (MS10-002)(IE-Aurora) - msf> use exploit/windows/browser/ms10_002_aurora',194)
+nss_report(26187,'GAPING HOLE (CLIENT SIDE) IBM Tivoli Storage Manager - MSF> use exploit/windows/misc/ibm_tsm_cad_ping (or ../http/ibm_tsm_cad_header)',219)
+nss_report(77823,'GAPING HOLE (SERVER SIDE) SHELLSHOCK - msf> search shellshock',000)
 #########################
 #HERE WE NEED FUNCTION for multiple NSS plugin IDS..
 
