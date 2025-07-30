@@ -141,7 +141,6 @@ else
  	read -p "(?) How many tcp ports to scan (1-65535) (default=200) ?(###/200)" numports
 	if [ -z "$numports" ] ; then
  		numports=200
-   		echo "Number of Ports chosen="$numports
    	else
     		echo "Number of Ports chosen="$numports
 	fi
