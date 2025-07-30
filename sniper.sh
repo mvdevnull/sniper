@@ -11,7 +11,7 @@ fi
 clear
 
 CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-MSFBIN="/usr/bin/msfconsole"
+MSFBIN="/usr/bin/msfconsole -q"
 EYEWITNESS="/usr/bin/eyewitness"
 DB='msf'
 
