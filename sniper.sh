@@ -117,7 +117,7 @@ fi
 
 
 
-echo "===========Phase 2 - NMAP top200 Port Scan==========="
+echo "===========Phase 2 - NMAP top### Port Scan==========="
 
 #Careful here --> this SQL took a long time to get accurate!!! 
 TODOHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT DISTINCT H1.address                              
@@ -131,22 +131,27 @@ cd $CWD
 if [ -z "$TODOHOSTS" ] ; then
 	echo "(OK) Skipping Nmap top200 Port Scan - No appropriate hosts";
 else
-#########NMAP Probing Top-200 tcp ports for known hosts============"
+#########NMAP Probing Top-### tcp ports for known hosts============"
 	#echo "$TODOHOSTS"
 	for i in $TODOHOSTS; do TODOHOSTSCOMMA=`echo $TODOHOSTSCOMMA$i\ `; done
 	#Removes trailing comma and add space between commas
 	TODOHOSTSCOMMA=$(echo "$TODOHOSTSCOMMA" | sed '$s/.$//')
 	TODOHOSTSCOMMA=$(echo "$TODOHOSTSCOMMA" | sed 's/,/, /g')
-	read -p "(?) Do you want nmap to perform a nmap --top-ports=200 scan ?(y/N)" yn
-
+	read -p "(?) Do you want nmap to perform a nmap --top-ports=### scan ?(y/N)" yn	
+ 	read -p "(?) How many ports to scan (0-65535) to scan (default 200) ?(###/200)" numports
+	if [ -z "$numports" ] ; then
+ 		numports=200
+   		echo "Number of Ports chosen="numports
+   	else
+    		echo "Number of Ports chosen="numports
         case $yn in
-		[Yy]* ) echo "(OK) - Starting Nmap top200 Port Scan ...";
+		[Yy]* ) echo "(OK) - Starting Nmap top "$numports" Port Scan ...";
 		/bin/cp $CONF/msf_default.rc $CONF/msf.rc;
-        	echo "db_nmap --top-ports=200 -Pn -v -n -T5 --disable-arp-ping --max-rtt-timeout 300ms --version-intensity 2 --host-timeout 60s --script-timeout 50s $TODOHOSTSCOMMA" >> $CONF/msf.rc ;
+        	echo "db_nmap --top-ports="$numports" -Pn -v -n -T5 --disable-arp-ping --max-rtt-timeout 300ms --version-intensity 2 --host-timeout 60s --script-timeout 50s $TODOHOSTSCOMMA" >> $CONF/msf.rc ;
         	echo "quit -y" >> $CONF/msf.rc;
         	$MSFBIN -r $CONF/msf.rc;;
-                [Nn]* ) echo "(OK) Skipping Nmap top200 Port Scan";;
-                * ) echo "(OK) Skipping Nmap top200 Port Scan";;
+                [Nn]* ) echo "(OK) Skipping Nmap top"$numports" Port Scan";;
+                * ) echo "(OK) Skipping Nmap top"$numports" Port Scan";;
         esac
 fi
 /usr/bin/python3 $CWD/tools/sniper.py db_update
