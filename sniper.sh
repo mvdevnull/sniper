@@ -264,7 +264,7 @@ case $yn in
 	    $MSFBIN -r $CONF/msf.rc;
 	    cat /tmp/sniper.eyewitness.txt | cut -d "\"" -f2-4 | grep -v address | sed 's/\",\"/\:/g' > /tmp/sniper.eyewitness.b.txt;
 	    rm /tmp/sniper.eyewitness.txt;
-	    $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --prepend-https --web -d sniper.eyewitness;
+	    $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --prepend-https --web -d eyewitness;
 	    rm /tmp/sniper.eyewitness.b.txt;
 	    echo "(OK) eyewitness scan complete - see ./eyewitness/report.html";;
 
