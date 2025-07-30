@@ -177,6 +177,9 @@ def db_update(cur):
 	#OS-Stanley NT500 www SERVICE
 	cur.execute("""UPDATE hosts SET os_name = 'Stanley NT500', comments = 'OS-Updated-by-sniper.py'
 	where id in (SELECT host_id from services where port = 80 and info like ('%Stanley%NT500%')) and os_name ='Unknown' """)
+	#OS-DoorBird 554 SERVICE
+	cur.execute("""UPDATE hosts SET os_name = 'DoorBird Video Doorbell', comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where port = 554 and info like ('%Door%Bird%')) and os_name ='Unknown' """)
         #OS-Avocent KVM via SERVICE
 	cur.execute("""UPDATE hosts SET os_name = 'Avocent KVM', comments = 'OS-Updated-by-sniper.py'
 	where id in (SELECT host_id from services where port = 443 and info like ('%vocent%KVM%')) and os_name ='Unknown' """)
