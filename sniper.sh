@@ -138,12 +138,12 @@ else
 	TODOHOSTSCOMMA=$(echo "$TODOHOSTSCOMMA" | sed '$s/.$//')
 	TODOHOSTSCOMMA=$(echo "$TODOHOSTSCOMMA" | sed 's/,/, /g')
 	read -p "(?) Do you want nmap to perform a nmap --top-ports=### scan ?(y/N)" yn	
- 	read -p "(?) How many ports to scan (0-65535) to scan (default 200) ?(###/200)" numports
+ 	read -p "(?) How many tcp ports to scan (1-65535) (default=200) ?(###/200)" numports
 	if [ -z "$numports" ] ; then
  		numports=200
-   		echo "Number of Ports chosen="numports
+   		echo "Number of Ports chosen="$numports
    	else
-    		echo "Number of Ports chosen="numports
+    		echo "Number of Ports chosen="$numports
 	fi
         case $yn in
 		[Yy]* ) echo "(OK) - Starting Nmap top "$numports" Port Scan ...";
