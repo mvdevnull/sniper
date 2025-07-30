@@ -144,6 +144,7 @@ else
    		echo "Number of Ports chosen="numports
    	else
     		echo "Number of Ports chosen="numports
+	fi
         case $yn in
 		[Yy]* ) echo "(OK) - Starting Nmap top "$numports" Port Scan ...";
 		/bin/cp $CONF/msf_default.rc $CONF/msf.rc;
