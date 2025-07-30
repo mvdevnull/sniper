@@ -6,7 +6,7 @@ sniper saves time by efficiently scanning in a strategic order:
 * 1)Discovering only alive hosts in large ranges
 * 2)TCP ports for only alive hosts
 * 3)Deep -sV banner scans for tcp ports and will not repeat -sV for queries with no response
-* 4)runs eyewitness for web frontends 
+* 4)Runs eyewitness for web frontends 
 
 ### Core Features
 ###### Scanning
