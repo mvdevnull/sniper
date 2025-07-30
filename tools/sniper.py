@@ -160,6 +160,8 @@ def db_update(cur):
         #OS-HP LaserJet via SERVICES
 	cur.execute("""UPDATE hosts SET os_name = 'HP LaserJet', comments = 'OS-Updated-by-sniper.py'
 	where id in (SELECT host_id from services where info like ('%LaserJet%')) and os_name ='Unknown' """)
+	cur.execute("""UPDATE hosts SET os_name = 'HP LaserJet', comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where port = 9100 and info like ('%jetdirect%')) and os_name ='Unknown' """)
 	
         #OS-Axis Cameras ftp SERVICE
 	cur.execute("""UPDATE hosts SET os_name = 'Axis Network Camera', comments = 'OS-Updated-by-sniper.py'
