@@ -6,6 +6,9 @@ Issue/Bugs
 1)fix sniper_id.py  (python2 -> python3)
 2)top200 will redo some hosts in some situations.  be careful on the main TODOHOSTS as it was a complicated SQL. I think  it's getting hosts without '' blank service.info  - look there.  guessing this happens when you run a subsequent scan.
 
+OS Detection:
+1)not all iDRAC versions work with -sV ,  could query for idrac keyword in eyewitness ( gowitness works but not part of sniper yet - see sqllite)
+
 
 Speed Ideas to consider:
 1) nmap -sV is slowest needs to thread or run mult hosts at a time..   (bc we are breaking down by 1 host) (confirmed db_nmap and nmap -sV same speed)  
