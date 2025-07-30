@@ -5,6 +5,10 @@ sniper.sh
 Issue/Bugs
 1)fix sniper_id.py  (python2 -> python3)
 2)top200 will redo some hosts in some situations.  be careful on the main TODOHOSTS as it was a complicated SQL. I think  it's getting hosts without '' blank service.info  - look there.  guessing this happens when you run a subsequent scan.
+3)place/folder to put nessus.xml files for processing.  but beware - once we db_import nessus.xml, i'm pretty sure we screw up ALOT of host OS names - i think nessus guesses wrong?!
+
+
+
 
 OS Detection:
 1)not all OS versions work with -sV,  could leverage information from eyewitness to help:
