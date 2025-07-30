@@ -3,9 +3,11 @@ Issues/Bugs/Enhancements Section:
 sniper.sh
 ---------
 Issue/Bugs
-1)top200 will redo some hosts in some situations.  be careful on the main TODOHOSTS as it was a complicated SQL. I think  it's getting hosts without '' blank service.info  - look there.
+1)on top-ports=200  - make this a choice that defaults to 200 but you can specify 5000 for example.
 2)make sure eyewitness is/isn't working.   if eyewitness distro is broken - get rid of it. 
 3)fix sniper_id.py  (python2 -> python3)
+4)top200 will redo some hosts in some situations.  be careful on the main TODOHOSTS as it was a complicated SQL. I think  it's getting hosts without '' blank service.info  - look there.  guessing this happens when you run a subsequent scan.
+
 
 Speed Ideas to consider:
 1) nmap -sV is slowest needs to thread or run mult hosts at a time..   (bc we are breaking down by 1 host) (confirmed db_nmap and nmap -sV same speed)
