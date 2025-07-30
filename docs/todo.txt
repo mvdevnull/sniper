@@ -7,7 +7,8 @@ Issue/Bugs
 2)top200 will redo some hosts in some situations.  be careful on the main TODOHOSTS as it was a complicated SQL. I think  it's getting hosts without '' blank service.info  - look there.  guessing this happens when you run a subsequent scan.
 
 OS Detection:
-1)not all iDRAC versions work with -sV ,  could query for idrac keyword in eyewitness ( gowitness works but not part of sniper yet - see sqllite)
+1)not all OS versions work with -sV,  could leverage information from eyewitness to help:
+-example with iDRAC - known from eyewitness . check this folder after eyewitness is run ./eyewitness/source/* (with things like grep -i "Integrated Dell Remote Access Controller 9" ./eyewitness/source/*) ... then update host OS after sure and host 'Unknown'.
 
 
 Speed Ideas to consider:
