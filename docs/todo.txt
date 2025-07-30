@@ -13,6 +13,7 @@ Issue/Bugs
 OS Detection:
 1)not all OS versions work with -sV,  could leverage information from eyewitness to help:
 -example with iDRAC - known from eyewitness . check this folder after eyewitness is run ./eyewitness/source/* (with things like grep -i "Integrated Dell Remote Access Controller 9" ./eyewitness/source/*) ... then update host OS after sure and host 'Unknown'.
+-example with Hanwha webcam - known from eyewitness . check this folder after eyewitness is run ./eyewitness/source/* (with things like grep -i "Hanwha Vision WebViewer" ./eyewitness/source/*) ... then update host OS after sure and host 'Unknown'.  Here' category is webcamera - maybe change os_flavor to that?
 
 
 Speed Ideas to consider:
@@ -20,6 +21,7 @@ Speed Ideas to consider:
     (there may be a way to do this with bash to multi-thread, but it's messy) (might be better to wait for bash->python changeover)
 
 Coding Neatness to consider:
+1)the OS detection in sniper.py needs simplifing
 1)use functions and classes and get rid of the duplicative coding
 2)sometype of debug mode -v -vv
 3)convert all python.sh  to python.py
