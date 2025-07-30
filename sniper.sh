@@ -262,7 +262,7 @@ case $yn in
 	    echo "services -p 80,443,8000,8080,8443 -u -o /tmp/sniper.eyewitness.txt"  >> $CONF/msf.rc;
 	    echo "quit -y" >> $CONF/msf.rc;
 	    $MSFBIN -r $CONF/msf.rc;
-	    cat /tmp/sniper.eyewitness.txt | cut -d "\"" -f2-4 | grep -v address | sed 's/\",\"/\:/g' > /tmp/sniper.eyewitness.b.txt;
+	    tail -n +2 /tmp/sniper.eyewitness.txt | cut -d "\"" -f2-4 | grep -v address | sed 's/\",\"/\:/g' > /tmp/sniper.eyewitness.b.txt;
 	    rm /tmp/sniper.eyewitness.txt;
 	    $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --prepend-https --web -d eyewitness;
 	    rm /tmp/sniper.eyewitness.b.txt;
