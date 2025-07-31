@@ -268,7 +268,7 @@ case $yn in
 	    $MSFBIN -r $CONF/msf.rc;
 	    tail -n +2 /tmp/sniper.eyewitness.txt | cut -d "\"" -f2-4 | grep -v address | sed 's/\",\"/\:/g' > /tmp/sniper.eyewitness.b.txt;
 	    rm /tmp/sniper.eyewitness.txt;
-	    /usr/bin/sudo -u postgres cd /tmp;$EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --prepend-https --web --timeout 4 --threads 4 -d sniper-eyewitness;
+	    /usr/bin/sudo -u postgres $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --prepend-https --web --timeout 4 --threads 4 -d /tmp/sniper-eyewitness;
             mv /tmp/sniper-eyewitness ./eyewitness
 	    chmod 777 ./eyewitness    
             rm /tmp/sniper.eyewitness.b.txt;
