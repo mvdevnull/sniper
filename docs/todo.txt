@@ -7,7 +7,7 @@ Issue/Bugs
 2)fix sniper_id.py  (python2 -> python3)
 3)top200 will redo some hosts in some situations.  be careful on the main TODOHOSTS as it was a complicated SQL. I think  it's getting hosts without '' blank service.info  - look there.  guessing this happens when you run a subsequent scan.
 4)place/folder to put nessus.xml files for processing.  but beware - once we db_import nessus.xml, i'm pretty sure we screw up ALOT of host OS names - i think nessus guesses wrong?!
-5)currently can't run slower things simultaously on two shells  - example -sV   and eyewitness dont' seem to work at same time.. not sure why
+
 
 
 
