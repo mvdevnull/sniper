@@ -267,6 +267,8 @@ case $yn in
 	    echo "quit -y" >> $CONF/msf.rc;
 	    $MSFBIN -r $CONF/msf.rc;
 	    tail -n +2 /tmp/sniper.eyewitness.txt | cut -d "\"" -f2-4 | grep -v address | sed 's/\",\"/\:/g' > /tmp/sniper.eyewitness.b.txt;
+     	    eyeDone="$(find ./eyewitness/source/ |cut -d ":" -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' )"
+	    echo "DEBUG"$eyeDone
 	    rm /tmp/sniper.eyewitness.txt;
             chmod o+w .
 	    /usr/bin/sudo -u postgres $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --prepend-https --web --timeout 4 --threads 4 -d eyewitness;
