@@ -275,7 +275,7 @@ case $yn in
             done <<< $eyeDone
 	    #rm /tmp/sniper.eyewitness.b.txt;
 	    chmod o+w .
-	    /usr/bin/sudo -u postgres $EYEWITNESS -f /tmp/sniper.eyewitness.c.txt --no-prompt --prepend-https --web --timeout 4 --threads 4 -d eyewitness;
+	    #/usr/bin/sudo -u postgres $EYEWITNESS -f /tmp/sniper.eyewitness.c.txt --no-prompt --prepend-https --web --timeout 4 --threads 4 -d eyewitness;
             #rm /tmp/sniper.eyewitness.c.txt;
 	    echo "(OK) eyewitness scan complete - see ./eyewitness/report.html";;
 
