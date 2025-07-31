@@ -128,6 +128,10 @@ def db_update(cur):
 	cur.execute("""UPDATE hosts SET os_name = 'CITRIX', comments = 'OS-Updated-by-sniper.py'
 	where id in (SELECT host_id from services where name in ('ssl/http', 'http', 'www', 'https') and info like ('Citrix%')) """)
 
+	#OS-HP iLO (HP ILO)
+	cur.execute("""UPDATE hosts SET os_name = 'DELL', os_flavor = 'HP ILO', comments = 'OS-Updated-by-sniper.py'
+	where id in (SELECT host_id from services where name in ('ssh', 'www') and info like ('%HP%Integrated%Lights%')) """) 
+	
 	#OS-Dell-Remote-Access(DRAC)
 	cur.execute("""UPDATE hosts SET os_name = 'DELL', os_flavor = 'DRAC6', comments = 'OS-Updated-by-sniper.py'
 	where id in (SELECT host_id from services where name in ('http', 'www') and info like ('%iDRAC6%')) """) 
