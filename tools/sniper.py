@@ -295,6 +295,17 @@ def db_update(cur):
 		cur.execute("""UPDATE hosts SET os_name = 'Hanwha Vision', os_flavor = 'camera', comments = 'OS-Updated-by-sniper-eyewitness.py'
   		where address = '%s' and os_name = 'Unknown'"""%\
 			   (ip))
+	#Pelco Sarix Pro Cameras via eyewitness
+	sarix = os.popen(r"grep -i 'title>Sarix Pro' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
+	sarix = sarix.split('\n')
+	sarix = [ip for ip in sarix if ip]
+	for ip in sarix:
+		cur.execute("""UPDATE hosts SET os_name = 'Pelco Sarix Pro', os_flavor = 'camera', comments = 'OS-Updated-by-sniper-eyewitness.py'
+  		where address = '%s' and os_name = 'Unknown'"""%\
+			   (ip))
+
+
+
 	
 	####Commit all changes above
 	conn.commit()
