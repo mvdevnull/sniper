@@ -295,6 +295,7 @@ def db_update(cur):
 		cur.execute("""UPDATE hosts SET os_name = 'Hanwha Vision', os_flavor = 'camera', comments = 'OS-Updated-by-sniper-eyewitness.py'
   		where address = '%s' and os_name = 'Unknown'"""%\
 			   (ip))
+		
 	#Pelco Sarix Pro Cameras via eyewitness
 	sarix = os.popen(r"grep -i 'title>Sarix Pro' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
 	sarix = sarix.split('\n')
@@ -304,7 +305,14 @@ def db_update(cur):
   		where address = '%s' and os_name = 'Unknown'"""%\
 			   (ip))
 
-
+	#BARIX Barionet 50 IO via eyewitness
+	barix = os.popen(r"grep -i 'title>BARIX Barionet 50' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
+	barix = sarix.split('\n')
+	barix = [ip for ip in barix if ip]
+	for ip in barix:
+		cur.execute("""UPDATE hosts SET os_name = 'BARIX Barionet 50', os_flavor = 'I/O', comments = 'OS-Updated-by-sniper-eyewitness.py'
+  		where address = '%s' and os_name = 'Unknown'"""%\
+			   (ip))
 
 	
 	####Commit all changes above
