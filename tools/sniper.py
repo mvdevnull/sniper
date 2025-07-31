@@ -331,7 +331,15 @@ def db_update(cur):
 		cur.execute("""UPDATE hosts SET os_name = 'iSTAR Ultra', os_flavor = 'I/O controller', comments = 'OS-Updated-by-sniper-eyewitness.py'
   		where address = '%s' and os_name = 'Unknown'"""%\
 			   (ip))
-	
+
+	#Pelco Endura camera via eyewitness
+	endura = os.popen(r"grep -i 'tle>Endura' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
+	endura = endura.split('\n')
+	endura = [ip for ip in endura if ip]
+	for ip in endura:
+		cur.execute("""UPDATE hosts SET os_name = 'Pelco Endura camera', os_flavor = 'camera', info = 'unauth liveview', comments = 'OS-Updated-by-sniper-eyewitness.py'
+  		where address = '%s' and os_name = 'Unknown'"""%\
+			   (ip))
 	
 	####Commit all changes above
 	conn.commit()
