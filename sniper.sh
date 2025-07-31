@@ -267,12 +267,17 @@ case $yn in
 	    echo "quit -y" >> $CONF/msf.rc;
 	    $MSFBIN -r $CONF/msf.rc;
 	    tail -n +2 /tmp/sniper.eyewitness.txt | cut -d "\"" -f2-4 | grep -v address | sed 's/\",\"/\:/g' > /tmp/sniper.eyewitness.b.txt;
-     	    eyeDone="$(find ./eyewitness/source/ |cut -d ":" -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' )"
-	    echo "DEBUG"$eyeDone
 	    rm /tmp/sniper.eyewitness.txt;
+	    eyeDone="$(find ./eyewitness/source/ |cut -d ":" -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' )"
+	    #echo "DEBUG"$eyeDone
+            sleep 1s
+            while IFS= read -r ip_address; do
+	    	grep -v -w -F "$ip_address" /tmp/sniper.eyewitness.b.txt > /tmp/sniper.eyewitness.c.txt
+            done <<< $eyeDone
+	    sleep 1s
             chmod o+w .
-	    /usr/bin/sudo -u postgres $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --prepend-https --web --timeout 4 --threads 4 -d eyewitness;
-            rm /tmp/sniper.eyewitness.b.txt;
+	    #/usr/bin/sudo -u postgres $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --prepend-https --web --timeout 4 --threads 4 -d eyewitness;
+            #rm /tmp/sniper.eyewitness.b.txt;
 	    echo "(OK) eyewitness scan complete - see ./eyewitness/report.html";;
 
     [Nn]* ) echo "(OK) Skipping Eyewitness Scan";;
