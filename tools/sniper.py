@@ -411,78 +411,6 @@ db_update(cur)
 
 
 
-###############################################
-#SNIPER-OS-Listings
-#print "==========Phase 5 - OS Listings=============="
-#print "Would you like to breakdown known hosts by OS ? (y/N)"
-#yes = set(['yes','y'])
-#no = set(['no','n',''])
-#choice = input().lower()
-#if choice in yes:
-#                print "(OK) Generating Host OS list"
-#		#OS-MS Windows
-#		print "--MS Windows HOSTS"
-#		cur.execute("""SELECT DISTINCT address from hosts where state = 'alive' and os_name = 'Microsoft Windows' ORDER by address""")
-#		rows = cur.fetchall()
-#		for row in rows:
-#		    countOS2 +=1
-#		    print row[0]
-#
-#		#OS-SUN
-#		print "--SUN HOSTS"
-#		cur.execute("""SELECT DISTINCT address from hosts where state = 'alive' and os_name = 'Sun' ORDER by address""")
-#		rows = cur.fetchall()
-#		for row in rows:
-#		    countOS2 +=1
-#		    print row[0]
-#
-#		#OS-LINUX
-#		print "--LINUX HOSTS"
-#		cur.execute("""SELECT DISTINCT address from hosts where state = 'alive' and os_name = 'Linux' ORDER by address""")
-#		rows = cur.fetchall()
-#		for row in rows:
-#		    countOS2 +=1
-#		    print row[0]
-#
-#		#OS-FREEBSD
-#		print "--FreeBSD HOSTS"
-#		cur.execute("""SELECT DISTINCT address from hosts where state = 'alive' and os_name like '%reeBSD%' ORDER by address""")
-#		rows = cur.fetchall()
-#		for row in rows:
-#		    countOS2 +=1
-#		    print row[0]
-#
-#		#OS-CISCO
-#		print "--Cisco HOSTS"
-#		cur.execute("""SELECT DISTINCT address from hosts where state = 'alive' and os_name like '%Cisco%' ORDER by address""")
-#		rows = cur.fetchall()
-#		for row in rows:
-#		    countOS2 +=1
-#		    print row[0]
-#
-#		#OS-ESX
-#		print "--ESX HOSTS"
-#		cur.execute("""SELECT DISTINCT address from hosts where state = 'alive' and os_name like '%ESX%' ORDER by address""")
-#		rows = cur.fetchall()
-#		for row in rows:
-#		    countOS2 +=1
-#		    print row[0]
-#
-#		#OS-All others
-#		print "--ALL OTHER HOSTS"
-#		cur.execute("""SELECT DISTINCT address, os_name from hosts where state = 'alive' and os_name <> 'Sun' and os_name <> 'Microsoft Windows' and os_name <> 'Linux' and os_name not like '%reeBSD%' and os_name not like '%Cisco%' and os_name not like '%ESX%'  ORDER by address""")
-#		rows = cur.fetchall()
-#		for row in rows:
-#		    countOS2 +=1
-#		    print row[0], row[1]
-#
-#
-#elif choice in no:
-#                print "(OK) Skipping Host OS list"
-#else:  
-#                print "Please respond with 'yes' or 'no'"
-#
-
 
 #SNIPER-REPORT-Findings
 print("Report Findings (by nmap)")
@@ -619,43 +547,56 @@ else:
 ###############################
 print("Report Findings (by Nessus Compliance)")
 
-cur.execute("""Select DISTINCT H.address, H.name, H.os_name from hosts H, vulns V 
-WHERE H.os_name not like '%icrosoft%' and H.id in 
-(SELECT V.host_id from Vulns V where V.info like '%8.3%Account%Expiration%' and V.name like '%nix%ompliance%' and V.info like '%Remote%' and V.info like '%Password length%than equal %." : [FAILED]%') 
-AND V.host_id = H.id;
-""")
-rows = cur.fetchall()
-if rows:
-	print("UNIX- Password Policy - local password length less than 8 ---- Unix Compliance (Keyword)")
-else:
-	pass
-for row in rows:
-	print(row[0], row[1], row[2])
-#################
-cur.execute("""Select DISTINCT H.address, H.name, H.os_name from hosts H, vulns V
-WHERE H.os_name not like '%icrosoft%' and H.id in 
-(SELECT V.host_id from Vulns V where V.info like '%8.3%Account%Expiration%' and V.name like '%nix%ompliance%' and V.info like '%Remote%' and V.info like '%Maximum Password Age less than equal 90." : [FAILED]%')
-AND V.host_id = H.id;""")
-rows = cur.fetchall()
-if rows:
-	print("UNIX- Password Policy - local password Age less than 90 day ---- Unix Compliance (Keyword)")
-else:
-	pass
-for row in rows:
-	print( row[0], row[1], row[2])
-#####################
+print("Would you like to list Nessus Compliance Findings? (y/N)")
+yes = set(['yes','y'])
+no = set(['no','n',''])
 
-cur.execute("""Select DISTINCT H.address, H.name, H.os_name from hosts H, vulns V
-WHERE H.os_name not like '%icrosoft%' and H.id in
-(SELECT V.host_id from Vulns V where V.info like '%GEN001020%' and V.name like '%nix%ompliance%' and V.info like '%3.2.1.38%' and V.info like '%FAIL & root <> console%')
-AND V.host_id = H.id;""")
-rows = cur.fetchall()
-if rows:
-	print( "(Not confirmed-maybe broken need data) UNIX- Remote Root Login (Shared admin account) ---- Unix Compliance (Keyword) (VulnDB=65)")
-else:
+choice = input().lower()
+if choice in yes:
+	cur.execute("""Select DISTINCT H.address, H.name, H.os_name from hosts H, vulns V 
+	WHERE H.os_name not like '%icrosoft%' and H.id in 
+	(SELECT V.host_id from Vulns V where V.info like '%8.3%Account%Expiration%' and V.name like '%nix%ompliance%' and V.info like '%Remote%' and V.info like '%Password length%than equal %." : [FAILED]%') 
+	AND V.host_id = H.id;
+	""")
+	rows = cur.fetchall()
+	if rows:
+		print("UNIX- Password Policy - local password length less than 8 ---- Unix Compliance (Keyword)")
+	else:
+		pass
+	for row in rows:
+		print(row[0], row[1], row[2])
+	
+	cur.execute("""Select DISTINCT H.address, H.name, H.os_name from hosts H, vulns V
+	WHERE H.os_name not like '%icrosoft%' and H.id in 
+	(SELECT V.host_id from Vulns V where V.info like '%8.3%Account%Expiration%' and V.name like '%nix%ompliance%' and V.info like '%Remote%' and V.info like '%Maximum Password Age less than equal 90." : [FAILED]%')
+	AND V.host_id = H.id;""")
+	rows = cur.fetchall()
+	if rows:
+		print("UNIX- Password Policy - local password Age less than 90 day ---- Unix Compliance (Keyword)")
+	else:
+		pass
+	for row in rows:
+		print( row[0], row[1], row[2])
+	
+	cur.execute("""Select DISTINCT H.address, H.name, H.os_name from hosts H, vulns V
+	WHERE H.os_name not like '%icrosoft%' and H.id in
+	(SELECT V.host_id from Vulns V where V.info like '%GEN001020%' and V.name like '%nix%ompliance%' and V.info like '%3.2.1.38%' and V.info like '%FAIL & root <> console%')
+	AND V.host_id = H.id;""")
+	rows = cur.fetchall()
+	if rows:
+		print( "(Not confirmed-maybe broken need data) UNIX- Remote Root Login (Shared admin account) ---- Unix Compliance (Keyword) (VulnDB=65)")
+	else:
+		pass
+	for row in rows:
+		print( row[0], row[1], row[2])
+	
+	print("END -- Nessus Compliance Findings")
+elif choice in no:
 	pass
-for row in rows:
-	print( row[0], row[1], row[2])
+else:
+	print("Please respond with 'yes' or 'no'")
+
+
 
 ###################################
 ##print "'GAPING HOLE' Report Findings (by Nessus PluginID)"
