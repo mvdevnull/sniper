@@ -190,9 +190,9 @@ else
 			echo "use auxiliary/scanner/netbios/nbname" >> $CONF/msf.rc;
 			echo "services -u -p 137 -R" >> $CONF/msf.rc;
 			echo "run" >> $CONF/msf.rc;
-			echo "use auxiliary/scanner/dcerpc/endpoint_mapper" >> $CONF/msf.rc;
-			echo "services -p 135 -R" >> $CONF/msf.rc;
-                        echo "run" >> $CONF/msf.rc;
+			#echo "use auxiliary/scanner/dcerpc/endpoint_mapper" >> $CONF/msf.rc;
+			#echo "services -p 135 -R" >> $CONF/msf.rc;
+                        #echo "run" >> $CONF/msf.rc;
                 	echo "quit -y" >> $CONF/msf.rc;
                 	$MSFBIN -r $CONF/msf.rc;;
 
