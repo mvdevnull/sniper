@@ -26,7 +26,7 @@ sniper saves time by efficiently scanning in a strategic order:
 ```
 git clone https://github.com/mvdevnull/sniper.git
 cd sniper
-chmod +x ./sniper.sh
+sudo bash ./sniper.sh
 msfdb init                                        #Initialize postgres for MSF
 
 
