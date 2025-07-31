@@ -491,7 +491,7 @@ ORDER by 3,5
 """)
 rows = cur.fetchall()
 if rows:
-	print("Insecure Protocols & Services")
+	#print("Insecure Protocols & Services")
 	print("Would you like to list Insecure Protocols & Services? (y/N)")
 	yes = set(['yes','y'])
 	no = set(['no','n',''])
@@ -507,7 +507,7 @@ if rows:
 		print("Please respond with 'yes' or 'no'")
 
 ###########################################
-print("Report Findings (by Nessus PluginID)")
+#print("Report Findings (by Nessus PluginID)")
 print("Would you like to list Nessus Findings? (y/N)")
 yes = set(['yes','y'])
 no = set(['no','n',''])
@@ -538,6 +538,7 @@ if choice in yes:
 	nss_report(35029,'Web Application: Default Username and Password (DRAC Default Password root/calvin)',223)
 	nss_report(19552,'Web Server Information Disclosure: McAfee EPO',92)
 	#Rarely Reported --> nss_report(30218,'Windows not Configured for FIPS Compliance: Terminal Services',188)
+	print("END -- Nessus Findings")
 elif choice in no:
 	pass
 else:
@@ -545,8 +546,7 @@ else:
 
 
 ###############################
-print("Report Findings (by Nessus Compliance)")
-
+#print("Report Findings (by Nessus Compliance)")
 print("Would you like to list Nessus Compliance Findings? (y/N)")
 yes = set(['yes','y'])
 no = set(['no','n',''])
