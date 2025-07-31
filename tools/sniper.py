@@ -350,6 +350,15 @@ def db_update(cur):
   		where address = '%s' and os_name = 'Unknown'"""%\
 			   (ip))
 		
+	#Zebra Printer via eyewitness
+	zebra = os.popen(r"grep -i 'www.zebra.com' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
+	zebra = zebra.split('\n')
+	zebra = [ip for ip in zebra if ip]
+	for ip in zebra:
+		cur.execute("""UPDATE hosts SET os_name = 'Zebra Printer', os_flavor = 'printer', info = 'admin:1234', comments = 'OS-Updated-by-sniper-eyewitness.py'
+  		where address = '%s' """%\
+			   (ip))
+		
 	####Commit all changes above
 	conn.commit()
 
