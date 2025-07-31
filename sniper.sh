@@ -284,7 +284,7 @@ case $yn in
 		    chmod o+w .
 		    /usr/bin/sudo -u postgres $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --max-retries 0 --web --timeout 5 --threads 20 -d eyewitness;
 		    #rm /tmp/sniper.eyewitness.c.txt;
-		    echo "(OK) eyewitness scan complete - see ./eyewitness/report.html";;
+		    echo "(OK) eyewitness scan complete - see ./eyewitness/report.html";
 		fi
     [Nn]* ) echo "(OK) Skipping Eyewitness Scan";;
     * ) echo "(OK) Skipping Eyewitness Scan";;
