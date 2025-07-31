@@ -327,7 +327,7 @@ def db_update(cur):
 	istar = os.popen(r"grep -i '>iSTAR Ultra' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
 	istar = istar.split('\n')
 	istar = [ip for ip in istar if ip]
-	for ip in istart:
+	for ip in istar:
 		cur.execute("""UPDATE hosts SET os_name = 'iSTAR Ultra', os_flavor = 'I/O controller', comments = 'OS-Updated-by-sniper-eyewitness.py'
   		where address = '%s' and os_name = 'Unknown'"""%\
 			   (ip))
