@@ -238,7 +238,7 @@ else
                                 $MSFBIN -r $CONF/msf.rc
                                 #Now that -sV is done, we may have some blank responses.. we find those and change blank to " " space so we don't rescan later on
                                 HOSTID=`echo `$(/usr/bin/sudo -u postgres psql -d $DB -c """select id from hosts where address = '$i'""" | grep -v row | grep -v id | grep -v """-""" )
-				#sVdone=`echo `$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT count(*) from services where info = ' '"""  | grep -v row | grep -v count | grep -v """-""" )
+				sVdone=`echo `$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT count(*) from services where info = ' '"""  | grep -v row | grep -v count | grep -v """-""" )
 				#sVtodo=`echo `$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT count(*) from services where info = ''"""  | grep -v row | grep -v count | grep -v """-""" )
     				#sVcomplete= $((sVtodo / (sVdone+sVtodo))
                                 echo "(OK) - the following number of blank service banners will not be scanned again."
