@@ -277,8 +277,8 @@ case $yn in
 			/usr/bin/sudo -u postgres $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --max-retries 0 --web --timeout 5 --threads 20 -d eyewitness
        		fi
 		echo "(OK) eyewitness scan complete - see ./eyewitness/report.html";;
-    [Nn]* ) echo "(OK) Skipping Eyewitness Scan"
-    * ) echo "(OK) Skipping Eyewitness Scan"
+    [Nn]* ) echo "(OK) Skipping Eyewitness Scan";;
+    * ) echo "(OK) Skipping Eyewitness Scan";;
 esac
 ##################################################
 	
