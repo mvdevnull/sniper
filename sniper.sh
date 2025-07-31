@@ -240,9 +240,7 @@ else
                                 HOSTID=`echo `$(/usr/bin/sudo -u postgres psql -d $DB -c """select id from hosts where address = '$i'""" | grep -v row | grep -v id | grep -v """-""" )
 				sVdone=`echo `$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT count(*) from services where info = ' '"""  | grep -v row | grep -v count | grep -v """-""" )
 				sVtodo=`echo `$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT count(*) from services where info = ''"""  | grep -v row | grep -v count | grep -v """-""" )
-    				echo "debug-done"$sVdone
-				echo "debug-todo"$sVtodo
-				#sVcomplete= $((sVtodo / (sVdone+sVtodo))
+				sVcomplete= $((echo "scale=2;sVtodo / (sVdone+sVtodo))
                                 echo "(OK) - the following number of blank service banners will not be scanned again."
                                 /usr/bin/sudo -u postgres psql -d $DB -c """UPDATE services set info = ' ' where info = '' and host_id = $HOSTID and port in ($DBNMAPCOMMA)"""
                         done
