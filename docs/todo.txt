@@ -13,9 +13,7 @@ Issue/Bugs
 
 OS Detection:
 1)not all OS versions work with -sV,  could leverage information from eyewitness to help:
--example with iDRAC - known from eyewitness . check this folder after eyewitness is run ./eyewitness/source/* (with things like grep -i "Integrated Dell Remote Access Controller 9" ./eyewitness/source/*) ... then update host OS after sure and host 'Unknown'.
--example with Hanwha webcam - known from eyewitness . check this folder after eyewitness is run ./eyewitness/source/* (with things like grep -i "Hanwha Vision WebViewer" ./eyewitness/source/*) ... then update host OS after sure and host 'Unknown'.  Here' category is webcamera - maybe change os_flavor to that?
-
+-add to idrac and camera finding.
 
 Speed Ideas to consider:
 1) nmap -sV is slowest needs to thread or run mult hosts at a time..   (bc we are breaking down by 1 host) (confirmed db_nmap and nmap -sV same speed)  
