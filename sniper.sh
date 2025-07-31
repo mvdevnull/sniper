@@ -262,10 +262,11 @@ read -p "(?) Do you want to create thumbnails on ports (80,443,8000,8080,8443) w
 
 case $yn in
 	[Yy]* ) echo "(OK) Starting - Eyewitness Scan..."
-	    /bin/cp $CONF/msf_default.rc $CONF/msf.rc;
-	    echo "services -p 80,443,8000,8080,8443 -u -o /tmp/sniper.eyewitness.txt"  >> $CONF/msf.rc;
-	    echo "quit -y" >> $CONF/msf.rc;
-	    $MSFBIN -r $CONF/msf.rc;
+	    /bin/cp $CONF/msf_default.rc /tmp/sniper-eye.msf.rc;
+	    echo "services -p 80,443,8000,8080,8443 -u -o /tmp/sniper.eyewitness.txt"  >> /tmp/sniper-eye.msf.rc;
+	    echo "quit -y" >> /tmp/sniper-eye.msf.rc;
+	    $MSFBIN -r /tmp/sniper-eye.msf.rc;
+     	    rm /tmp/sniper-eye.msf.rc;
 	    tail -n +2 /tmp/sniper.eyewitness.txt | cut -d "\"" -f2-4 | grep -v address | sed 's/\",\"/\:/g' > /tmp/sniper.eyewitness.b.txt;
 	    rm /tmp/sniper.eyewitness.txt;
 	    #This is work in progress to prevent eyewitness ip:port already done.  problem is, eyewitness will overwrite the source directory once it starts the 2nd scan. only works for last scan    
