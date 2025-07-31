@@ -270,8 +270,15 @@ case $yn in
 		tail -n +2 /tmp/sniper.eyewitness.txt | cut -d "\"" -f2-4 | grep -v address | sed 's/\",\"/\:/g' > /tmp/sniper.eyewitness.b.txt;
 		rm /tmp/sniper.eyewitness.txt;
 		chmod o+w .;
+                if test -f "./eyewitness/ew.db"; then 
+	 		echo "(OK) - Found unfinished scan - resuming.. "
+			/usr/bin/sudo -u postgres $EYEWITNESS --resume ./eyewitness/ew.db 
+   			echo "(OK) eyewitness scan complete - see ./eyewitness/report.html"
+		else
+			/usr/bin/sudo -u postgres $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --max-retries 0 --web --timeout 5 --threads 20 -d eyewitness;
+       		fi
 		/usr/bin/sudo -u postgres $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --max-retries 0 --web --timeout 5 --threads 20 -d eyewitness;
-		echo "(OK) eyewitness scan complete - see ./eyewitness/report.html;;
+		echo "(OK) eyewitness scan complete - see ./eyewitness/report.html";;
     [Nn]* ) echo "(OK) Skipping Eyewitness Scan";;
     * ) echo "(OK) Skipping Eyewitness Scan";;
 esac
