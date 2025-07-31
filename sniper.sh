@@ -173,7 +173,7 @@ else
 	read -p "(?) Do you want MSF to determine the Windows OS name/flavor or hostname?(y/N)" yn
 
         case $yn in
-		[Yy]* ) echo "(OK) - Starting MSF auxiliary scan a)SMB Version b)nbname and c)endpoint_mapper Windows OS Probes... ";
+		[Yy]* ) echo "(OK) - Starting MSF auxiliary scan a)SMB Version b)nbname OS Probes... ";
 			echo -n "(Optional) Specify the Windows Domain? (. for none)";
 			read domain;
 			echo -n "(Optional) Specify the Windows username?";
@@ -190,6 +190,7 @@ else
 			echo "use auxiliary/scanner/netbios/nbname" >> $CONF/msf.rc;
 			echo "services -u -p 137 -R" >> $CONF/msf.rc;
 			echo "run" >> $CONF/msf.rc;
+   			#RPC mapper seemed to muddy waters give too many ports that were more internal than external
 			#echo "use auxiliary/scanner/dcerpc/endpoint_mapper" >> $CONF/msf.rc;
 			#echo "services -p 135 -R" >> $CONF/msf.rc;
                         #echo "run" >> $CONF/msf.rc;
