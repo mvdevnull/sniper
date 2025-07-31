@@ -286,6 +286,15 @@ def db_update(cur):
 		cur.execute("""UPDATE hosts SET os_name = 'DELL iDRAC 9', comments = 'OS-Updated-by-sniper-eyewitness.py'
   		where address = '%s' and os_name = 'Unknown'"""%\
 			   (ip))
+
+	#Hanwha Vision Cameras via eyewitness
+	hanwha = os.popen("grep -i 'Hanwha Vision WebViewer' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read()
+	hanwha = hanwha.split('\n')
+	hanwha = [ip for ip in hanwha if ip]
+	for ip in hanwha:
+		cur.execute("""UPDATE hosts SET os_name = 'Hanwha Vision', os_flavor = 'camera', comments = 'OS-Updated-by-sniper-eyewitness.py'
+  		where address = '%s' and os_name = 'Unknown'"""%\
+			   (ip))
 	
 	####Commit all changes above
 	conn.commit()
