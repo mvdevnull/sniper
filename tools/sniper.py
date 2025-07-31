@@ -275,10 +275,11 @@ def db_update(cur):
 	cur.execute("""UPDATE hosts SET os_sp = 'SP6'
 	where info like ('%Microsoft Windows%Service Pack 6%') """)
 
-        ####################################################
+	####################################################
 	#OS via eyewitness UPDATES
 	idrac9 = os.popen("grep -i 'Integrated Remote Access Controller 9' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read()
  	print("Debug idrac9",idrac9)
+	
 	####Commit all changes above
 	conn.commit()
 
