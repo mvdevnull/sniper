@@ -265,7 +265,7 @@ case $yn in
         	if test -f "./eyewitness/ew.db"; then
     			echo "(OK) - Found unfinished scan - resuming.. "
 			/usr/bin/sudo -u postgres $EYEWITNESS --resume ./eyewitness/ew.db 
-   			echo "(OK) eyewitness scan complete - see ./eyewitness/report.html";;
+   			echo "(OK) eyewitness scan complete - see ./eyewitness/report.html"
 		else
 			/bin/cp $CONF/msf_default.rc /tmp/sniper-eye.msf.rc;
 		    echo "services -p 80,443,8000,8080,8443 -u -o /tmp/sniper.eyewitness.txt"  >> /tmp/sniper-eye.msf.rc;
