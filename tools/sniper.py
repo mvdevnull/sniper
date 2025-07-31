@@ -314,6 +314,15 @@ def db_update(cur):
   		where address = '%s' and os_name = 'Unknown'"""%\
 			   (ip))
 
+	#Cisco UCS KVM Direct KVM via eyewitness
+	ciscoucs = os.popen(r"grep -i 'title>Cisco UCS KVM Direct' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
+	ciscoucs = ciscoucs.split('\n')
+	ciscoucs = [ip for ip in ciscoucs if ip]
+	for ip in ciscoucs:
+		cur.execute("""UPDATE hosts SET os_name = 'Cisco UCS KVM Direct', os_flavor = 'KVM', comments = 'OS-Updated-by-sniper-eyewitness.py'
+  		where address = '%s' and os_name = 'Unknown'"""%\
+			   (ip))
+		
 	
 	####Commit all changes above
 	conn.commit()
