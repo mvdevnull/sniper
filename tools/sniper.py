@@ -112,7 +112,7 @@ def db_update(cur):
 	cur.execute("""UPDATE hosts SET os_name = 'ESX', comments = 'OS-Updated-by-sniper.py'
 	where id in (SELECT host_id from services where name = 'http' and info like ('%ESX%')) and os_name ='Unknown' """)
 	cur.execute("""UPDATE hosts SET os_name = 'ESX', comments = 'OS-Updated-by-sniper.py'
-	where id in (SELECT host_id from services where name = 'vmware-auth' and info like ('%VMware%')) """)
+	where id in (SELECT host_id from services where info like ('%VMware%')) """)
 
 	#OS-F5-BIGIP via www
 	cur.execute("""UPDATE hosts SET os_name = 'F5-BIGIP', comments = 'OS-Updated-by-sniper.py'
