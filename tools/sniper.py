@@ -322,7 +322,16 @@ def db_update(cur):
 		cur.execute("""UPDATE hosts SET os_name = 'Cisco UCS KVM Direct', os_flavor = 'KVM', comments = 'OS-Updated-by-sniper-eyewitness.py'
   		where address = '%s' and os_name = 'Unknown'"""%\
 			   (ip))
-		
+	
+	#iSTAR Ultra controller via eyewitness
+	istar = os.popen(r"grep -i '>iSTAR Ultra' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
+	istar = istar.split('\n')
+	istar = [ip for ip in istar if ip]
+	for ip in ciscoucs:
+		cur.execute("""UPDATE hosts SET os_name = 'iSTAR Ultra', os_flavor = 'I/O controller', comments = 'OS-Updated-by-sniper-eyewitness.py'
+  		where address = '%s' and os_name = 'Unknown'"""%\
+			   (ip))
+	
 	
 	####Commit all changes above
 	conn.commit()
