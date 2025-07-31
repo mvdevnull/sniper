@@ -241,7 +241,7 @@ else
 				sVdone=`echo `$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT count(*) from services where info = ' '"""  | grep -v row | grep -v count | grep -v """-""" )
 				sVtodo=`echo `$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT count(*) from services where info = ''"""  | grep -v row | grep -v count | grep -v """-""" )
     				sVcomplete= $((sVtodo / (sVdone+sVtodo))
-                                echo "(OK) - the following number of blank service banners will not be scanned again."$sVcomplete"% complete"
+                                echo "(OK) - the following number of blank service banners will not be scanned again."
                                 /usr/bin/sudo -u postgres psql -d $DB -c """UPDATE services set info = ' ' where info = '' and host_id = $HOSTID and port in ($DBNMAPCOMMA)"""
                         done
 
