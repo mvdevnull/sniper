@@ -261,7 +261,7 @@ echo "==========Phase 5 Eyewitness Web Thumbnail Scans ================"
 read -p "(?) Do you want to create thumbnails on ports (80,443,8000,8080,8443) with 'eyewitness' ?(y/N)" yn
 
 case $yn in
-	[Yy]* ) echo "(OK) Starting - Eyewitness Scan...";;
+	[Yy]* ) echo "(OK) Starting - Eyewitness Scan..."
         	if test -f "./eyewitness/ew.db"; then 
 	 		echo "(OK) - Found unfinished scan - resuming.. "
 			/usr/bin/sudo -u postgres $EYEWITNESS --resume ./eyewitness/ew.db 
