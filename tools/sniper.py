@@ -340,7 +340,16 @@ def db_update(cur):
 		cur.execute("""UPDATE hosts SET os_name = 'Pelco Endura camera', os_flavor = 'camera', info = 'unauth liveview', comments = 'OS-Updated-by-sniper-eyewitness.py'
   		where address = '%s' and os_name = 'Unknown'"""%\
 			   (ip))
-	
+		
+	#NETAPP ONtap Storage via eyewitness
+	ontap = os.popen(r"grep -i 'ONTAP System Manager' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
+	ontap = ontap.split('\n')
+	ontap = [ip for ip in ontap if ip]
+	for ip in ontap:
+		cur.execute("""UPDATE hosts SET os_name = 'NETAPP ONTAP', os_flavor = 'storage', comments = 'OS-Updated-by-sniper-eyewitness.py'
+  		where address = '%s' and os_name = 'Unknown'"""%\
+			   (ip))
+		
 	####Commit all changes above
 	conn.commit()
 
