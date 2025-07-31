@@ -283,7 +283,7 @@ def db_update(cur):
 		cur.execute("""UPDATE hosts SET os_name = 'DELL iDRAC 9', comments = 'OS-Updated-by-sniper-eyewitness.py'
   		where address = '%s' and os_name = 'Unknown'"""%\
 			   (ip))
-		print("Debug i",i)
+		print("Debug ip",ip)
 	print("Debug idrac9",idrac9)
 	
 	####Commit all changes above
