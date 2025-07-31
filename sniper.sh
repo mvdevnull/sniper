@@ -268,14 +268,15 @@ case $yn in
 	    $MSFBIN -r $CONF/msf.rc;
 	    tail -n +2 /tmp/sniper.eyewitness.txt | cut -d "\"" -f2-4 | grep -v address | sed 's/\",\"/\:/g' > /tmp/sniper.eyewitness.b.txt;
 	    rm /tmp/sniper.eyewitness.txt;
-	    eyeDone="$(find ./eyewitness/source/ |cut -d ":" -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' )"
-	    echo "DEBUG"$eyeDone
-            while IFS= read -r ip_address; do
-	    	grep -v -E "$ip_address(:[0-9]+)?" /tmp/sniper.eyewitness.b.txt > /tmp/sniper.eyewitness.c.txt
-            done <<< $eyeDone
+	    #This is work in progress to prevent eyewitness ip:port already done.  problem is, eyewitness will overwrite the source directory once it starts the 2nd scan. only works for last scan    
+            #eyeDone="$(find ./eyewitness/source/ |cut -d ":" -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' )"
+	    #echo "DEBUG"$eyeDone
+            #while IFS= read -r ip_address; do
+	    	#grep -v -E "$ip_address(:[0-9]+)?" /tmp/sniper.eyewitness.b.txt > /tmp/sniper.eyewitness.c.txt
+            #done <<< $eyeDone
 	    #rm /tmp/sniper.eyewitness.b.txt;
 	    chmod o+w .
-	    #/usr/bin/sudo -u postgres $EYEWITNESS -f /tmp/sniper.eyewitness.c.txt --no-prompt --prepend-https --web --timeout 4 --threads 4 -d eyewitness;
+	    /usr/bin/sudo -u postgres $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --prepend-https --web --timeout 4 --threads 4 -d eyewitness;
             #rm /tmp/sniper.eyewitness.c.txt;
 	    echo "(OK) eyewitness scan complete - see ./eyewitness/report.html";;
 
