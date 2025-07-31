@@ -286,7 +286,7 @@ case $yn in
        		    fi
 		    #rm /tmp/sniper.eyewitness.c.txt
 		    echo "(OK) eyewitness scan complete - see ./eyewitness/report.html
-    [Nn]* ) echo "(OK) Skipping Eyewitness Scan"
+    [Nn]* ) echo "(OK) Skipping Eyewitness Scan";;
     * ) echo "(OK) Skipping Eyewitness Scan"
 esac
 ##################################################
