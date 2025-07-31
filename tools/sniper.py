@@ -279,7 +279,7 @@ def db_update(cur):
 	#OS via eyewitness UPDATES
 
 	#IDRAC9 via eyewitness
-	idrac9 = os.popen("grep -i 'Integrated Remote Access Controller 9' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read()
+	idrac9 = os.popen(r"grep -i 'Integrated Remote Access Controller 9' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
 	idrac9 = idrac9.split('\n')
 	idrac9 = [ip for ip in idrac9 if ip]
 	for ip in idrac9:
@@ -288,7 +288,7 @@ def db_update(cur):
 			   (ip))
 
 	#Hanwha Vision Cameras via eyewitness
-	hanwha = os.popen("grep -i 'Hanwha Vision WebViewer' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read()
+	hanwha = os.popen(r"grep -i 'Hanwha Vision WebViewer' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
 	hanwha = hanwha.split('\n')
 	hanwha = [ip for ip in hanwha if ip]
 	for ip in hanwha:
