@@ -355,7 +355,7 @@ def db_update(cur):
 	zebra = zebra.split('\n')
 	zebra = [ip for ip in zebra if ip]
 	for ip in zebra:
-		cur.execute("""UPDATE hosts SET os_name = 'Zebra Printer', os_flavor = 'printer', info = 'admin:1234', comments = 'OS-Updated-by-sniper-eyewitness.py'
+		cur.execute("""UPDATE hosts SET os_name = 'Zebra Printer', os_flavor = 'printer', info = 'admin:1234', purpose = 'printer', comments = 'OS-Updated-by-sniper-eyewitness.py'
   		where address = '%s' """%\
 			   (ip))
 		
