@@ -277,7 +277,7 @@ def db_update(cur):
 
         ####################################################
 	#OS via eyewitness UPDATES
-	idrac9 = os.popen("grep -i "Integrated Remote Access Controller 9" ./eyewitness/source/* | cut -d ":" -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read()
+	idrac9 = os.popen("grep -i 'Integrated Remote Access Controller 9' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read()
  	print("Debug idrac9",idrac9)
 	####Commit all changes above
 	conn.commit()
