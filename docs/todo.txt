@@ -3,6 +3,7 @@ Issues/Bugs/Enhancements Section:
 sniper.sh
 ---------
 Issue/Bugs
+0)eyewitness add -max-retries 0?  also, do something so we dont' get http:443  and https:80 ??  
 1)eyewitness method to skip already done.  see code in sniper.sh (limited by only last scan)
 2)fix sniper_id.py  (python2 -> python3)
 3)top200 will redo some hosts in some situations.  be careful on the main TODOHOSTS as it was a complicated SQL. I think  it's getting hosts without '' blank service.info  - look there.  guessing this happens when you run a subsequent scan.
