@@ -271,7 +271,7 @@ case $yn in
 	    eyeDone="$(find ./eyewitness/source/ |cut -d ":" -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' )"
 	    #echo "DEBUG"$eyeDone
             while IFS= read -r ip_address; do
-	    	grep -v -w -F "$ip_address" /tmp/sniper.eyewitness.b.txt > /tmp/sniper.eyewitness.c.txt
+	    	grep -v -w -F "$ip_address(:[0-9]+)?" /tmp/sniper.eyewitness.b.txt > /tmp/sniper.eyewitness.c.txt
             done <<< $eyeDone
 	    #rm /tmp/sniper.eyewitness.b.txt;
 	    chmod o+w .
