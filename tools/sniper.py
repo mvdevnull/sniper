@@ -307,7 +307,7 @@ def db_update(cur):
 
 	#BARIX Barionet 50 IO via eyewitness
 	barix = os.popen(r"grep -i 'title>BARIX Barionet 50' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
-	barix = sarix.split('\n')
+	barix = barix.split('\n')
 	barix = [ip for ip in barix if ip]
 	for ip in barix:
 		cur.execute("""UPDATE hosts SET os_name = 'BARIX Barionet 50', os_flavor = 'I/O', comments = 'OS-Updated-by-sniper-eyewitness.py'
