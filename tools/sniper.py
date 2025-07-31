@@ -279,9 +279,10 @@ def db_update(cur):
 	#OS via eyewitness UPDATES
 	idrac9 = os.popen("grep -i 'Integrated Remote Access Controller 9' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read()
 	idrac9 = idrac9.split('\n')
-	for i in idrac9:
-		#cur.execute("""UPDATE hosts SET os_name = 'DELL iDRAC 9', comments = 'OS-Updated-by-sniper-eyewitness.py'
-  		#where address = '$i' and os_name = 'Unknown'""")
+	for ip in idrac9:
+		cur.execute("""UPDATE hosts SET os_name = 'DELL iDRAC 9', comments = 'OS-Updated-by-sniper-eyewitness.py'
+  		where address = '%s' and os_name = 'Unknown'"""%\
+			   (ip))
 		print("Debug i",i)
 	print("Debug idrac9",idrac9)
 	
