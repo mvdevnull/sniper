@@ -262,30 +262,16 @@ read -p "(?) Do you want to create thumbnails on ports (80,443,8000,8080,8443) w
 
 case $yn in
 	[Yy]* ) echo "(OK) Starting - Eyewitness Scan..."
-		    /bin/cp $CONF/msf_default.rc /tmp/sniper-eye.msf.rc;
-		    echo "services -p 80,443,8000,8080,8443 -u -o /tmp/sniper.eyewitness.txt"  >> /tmp/sniper-eye.msf.rc;
-		    echo "quit -y" >> /tmp/sniper-eye.msf.rc;
-		    $MSFBIN -r /tmp/sniper-eye.msf.rc;
-		    rm /tmp/sniper-eye.msf.rc;
-		    tail -n +2 /tmp/sniper.eyewitness.txt | cut -d "\"" -f2-4 | grep -v address | sed 's/\",\"/\:/g' > /tmp/sniper.eyewitness.b.txt;
-		    rm /tmp/sniper.eyewitness.txt;
-		    #This is work in progress to prevent eyewitness ip:port already done.  problem is, eyewitness will overwrite the source directory once it starts the 2nd scan. only works for last scan    ;
-		    #eyeDone="$(find ./eyewitness/source/ |cut -d ":" -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' )";
-		    #echo "DEBUG"$eyeDone;
-		    #while IFS= read -r ip_address; do;
-			#grep -v -E "$ip_address(:[0-9]+)?" /tmp/sniper.eyewitness.b.txt > /tmp/sniper.eyewitness.c.txt;
-		    #done <<< $eyeDone;
-		    #rm /tmp/sniper.eyewitness.b.txt;
-		    chmod o+w .;
-              	    #if test -f "./eyewitness/ew.db"; then ;
-	 		#echo "(OK) - Found unfinished scan - resuming.. ";
-			#/usr/bin/sudo -u postgres $EYEWITNESS --resume ./eyewitness/ew.db ;
-   			#echo "(OK) eyewitness scan complete - see ./eyewitness/report.html";
-		    #else;
-		    	#/usr/bin/sudo -u postgres $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --max-retries 0 --web --timeout 5 --threads 20 -d eyewitness;
-       		    #fi;
-		    #rm /tmp/sniper.eyewitness.c.txt;
-		    echo "(OK) eyewitness scan complete - see ./eyewitness/report.html;;
+		/bin/cp $CONF/msf_default.rc /tmp/sniper-eye.msf.rc;
+		echo "services -p 80,443,8000,8080,8443 -u -o /tmp/sniper.eyewitness.txt"  >> /tmp/sniper-eye.msf.rc;
+		echo "quit -y" >> /tmp/sniper-eye.msf.rc;
+		$MSFBIN -r /tmp/sniper-eye.msf.rc;
+		rm /tmp/sniper-eye.msf.rc;
+		tail -n +2 /tmp/sniper.eyewitness.txt | cut -d "\"" -f2-4 | grep -v address | sed 's/\",\"/\:/g' > /tmp/sniper.eyewitness.b.txt;
+		rm /tmp/sniper.eyewitness.txt;
+		chmod o+w .;
+		/usr/bin/sudo -u postgres $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --max-retries 0 --web --timeout 5 --threads 20 -d eyewitness;
+		echo "(OK) eyewitness scan complete - see ./eyewitness/report.html;;
     [Nn]* ) echo "(OK) Skipping Eyewitness Scan";;
     * ) echo "(OK) Skipping Eyewitness Scan";;
 esac
