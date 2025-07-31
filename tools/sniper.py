@@ -358,7 +358,17 @@ def db_update(cur):
 		cur.execute("""UPDATE hosts SET os_name = 'Zebra Printer', os_flavor = 'printer', info = 'admin:1234', purpose = 'printer', comments = 'OS-Updated-by-sniper-eyewitness.py'
   		where address = '%s' """%\
 			   (ip))
-		
+
+	#Hanwha Vision Camera via eyewitness
+	han2 = os.popen(r"grep -i 'Wisenet WEBVIEWER' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
+	han2 = han2.split('\n')
+	han2 = [ip for ip in han2 if ip]
+	for ip in han2:
+		cur.execute("""UPDATE hosts SET os_name = 'Hanwha Vision - Wisenet ', os_flavor = 'camera', purpose = 'camera', comments = 'OS-Updated-by-sniper-eyewitness.py'
+  		where address = '%s' """%\
+			   (ip))
+
+	
 	####Commit all changes above
 	conn.commit()
 
