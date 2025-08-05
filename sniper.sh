@@ -231,12 +231,16 @@ else
                                         for a in $DBNMAP
                                         do
                                                 DBNMAPCOMMA=`echo $DBNMAPCOMMA$a\,`
+						/bin/cp $CONF/msf_default.rc $CONF/msf.rc
+                                		echo "db_nmap -sV -Pn -v -n -T5 --disable-arp-ping --max-rtt-timeout 300ms --version-intensity 6 --host-timeout 30s --script-timeout 10s $i -p $a " >> $CONF/msf.rc
+                                		echo "quit -y" >> $CONF/msf.rc
+                                		$MSFBIN -r $CONF/msf.rc
                                         done
                                 DBNMAPCOMMA=$(echo "$DBNMAPCOMMA" | sed '$s/.$//')
-                                /bin/cp $CONF/msf_default.rc $CONF/msf.rc
-                                echo "db_nmap -sV -Pn -v -n -T5 --disable-arp-ping --max-rtt-timeout 300ms --version-intensity 6 --host-timeout 30s --script-timeout 10s $i -p $DBNMAPCOMMA " >> $CONF/msf.rc
-                                echo "quit -y" >> $CONF/msf.rc
-                                $MSFBIN -r $CONF/msf.rc
+                                #/bin/cp $CONF/msf_default.rc $CONF/msf.rc
+                                #echo "db_nmap -sV -Pn -v -n -T5 --disable-arp-ping --max-rtt-timeout 300ms --version-intensity 6 --host-timeout 30s --script-timeout 10s $i -p $DBNMAPCOMMA " >> $CONF/msf.rc
+                                #echo "quit -y" >> $CONF/msf.rc
+                                #$MSFBIN -r $CONF/msf.rc
                                 #Now that -sV is done, we may have some blank responses.. we find those and change blank to " " space so we don't rescan later on
                                 HOSTID=`echo `$(/usr/bin/sudo -u postgres psql -d $DB -c """select id from hosts where address = '$i'""" | grep -v row | grep -v id | grep -v """-""" )
 				sVdone=`echo `$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT count(*) from services where proto = 'tcp' and info = ' '"""  | grep -v row | grep -v count | grep -v """-""" )
