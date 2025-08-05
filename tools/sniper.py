@@ -277,96 +277,102 @@ def db_update(cur):
 
 	####################################################
 	#OS via eyewitness UPDATES
-
-	#IDRAC9 via eyewitness
-	idrac9 = os.popen(r"grep -i 'Integrated Remote Access Controller 9' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
-	idrac9 = idrac9.split('\n')
-	idrac9 = [ip for ip in idrac9 if ip]
-	for ip in idrac9:
-		cur.execute("""UPDATE hosts SET os_name = 'DELL iDRAC 9', comments = 'OS-Updated-by-sniper-eyewitness.py'
-  		where address = '%s' and os_name = 'Unknown'"""%\
-			   (ip))
-
-	#Hanwha Vision Cameras via eyewitness
-	hanwha = os.popen(r"grep -i 'Hanwha Vision WebViewer' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
-	hanwha = hanwha.split('\n')
-	hanwha = [ip for ip in hanwha if ip]
-	for ip in hanwha:
-		cur.execute("""UPDATE hosts SET os_name = 'Hanwha Vision', os_flavor = 'camera', comments = 'OS-Updated-by-sniper-eyewitness.py'
-  		where address = '%s' and os_name = 'Unknown'"""%\
-			   (ip))
-		
-	#Pelco Sarix Pro Cameras via eyewitness
-	sarix = os.popen(r"grep -i 'title>Sarix Pro' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
-	sarix = sarix.split('\n')
-	sarix = [ip for ip in sarix if ip]
-	for ip in sarix:
-		cur.execute("""UPDATE hosts SET os_name = 'Pelco Sarix Pro', os_flavor = 'camera', comments = 'OS-Updated-by-sniper-eyewitness.py'
-  		where address = '%s' and os_name = 'Unknown'"""%\
-			   (ip))
-
-	#BARIX Barionet 50 IO via eyewitness
-	barix = os.popen(r"grep -i 'title>BARIX Barionet 50' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
-	barix = barix.split('\n')
-	barix = [ip for ip in barix if ip]
-	for ip in barix:
-		cur.execute("""UPDATE hosts SET os_name = 'BARIX Barionet 50', os_flavor = 'I/O', comments = 'OS-Updated-by-sniper-eyewitness.py'
-  		where address = '%s' and os_name = 'Unknown'"""%\
-			   (ip))
-
-	#Cisco UCS KVM Direct KVM via eyewitness
-	ciscoucs = os.popen(r"grep -i 'title>Cisco UCS KVM Direct' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
-	ciscoucs = ciscoucs.split('\n')
-	ciscoucs = [ip for ip in ciscoucs if ip]
-	for ip in ciscoucs:
-		cur.execute("""UPDATE hosts SET os_name = 'Cisco UCS KVM Direct', os_flavor = 'KVM', comments = 'OS-Updated-by-sniper-eyewitness.py'
-  		where address = '%s' and os_name = 'Unknown'"""%\
-			   (ip))
+	if os.path.isdir("./eyewitness/source/") and len(os.listdir("./eyewitness/source/")) > 0:
+	        print("Eyewitness results found -  processing known OS hosts..")
+		#IDRAC9 via eyewitness
+		idrac9 = os.popen(r"grep -i 'Integrated Remote Access Controller 9' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
+		idrac9 = idrac9.split('\n')
+		idrac9 = [ip for ip in idrac9 if ip]
+		for ip in idrac9:
+			cur.execute("""UPDATE hosts SET os_name = 'DELL iDRAC 9', comments = 'OS-Updated-by-sniper-eyewitness.py'
+	  		where address = '%s' and os_name = 'Unknown'"""%\
+				   (ip))
 	
-	#iSTAR Ultra controller via eyewitness
-	istar = os.popen(r"grep -i '>iSTAR Ultra' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
-	istar = istar.split('\n')
-	istar = [ip for ip in istar if ip]
-	for ip in istar:
-		cur.execute("""UPDATE hosts SET os_name = 'iSTAR Ultra', os_flavor = 'I/O controller', comments = 'OS-Updated-by-sniper-eyewitness.py'
-  		where address = '%s' and os_name = 'Unknown'"""%\
-			   (ip))
-
-	#Pelco Endura camera via eyewitness
-	endura = os.popen(r"grep -i 'tle>Endura' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
-	endura = endura.split('\n')
-	endura = [ip for ip in endura if ip]
-	for ip in endura:
-		cur.execute("""UPDATE hosts SET os_name = 'Pelco Endura camera', os_flavor = 'camera', info = 'unauth liveview', comments = 'OS-Updated-by-sniper-eyewitness.py'
-  		where address = '%s' and os_name = 'Unknown'"""%\
-			   (ip))
+		#Hanwha Vision Cameras via eyewitness
+		hanwha = os.popen(r"grep -i 'Hanwha Vision WebViewer' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
+		hanwha = hanwha.split('\n')
+		hanwha = [ip for ip in hanwha if ip]
+		for ip in hanwha:
+			cur.execute("""UPDATE hosts SET os_name = 'Hanwha Vision', os_flavor = 'camera', comments = 'OS-Updated-by-sniper-eyewitness.py'
+	  		where address = '%s' and os_name = 'Unknown'"""%\
+				   (ip))
+			
+		#Pelco Sarix Pro Cameras via eyewitness
+		sarix = os.popen(r"grep -i 'title>Sarix Pro' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
+		sarix = sarix.split('\n')
+		sarix = [ip for ip in sarix if ip]
+		for ip in sarix:
+			cur.execute("""UPDATE hosts SET os_name = 'Pelco Sarix Pro', os_flavor = 'camera', comments = 'OS-Updated-by-sniper-eyewitness.py'
+	  		where address = '%s' and os_name = 'Unknown'"""%\
+				   (ip))
+	
+		#BARIX Barionet 50 IO via eyewitness
+		barix = os.popen(r"grep -i 'title>BARIX Barionet 50' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
+		barix = barix.split('\n')
+		barix = [ip for ip in barix if ip]
+		for ip in barix:
+			cur.execute("""UPDATE hosts SET os_name = 'BARIX Barionet 50', os_flavor = 'I/O', comments = 'OS-Updated-by-sniper-eyewitness.py'
+	  		where address = '%s' and os_name = 'Unknown'"""%\
+				   (ip))
+	
+		#Cisco UCS KVM Direct KVM via eyewitness
+		ciscoucs = os.popen(r"grep -i 'title>Cisco UCS KVM Direct' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
+		ciscoucs = ciscoucs.split('\n')
+		ciscoucs = [ip for ip in ciscoucs if ip]
+		for ip in ciscoucs:
+			cur.execute("""UPDATE hosts SET os_name = 'Cisco UCS KVM Direct', os_flavor = 'KVM', comments = 'OS-Updated-by-sniper-eyewitness.py'
+	  		where address = '%s' and os_name = 'Unknown'"""%\
+				   (ip))
 		
-	#NETAPP ONtap Storage via eyewitness
-	ontap = os.popen(r"grep -i 'ONTAP System Manager' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
-	ontap = ontap.split('\n')
-	ontap = [ip for ip in ontap if ip]
-	for ip in ontap:
-		cur.execute("""UPDATE hosts SET os_name = 'NETAPP ONTAP', os_flavor = 'storage', comments = 'OS-Updated-by-sniper-eyewitness.py'
-  		where address = '%s' and os_name = 'Unknown'"""%\
-			   (ip))
+		#iSTAR Ultra controller via eyewitness
+		istar = os.popen(r"grep -i '>iSTAR Ultra' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
+		istar = istar.split('\n')
+		istar = [ip for ip in istar if ip]
+		for ip in istar:
+			cur.execute("""UPDATE hosts SET os_name = 'iSTAR Ultra', os_flavor = 'I/O controller', comments = 'OS-Updated-by-sniper-eyewitness.py'
+	  		where address = '%s' and os_name = 'Unknown'"""%\
+				   (ip))
+	
+		#Pelco Endura camera via eyewitness
+		endura = os.popen(r"grep -i 'tle>Endura' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
+		endura = endura.split('\n')
+		endura = [ip for ip in endura if ip]
+		for ip in endura:
+			cur.execute("""UPDATE hosts SET os_name = 'Pelco Endura camera', os_flavor = 'camera', info = 'unauth liveview', comments = 'OS-Updated-by-sniper-eyewitness.py'
+	  		where address = '%s' and os_name = 'Unknown'"""%\
+				   (ip))
+			
+		#NETAPP ONtap Storage via eyewitness
+		ontap = os.popen(r"grep -i 'ONTAP System Manager' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
+		ontap = ontap.split('\n')
+		ontap = [ip for ip in ontap if ip]
+		for ip in ontap:
+			cur.execute("""UPDATE hosts SET os_name = 'NETAPP ONTAP', os_flavor = 'storage', comments = 'OS-Updated-by-sniper-eyewitness.py'
+	  		where address = '%s' and os_name = 'Unknown'"""%\
+				   (ip))
+			
+		#Zebra Printer via eyewitness
+		zebra = os.popen(r"grep -i 'www.zebra.com' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
+		zebra = zebra.split('\n')
+		zebra = [ip for ip in zebra if ip]
+		for ip in zebra:
+			cur.execute("""UPDATE hosts SET os_name = 'Zebra Printer', os_flavor = 'printer', info = 'admin:1234', purpose = 'printer', comments = 'OS-Updated-by-sniper-eyewitness.py'
+	  		where address = '%s' """%\
+				   (ip))
+	
+		#Hanwha Vision Camera via eyewitness
+		han2 = os.popen(r"grep -i 'Wisenet WEBVIEWER' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
+		han2 = han2.split('\n')
+		han2 = [ip for ip in han2 if ip]
+		for ip in han2:
+			cur.execute("""UPDATE hosts SET os_name = 'Hanwha Vision - Wisenet ', os_flavor = 'camera', purpose = 'camera', comments = 'OS-Updated-by-sniper-eyewitness.py'
+	  		where address = '%s' """%\
+				   (ip))
+    	else:
+        	print("No Eyewitness results found -  skipping..")
 		
-	#Zebra Printer via eyewitness
-	zebra = os.popen(r"grep -i 'www.zebra.com' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
-	zebra = zebra.split('\n')
-	zebra = [ip for ip in zebra if ip]
-	for ip in zebra:
-		cur.execute("""UPDATE hosts SET os_name = 'Zebra Printer', os_flavor = 'printer', info = 'admin:1234', purpose = 'printer', comments = 'OS-Updated-by-sniper-eyewitness.py'
-  		where address = '%s' """%\
-			   (ip))
 
-	#Hanwha Vision Camera via eyewitness
-	han2 = os.popen(r"grep -i 'Wisenet WEBVIEWER' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
-	han2 = han2.split('\n')
-	han2 = [ip for ip in han2 if ip]
-	for ip in han2:
-		cur.execute("""UPDATE hosts SET os_name = 'Hanwha Vision - Wisenet ', os_flavor = 'camera', purpose = 'camera', comments = 'OS-Updated-by-sniper-eyewitness.py'
-  		where address = '%s' """%\
-			   (ip))
+
 
 	
 	####Commit all changes above
