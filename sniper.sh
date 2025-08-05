@@ -148,7 +148,7 @@ else
 		[Yy]* ) echo "(OK) - Starting Nmap top "$numports" Port Scan ...";
 		/bin/cp $CONF/msf_default.rc $CONF/msf.rc;
   		#Janky way to increase timeouts to exact number of "$numports".   --max-rtt-timeout "$numports"ms    --host-timeout "$numports"s
-        	echo "db_nmap --top-ports="$numports" -Pn -v -n -T5 --disable-arp-ping --max-rtt-timeout "$numports"ms --version-intensity 2 --host-timeout "$numports"s --script-timeout 50s -oA ./nmap/top-"$numports"-"`date +"%Y-%m-%d"`" $TODOHOSTSCOMMA" >> $CONF/msf.rc ;
+        	echo "db_nmap --top-ports="$numports" -Pn -v -n -T5 --disable-arp-ping --max-rtt-timeout "$numports"ms --version-intensity 2 --host-timeout "$numports"s --script-timeout 50s -oA ./nmap/top-"$numports"ports-"`date +"%Y-%m-%d"`" $TODOHOSTSCOMMA" >> $CONF/msf.rc ;
         	echo "quit -y" >> $CONF/msf.rc;
         	$MSFBIN -r $CONF/msf.rc;;
                 [Nn]* ) echo "(OK) Skipping Nmap top"$numports" Port Scan";;
