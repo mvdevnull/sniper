@@ -147,7 +147,7 @@ else
         case $yn in
 		[Yy]* ) echo "(OK) - Starting Nmap top "$numports" Port Scan ...";
 		/bin/cp $CONF/msf_default.rc $CONF/msf.rc;
-        	echo "db_nmap --top-ports="$numports" -Pn -v -n -T5 --disable-arp-ping --max-rtt-timeout 300ms --version-intensity 2 --host-timeout 60s --script-timeout 50s $TODOHOSTSCOMMA" >> $CONF/msf.rc ;
+        	echo "db_nmap --top-ports="$numports" -Pn -v -n -T5 --disable-arp-ping --max-rtt-timeout 2000ms --version-intensity 2 --host-timeout 60s --script-timeout 50s $TODOHOSTSCOMMA" >> $CONF/msf.rc ;
         	echo "quit -y" >> $CONF/msf.rc;
         	$MSFBIN -r $CONF/msf.rc;;
                 [Nn]* ) echo "(OK) Skipping Nmap top"$numports" Port Scan";;
