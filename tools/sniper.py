@@ -589,8 +589,8 @@ if rows:
 
 
 ########################
-#Here is beginiing of nmap results only (not nessus results)
-/*Unpatched/Outdated Service MSSQL (1433)*/
+#Here is beginiing of nmap unpatch/outdated results only (not nessus results)
+#/*Unpatched/Outdated Service MSSQL (1433)*/
 cur.execute("""SELECT DISTINCT H.address, H.name ,S.name, S.port, H.os_name FROM hosts H, services S
 WHERE (S.name like '%ms-sql-s%' and S.port = '1433' and S.info like '%SQL%Server%2016%' and S.state = 'open') 
 AND S.host_id = H.id
