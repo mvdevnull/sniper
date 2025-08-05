@@ -609,7 +609,7 @@ if rows:
 	choice = input().lower()
 	if choice in yes:
 		for row in rows:
-			print(row[0], "tcp/",row[1], row[5])
+			print(row[0], "(tcp/"row[1]")", row[5])
 		print("END -- Unpatched/Outdated Services")
 	elif choice in no:
 		pass
