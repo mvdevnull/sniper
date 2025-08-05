@@ -584,6 +584,8 @@ if rows:
 		pass
 	else:
 		print("Please respond with 'yes' or 'no'")
+else:
+	pass
 
 
 
