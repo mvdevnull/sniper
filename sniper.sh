@@ -232,7 +232,7 @@ else
                                         do
                                                 DBNMAPCOMMA=`echo $DBNMAPCOMMA$a\,`
 						/bin/cp $CONF/msf_default.rc $CONF/msf.rc
-                                		echo "db_nmap -sV -Pn -v -n -T5 --disable-arp-ping --max-rtt-timeout 300ms --version-intensity 6 --host-timeout 30s --script-timeout 10s $i -p $a " >> $CONF/msf.rc
+                                		echo "db_nmap -sV -Pn -v -n -T5 --disable-arp-ping --max-rtt-timeout 300ms --version-intensity 6 --host-timeout 11s --script-timeout 10s $i -p $a " >> $CONF/msf.rc
                                 		echo "quit -y" >> $CONF/msf.rc
                                 		$MSFBIN -r $CONF/msf.rc
                                         done
