@@ -19,14 +19,14 @@ Coding Neatness to consider:
 
 
 Enhancements to consider:
-1)Need place to store db_nmap -oA archived.nmap.results.[date] (but only for the --top-ports=200)
-2)msf cred database functionality
+1)remove local eth0/eth1 ip address from msfdatabase results (this could be trouble if dealing with dockers and alot of interfaces)
+2)other msf aux modules to do all time -  example -- use auxiliary/scanner/ftp/anonymous on all FTP (msf>snmp public or >smtpenum or >dns zonexfer)  (there may be some aux modules for misc OS/appliance? might look for ruby code with updates to database and work that way?)
+3)Early dependency checking (check for python library, msfconsole, etc)
+4)msf cred database functionality
 (need to think about the security aspect - storing password for assessment in clear text..? 
 run a "cred -a command to add any *VALID* creds recieved from ssh login,etc"  
 maybe cred -a [IPaddress] -t password -p 22 -u [user] -P [pass]  
-3)remove local eth0/eth1 ip address from msfdatabase results (this could be trouble if dealing with dockers and alot of interfaces)
-4)other msf aux modules to do all time -  example -- use auxiliary/scanner/ftp/anonymous on all FTP (msf>snmp public or >smtpenum or >dns zonexfer)  (there may be some aux modules for misc OS/appliance? might look for ruby code with updates to database and work that way?)
-5)Early dependency checking (check for python library, msfconsole, etc)
+
 
 Nessus Integration (BROKEN now)
 = after kicking off the nessus scan --> import the nessus scans ...
