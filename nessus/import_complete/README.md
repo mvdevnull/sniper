@@ -1,1 +1,1 @@
-Tool will place nessus processed imports into this directory
+Tool will place processed nessus imports into this directory
