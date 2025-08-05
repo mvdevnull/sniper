@@ -590,12 +590,12 @@ else:
 ########################
 #Here is beginiing of nmap unpatch/outdated results only (not nessus results)
 #/*Unpatched/Outdated Service MSSQL (1433)*/
-cur.execute("""SELECT DISTINCT H.address, H.name ,S.name, S.port, H.os_name FROM hosts H, services S
+cur.execute("""SELECT DISTINCT H.address, S.port, H.name ,S.name, H.os_name, S.info FROM hosts H, services S
 WHERE (S.name like '%ms-sql-s%' and S.port = '1433' and S.info like '%SQL%Server%2016%' and S.state = 'open') 
 AND S.host_id = H.id
 UNION ALL
 /*Unpatched/Outdated Service Holder for next  ABC (6666)*/
-SELECT DISTINCT H.address, H.name ,S.name, S.port, H.os_name FROM hosts H, services S
+SELECT DISTINCT H.address, S.port, H.name ,S.name, H.os_name, S.info FROM hosts H, services S
 WHERE (S.name like '%tbd%' and S.port = '6666' and S.info like '%tbdL%tbd%tbd%' and S.state = 'open') 
 AND S.host_id = H.id
 """)
@@ -609,7 +609,7 @@ if rows2:
 	choice = input().lower()
 	if choice in yes:
 		for row2 in rows2:
-			print("Fix formatting",row2[0], row2[1], row2[4],row2[2],row2[3])
+			print(row2[0], row2[1], row2[5])
 		print("END -- Unpatched/Outdated Services")
 	elif choice in no:
 		pass
