@@ -368,8 +368,8 @@ def db_update(cur):
 			cur.execute("""UPDATE hosts SET os_name = 'Hanwha Vision - Wisenet ', os_flavor = 'camera', purpose = 'camera', comments = 'OS-Updated-by-sniper-eyewitness.py'
 	  		where address = '%s' """%\
 				   (ip))
-    	else:
-        	print("No Eyewitness results found -  skipping..")
+	else:
+		print("No Eyewitness results found -  skipping..")
 		
 
 
