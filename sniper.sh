@@ -57,7 +57,7 @@ echo /usr/share/metasploit-framework/data/logos/*.txt | xargs -n1 cp /dev/null
 
 #Only import files if we have new ones
 
-if ls $nmapRESULTS/new/*.* &> /dev/null; then
+if ls $nmapRESULTS/new/*.xml &> /dev/null; then
 		echo "(OK) - Importing only newer NMAP to $DB database - (all Nmap output in ./nmap/new directory to $DB...)"
 		/bin/cp $CONF/msf_default.rc $CONF/msf.rc
 		echo "db_import $nmapRESULTS/new/*.xml" >> $CONF/msf.rc
@@ -71,7 +71,7 @@ else
 fi
 
 
-if ls $nessusRESULTS/new/*.* &> /dev/null; then
+if ls $nessusRESULTS/new/*.xml &> /dev/null; then
 		echo "(OK) - Importing only newer Nessus to $DB database - (all Nessus output in ./nessus/new directory to $DB...)"
 		/bin/cp $CONF/msf_default.rc $CONF/msf.rc
 		echo "db_import $nessusRESULTS/new/*.xml" >> $CONF/msf.rc
