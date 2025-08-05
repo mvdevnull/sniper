@@ -278,7 +278,7 @@ def db_update(cur):
 	####################################################
 	#OS via eyewitness UPDATES
 	if os.path.isdir("./eyewitness/source/") and len(os.listdir("./eyewitness/source/")) > 0:
-	        print("Eyewitness results found -  processing known OS hosts..")
+		print("Eyewitness results found -  processing known OS hosts..")
 		#IDRAC9 via eyewitness
 		idrac9 = os.popen(r"grep -i 'Integrated Remote Access Controller 9' ./eyewitness/source/* | cut -d ':' -f1 |grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read().strip()
 		idrac9 = idrac9.split('\n')
