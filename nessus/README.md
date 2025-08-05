@@ -1,1 +1,1 @@
-Directory for nessus (XML)
+Directory for Nessus Scans - (*.nessus)    (XML formatted)
