@@ -599,8 +599,8 @@ SELECT DISTINCT H.address, S.port, H.name ,S.name, H.os_name, S.info FROM hosts 
 WHERE (S.name like '%tbd%' and S.port = '6666' and S.info like '%tbdL%tbd%tbd%' and S.state = 'open') 
 AND S.host_id = H.id
 """)
-rows2 = cur.fetchall()
-if rows2:
+rows = cur.fetchall()
+if rows:
 	#print("Unpatched/Outdated Services")
 	print("Would you like to list Unpatched/Outdated Services? (y/N)")
 	yes = set(['yes','y'])
@@ -608,8 +608,8 @@ if rows2:
 
 	choice = input().lower()
 	if choice in yes:
-		for row2 in rows2:
-			print(row2[0], row2[1], row2[5])
+		for row in rows:
+			print(row[0], "tcp/",row[1], row[5])
 		print("END -- Unpatched/Outdated Services")
 	elif choice in no:
 		pass
