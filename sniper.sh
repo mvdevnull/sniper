@@ -71,10 +71,10 @@ else
 fi
 
 
-if ls $nessusRESULTS/new/*.xml &> /dev/null; then
+if ls $nessusRESULTS/new/*.nessus &> /dev/null; then
 		echo "(OK) - Importing only newer Nessus to $DB database - (all Nessus output in ./nessus/new directory to $DB...)"
 		/bin/cp $CONF/msf_default.rc $CONF/msf.rc
-		echo "db_import $nessusRESULTS/new/*.xml" >> $CONF/msf.rc
+		echo "db_import $nessusRESULTS/new/*.nessus" >> $CONF/msf.rc
 		echo "quit -y" >> $CONF/msf.rc
 		$MSFBIN -r $CONF/msf.rc
 		mv $nessusRESULTS/new/*.xml $nessusRESULTS/import_complete
