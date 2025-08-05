@@ -227,16 +227,17 @@ else
                                 DBNMAP=`echo `$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT DISTINCT S.port from hosts H, services S where H.address = '$i' and S.proto = 'tcp' and S.info = '' and H.id in (Select host_id from services where info = '')  AND S.host_id = H.id""" | grep -v row | grep -v port | grep -v """-""" )
                                 DBNMAPCOMMA=''
                                 HOSTID=''
+				/bin/cp $CONF/msf_default.rc $CONF/msf.rc
                                 #Begin Inner Loop
                                         for a in $DBNMAP
                                         do
                                                 DBNMAPCOMMA=`echo $DBNMAPCOMMA$a\,`
-						/bin/cp $CONF/msf_default.rc $CONF/msf.rc
-                                		echo "db_nmap -sV -Pn -v -n -T5 --disable-arp-ping --max-rtt-timeout 300ms --version-intensity 6 --host-timeout 11s --script-timeout 10s $i -p $a " >> $CONF/msf.rc
-                                		echo "quit -y" >> $CONF/msf.rc
-                                		$MSFBIN -r $CONF/msf.rc
+						echo "db_nmap -sV -Pn -v -n -T5 --disable-arp-ping --max-rtt-timeout 300ms --version-intensity 6 --host-timeout 11s --script-timeout 10s $i -p $a " >> $CONF/msf.rc
                                         done
+				echo "quit -y" >> $CONF/msf.rc
+                                $MSFBIN -r $CONF/msf.rc
                                 DBNMAPCOMMA=$(echo "$DBNMAPCOMMA" | sed '$s/.$//')
+				#We don't scan all ports for 1 host, because if 1 port timesout, no ports are recorded!!  So, we loop scans 1 port per host above
                                 #/bin/cp $CONF/msf_default.rc $CONF/msf.rc
                                 #echo "db_nmap -sV -Pn -v -n -T5 --disable-arp-ping --max-rtt-timeout 300ms --version-intensity 6 --host-timeout 30s --script-timeout 10s $i -p $DBNMAPCOMMA " >> $CONF/msf.rc
                                 #echo "quit -y" >> $CONF/msf.rc
