@@ -5,6 +5,11 @@ sniper.sh
 Issue/Bugs
 1)fix sniper_id.py  (python2 -> python3)
 2)place/folder to put nessus.xml files for processing.  but beware - once we db_import nessus.xml, i'm pretty sure we screw up ALOT of host OS names - i think nessus guesses wrong?!
+3)sometimes we get this error:  (how to reproduce?)
+    RHOSTS => file:/tmp/msf-db-rhosts-20250805-2426494-e3huex
+    msf6 auxiliary(scanner/smb/smb_version) > run
+    [-] Msf::OptionValidateError The following options failed to validate:
+    [-] Invalid option RHOSTS: Unexpected values: file:/tmp/msf-db-rhosts-20250805-2426494-e3huex 
 
 
 Speed Ideas to consider:
