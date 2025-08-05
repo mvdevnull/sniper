@@ -585,6 +585,43 @@ if rows:
 	else:
 		print("Please respond with 'yes' or 'no'")
 
+
+
+
+########################
+#Here is beginiing of nmap results only (not nessus results)
+/*Unpatched/Outdated Service MSSQL (1433)*/
+cur.execute("""SELECT DISTINCT H.address, H.name ,S.name, S.port, H.os_name FROM hosts H, services S
+WHERE (S.name like '%ms-sql-s%' and S.port = '1433' and S.info like '%SQL%Server%2016%' and S.state = 'open') 
+AND S.host_id = H.id
+UNION ALL
+/*Unpatched/Outdated Service Holder for next  ABC (6666)*/
+cur.execute("""SELECT DISTINCT H.address, H.name ,S.name, S.port, H.os_name FROM hosts H, services S
+WHERE (S.name like '%tbd%' and S.port = '6666' and S.info like '%tbdL%tbd%tbd%' and S.state = 'open') 
+AND S.host_id = H.id
+""")
+rows = cur.fetchall()
+if rows:
+	#print("Unpatched/Outdated Services")
+	print("Would you like to list Unpatched/Outdated Services? (y/N)")
+	yes = set(['yes','y'])
+	no = set(['no','n',''])
+
+	choice = input().lower()
+	if choice in yes:
+		for row in rows:
+			print("Fix formatting",row[0], row[1], row[4],row[2],row[3])
+		print("END -- Unpatched/Outdated Services")
+	elif choice in no:
+		pass
+	else:
+		print("Please respond with 'yes' or 'no'")
+
+
+
+
+
+
 ###########################################
 #print("Report Findings (by Nessus PluginID)")
 print("Would you like to list Nessus Findings? (y/N)")
