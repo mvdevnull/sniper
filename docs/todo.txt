@@ -3,21 +3,12 @@ Issues/Bugs/Enhancements Section:
 sniper.sh
 ---------
 Issue/Bugs
-0)eyewitness add -max-retries 0?  also, do something so we dont' get http:443  and https:80 ??  
-1)eyewitness method to skip already done.  see code in sniper.sh (limited by only last scan)
-2)fix sniper_id.py  (python2 -> python3)
-3)top200 will redo some hosts in some situations.  be careful on the main TODOHOSTS as it was a complicated SQL. I think  it's getting hosts without '' blank service.info  - look there.  guessing this happens when you run a subsequent scan.
-4)place/folder to put nessus.xml files for processing.  but beware - once we db_import nessus.xml, i'm pretty sure we screw up ALOT of host OS names - i think nessus guesses wrong?!
+1)fix sniper_id.py  (python2 -> python3)
+2)place/folder to put nessus.xml files for processing.  but beware - once we db_import nessus.xml, i'm pretty sure we screw up ALOT of host OS names - i think nessus guesses wrong?!
 
-
-
-
-OS Detection:
-1)not all OS versions work with -sV,  could leverage information from eyewitness to help:
--add to idrac and camera finding.
 
 Speed Ideas to consider:
-1) nmap -sV is slowest needs to thread or run mult hosts at a time..   (bc we are breaking down by 1 host) (confirmed db_nmap and nmap -sV same speed)  
+1) nmap -sV is slowest needs to thread or run mult hosts at a time.   (bc we are breaking down by 1 host) (confirmed db_nmap and nmap -sV same speed)  
     (there may be a way to do this with bash to multi-thread, but it's messy) (might be better to wait for bash->python changeover)
 
 Coding Neatness to consider:
@@ -53,6 +44,8 @@ This code and ideas are in the MAGIC CVE section of sniper.sh and within cve_upd
 ----------------
 sniper.py
 --------------
+OS Detection:
+1)Needs a cleaner way to identify/update HostOS updates.  Also, how do we handle if Nessus inaccuratley updates HostOS?  
 
 LOGIC BUG:
 1)UNIX is commented out but would need to do it later on at end (if at all!!).
@@ -85,16 +78,6 @@ nessus ----> https://www.tenable.com/downloads/nessus
 ---------
 Future (Low Priority - if any)
 ---------
-===============================
-(-)(new code)--gaping HOLE from darkoperator finding??
-see here -->  #~/scripts/sniper/third-party-tools/auto_exploit*
-setup git to get new stuff from darkoperator
-# msf> load auto_exploit
-# msf> vuln_exploit -m
-#   <here's your gaping holes?>
-# msf> unload auto_exploit ### for safety
-====================================
-
 Do some logic for Account Credential issues
 =1)See parse_nessus_xml.v19.pl  (specifically in section where it lists accounts)
 =2)NSS-10860 will get local accounts
