@@ -591,7 +591,7 @@ else:
 #Here is beginiing of nmap unpatch/outdated results only (not nessus results)
 #/*Unpatched/Outdated Service MSSQL (1433)*/
 cur.execute("""SELECT DISTINCT H.address, S.port, H.name ,S.name, H.os_name, S.info FROM hosts H, services S
-WHERE (S.name like '%ms-sql-s%' and S.port = '1433' and S.info like '%SQL%Server%2016%' and S.state = 'open') 
+WHERE (S.name like '%sql%' and S.port = '1433' and S.info like '%SQL%Server%2016%' and S.state = 'open') 
 AND S.host_id = H.id
 UNION ALL
 /*Unpatched/Outdated Service Holder for next  ABC (6666)*/
