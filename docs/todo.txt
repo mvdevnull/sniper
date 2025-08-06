@@ -9,7 +9,11 @@ Issue/Bugs
     msf6 auxiliary(scanner/smb/smb_version) > run
     [-] Msf::OptionValidateError The following options failed to validate:
     [-] Invalid option RHOSTS: Unexpected values: file:/tmp/msf-db-rhosts-20250805-2426494-e3huex 
-3)Nessus db_import will reset some hostnames incorrectly.    Would have to "strip" some of the terrible host discovery from XML .nessus to do anything. Not alot you can do about it if you want the nessus data. 
+3)Nessus db_import will reset some hostnames incorrectly.    Would have to "strip" some of the terrible host discovery from XML .nessus to do anything. Not alot you can do about it if you want the nessus data.
+    Close try (but no cigar) to remove OS guess from .nessus file - need to look at this in detail
+    awk '/<plugin_output>/ && /Following OS Fingerprints/ {f=0} /<\/plugin_output>/{f=1} f' test.nessus > testnew.nessus
+    [-] Failed to import /usr/local/src/github/sniper/nessus/new/testnew.nessus: Could not automatically determine file type
+
 
 Speed Ideas to consider:
 1) nmap -sV is slowest needs to thread or run mult hosts at a time.   (bc we are breaking down by 1 host and 1 port. we need this b/c timeouts give no information when only 1 port fails) (confirmed db_nmap and nmap -sV same speed)  
