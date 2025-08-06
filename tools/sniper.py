@@ -388,86 +388,6 @@ def db_update(cur):
 ##################END db_update(cur) FUNCTION##############################################
 
 
-##################BEGIN cve_update(cur) FUNCTION###########################################
-def cve_update(cur):
-	cur.execute("""select name from refs where name like 'CVE%';""")
-	NSSCVE="/nessus.cve.msf.txt"
-	os.chdir("tmp/")
-	NSSCVE=os.getcwd()+NSSCVE
-	f=open(NSSCVE, 'r')
-	datas=f.readlines()
-	#print "DEBUG-NESSUS 1-->", datas
-	datas_str=str(datas)
-	#print "DEBUG-NESSUS 2-->", datas
-	GOODCVE = ""
-	GOODNSS = ""
-	rows = cur.fetchall()
-
-	for row in rows:
-    		#print "DEBUG-Testing ", row[0]
-    		if re.search(r"(?<=)%s" % row[0], datas_str, re.IGNORECASE):
-        		#print "DEBUG-YES -- match found !!-- Test Value=", row[0], " Alldata=", datas_str
-        		GOODCVE += row[0]
-        		GOODCVE += "|"
-
-    		else:
-        		#print "DEBUG-NO -- match found!!-- Test Value=", row[0], " Alldata=", datas_str
-        		pass
-	#print "DEBUG-Good CVE = ", GOODCVE
-	GOODCVES = GOODCVE.split('|')
-	########next line is to remove the last entry in ARRAY which is not valid in the above loop
-	GOODCVES.pop()
-	#print "DEBUG-GOODCVE ARRAY", GOODCVES
-
-	for data in datas:
-		line = data.split(':')
-		GOODNSS += line[0]
-		GOODNSS += "|"
-		print("DEBUG-NSS-->", line[0], "CVE-->",line[1])
-
-	#print "DEBUG-GOOD NSS -->", GOODNSS	
-
-	GOODNSSS = GOODNSS.split('|')
-	########next 2 lines are to remove (pop) the last entry in ARRAY which is not valid in the above loop
-	GOODNSSS.pop()
-	GOODNSSS.pop()
-	print( "DEBUG-GOODNSS ARRAY", GOODNSSS)
-
-	####################################HERE's where we get the GOODNSSS variable
-	###HOLDER FOR GOODNSSS REPORT!!
-	SQLstring = ""
-	for GOODNSS in GOODNSSS:
-        	#Sample name = 'NSS-19402' or name = 'NSS-19408'
-		SQLstring += "name = \'NSS-"
-		SQLstring += GOODNSS
-		SQLstring += "\' or "
-		print( "DEBUG-growing-->", SQLstring)
-	#Here we have to remove the last  ---> or 
-	SQLstring = SQLstring[:-4]
-	print( "DEBUG-sqlstring-",SQLstring)
-	cur.execute("""Select DISTINCT H.address, H.name, concat('ALLNSS-MSF'), concat('?NSS-'), V.name, H.os_name from hosts H, vulns V, services S
-	WHERE V.id in
-	(Select vuln_id from vulns_refs where ref_id IN (Select id from refs where %s ))
-	AND V.host_id = H.id;
-	""" %\
-	(SQLstring))
-	rows = cur.fetchall()
-	if rows:
-        	print( "GAPING HOLE (ALLNSS)()() - msf> search cve:XXXXX")
-	else:
-        	pass
-	for row in rows:
-        	print("\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")")
-
-
-
-	#Need to confirm that we are ONLY passing args (cve_update)  and nothing else...
-	if num_args > 1:
-		if str(sys.argv[1]) == "cve_update":
-			exit(0)
-		else:
-			pass
-###################END cve_update(cur) FUNCTION###########################################33
 
 
 
@@ -476,11 +396,7 @@ if num_args > 1:
         	print( "only updating the DB")
         	db_update(cur)
 	else:
-		if str(sys.argv[1]) == "cve_update":
-			print("only updating the CVE")
-			cve_update(cur)
-		else:
-			pass
+		pass
 
 #ARGS passed
 
