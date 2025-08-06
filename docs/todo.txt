@@ -9,8 +9,8 @@ Issue/Bugs
     msf6 auxiliary(scanner/smb/smb_version) > run
     [-] Msf::OptionValidateError The following options failed to validate:
     [-] Invalid option RHOSTS: Unexpected values: file:/tmp/msf-db-rhosts-20250805-2426494-e3huex 
-3)Nessus db_import will reset some hostnames incorrectly.    Would have to "strip" some of the terrible host discovery from XML .nessus to do anything. Not alot you can do about it if you want the nessus data.
-    Close try (but no cigar) to remove OS guess from .nessus file - need to look at this in detail
+3)Nessus db_import will reset some hostnames incorrectly.    Would have to "strip" some of the terrible host discovery from XML .nessus to do anything.
+    Close try below (but no cigar) to remove OS guess from .nessus file - need to look at this in detail
     awk '/<plugin_output>/ && /Following OS Fingerprints/ {f=0} /<\/plugin_output>/{f=1} f' test.nessus > testnew.nessus
     [-] Failed to import /usr/local/src/github/sniper/nessus/new/testnew.nessus: Could not automatically determine file type
 
