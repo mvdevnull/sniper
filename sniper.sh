@@ -278,14 +278,13 @@ fi
 
 
 echo "==========Phase 5 Eyewitness Web Thumbnail Scans ================"
-#eyewitness#####
 read -p "(?) Do you want to create thumbnails on ports (80,443,8000,8080,8443) with 'eyewitness' ?(y/N)" yn
 
 case $yn in
 	[Yy]* ) echo "(OK) Starting - Eyewitness Scan..."
                 if test -f "./eyewitness/ew.db"; then 
 	 		echo "(OK) - Found unfinished scan - resuming.. "
-			/usr/bin/sudo -u postgres $EYEWITNESS --resume ./eyewitness/ew.db 
+			/usr/bin/sudo -u postgres $EYEWITNESS --resume ./eyewitness/ew.db    			
 		else
 			/bin/cp $CONF/msf_default.rc /tmp/sniper-eye.msf.rc
 			echo "services -p 80,443,8000,8080,8443 -u -o /tmp/sniper.eyewitness.txt"  >> /tmp/sniper-eye.msf.rc
@@ -298,7 +297,7 @@ case $yn in
 	  		/usr/bin/sudo -u postgres $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --max-retries 0 --web --timeout 5 --threads 20 -d eyewitness
      			rm /tmp/sniper.eyewitness.b.txt
        		fi
-		echo "(OK) eyewitness scan complete - see ./eyewitness/report.html";;
+		echo "(OK) Eyewitness scan complete - see ./eyewitness/report.html";;
     [Nn]* ) echo "(OK) Skipping Eyewitness Scan";;
     * ) echo "(OK) Skipping Eyewitness Scan";;
 esac
