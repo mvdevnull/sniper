@@ -33,6 +33,7 @@ msfdb init                                        #Initialize postgres for MSF
 ````
 apt-get install metasploit-framework              #Install metasploit framework
 apt-get install eyewitness                        #Install eyewitness
+apt-get install python3                           #Install python3
 apt-get install python3-psycopg2                  #Install postgresql python3 library
 ````
 ### Usage
