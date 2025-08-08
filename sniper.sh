@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #Author - chrisdhebert@gmail.com
 #Version - 2.2025-07-29
