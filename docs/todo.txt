@@ -13,8 +13,7 @@ Issue/Bugs
     Close try below (but no cigar) to remove OS guess from .nessus file - need to look at this in detail
     awk '/<plugin_output>/ && /Following OS Fingerprints/ {f=0} /<\/plugin_output>/{f=1} f' test.nessus > testnew.nessus
     [-] Failed to import /usr/local/src/github/sniper/nessus/new/testnew.nessus: Could not automatically determine file type
-4)db_nmap top-ports will save output with -oA .  It works for -oG and -oN , but doesn't for -oX .  The reason is, msfconsole db_nmap will auto save to /home/kali/.msf4/local/msf-db-nmap-20250808-254814-sns97j.xml  and db_import the xml after.  Would be tricky to archive a copy of that quick enough. 
-    Consider modifing db_nmap code but that's messy too!
+
 
 
 Speed Ideas to consider:
