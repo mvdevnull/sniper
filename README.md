@@ -19,6 +19,7 @@ sniper saves time by efficiently scanning in a strategic order:
 * Nessus .xml integration
 ###### Reporting
 * Insecure protocols via nmap
+* Unpatched/Outdated Services via nmap
 * Common findings via Nessus pluginID
 * Gaping holes via Nessus pluginID
 
