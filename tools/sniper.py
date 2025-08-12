@@ -97,11 +97,16 @@ def db_update(cur):
 	#Linux via telnet
 	cur.execute("""UPDATE hosts SET os_name = 'Linux', comments = 'OS-Updated-by-sniper.py'\
 	where id in (SELECT host_id from services where port = 23 and info like ('%Linux%')) and os_name = 'Unknown' """)
-        #BSD via telnet 
+	
+	#BSD via telnet 
 	cur.execute("""UPDATE hosts SET os_name = 'BSD', comments = 'OS-Updated-by-sniper.py'\
 	where id in (SELECT host_id from services where port = 23 and info like ('%BSD%')) and os_name = 'Unknown' """)
-
-        #OS-MS via any service
+	
+	#Redhat via http banner
+	cur.execute("""UPDATE hosts SET os_name = 'Linux', os_flavor = 'Debian', comments = 'OS-Updated-by-sniper.py'\
+	where id in (SELECT host_id from services where port = 80 and info like ('%Red%Hat%Enter%')) """)
+	
+	#OS-MS via any service
 	cur.execute("""UPDATE hosts SET os_name = 'Microsoft Windows', comments = 'OS-Updated-by-sniper.py'
 	where id in (SELECT host_id from services where (info like ('%icrosof%') or info like ('%indow%'))) and os_name = 'Unknown' """)
         #OS-MS via 445  -- (check logic of this one notice the () which means it got at least something back from 445
