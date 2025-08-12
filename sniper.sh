@@ -254,7 +254,7 @@ else
                                         done
 								echo "quit -y" >> $CONF/msf.rc
 								#We don't scan all ports for 1 host, because if 1 port timesout, no ports are recorded!!  So, we loop scans 1 port per host above
-								#DBNMAPCOMMA=$(echo "$DBNMAPCOMMA" | sed '$s/.$//')
+								DBNMAPCOMMA=$(echo "$DBNMAPCOMMA" | sed '$s/.$//')
                                 #/bin/cp $CONF/msf_default.rc $CONF/msf.rc
                                 #echo "db_nmap -sV -Pn -v -n -T5 --disable-arp-ping --max-rtt-timeout 300ms --version-intensity 6 --host-timeout 30s --script-timeout 10s $i -p $DBNMAPCOMMA " >> $CONF/msf.rc
                                 #echo "quit -y" >> $CONF/msf.rc
