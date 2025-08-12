@@ -102,8 +102,8 @@ def db_update(cur):
 	cur.execute("""UPDATE hosts SET os_name = 'BSD', comments = 'OS-Updated-by-sniper.py'\
 	where id in (SELECT host_id from services where port = 23 and info like ('%BSD%')) and os_name = 'Unknown' """)
 	
-	#Redhat via http banner
-	cur.execute("""UPDATE hosts SET os_name = 'Linux', os_flavor = 'Debian', comments = 'OS-Updated-by-sniper.py'\
+	#Red Hat Enterprise via http banner
+	cur.execute("""UPDATE hosts SET os_name = 'Linux', os_flavor = 'Red Hat Enterprise', comments = 'OS-Updated-by-sniper.py'\
 	where id in (SELECT host_id from services where port = 80 and info like ('%Red%Hat%Enter%')) """)
 	
 	#OS-MS via any service
