@@ -98,7 +98,7 @@ if [ $TOTALHOSTS -eq "0" ] ; then
     	read IPRANGE
 	echo "(OK) Starting Nmap Discovery Scan..."
 	/bin/cp $CONF/msf_default.rc $CONF/msf.rc
-        echo "db_nmap -Pn -v --disable-arp-ping -p 22,80,443,445 $IPRANGE " >> $CONF/msf.rc
+        echo "db_nmap -Pn -v --disable-arp-ping -p 22,80,443,445 $IPRANGE --open" >> $CONF/msf.rc
         echo "quit -y" >> $CONF/msf.rc
         $MSFBIN -r $CONF/msf.rc
 
