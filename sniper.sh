@@ -90,6 +90,16 @@ cd /tmp
 TOTALHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """Select count(*) from hosts;""" | grep row -B 1| grep -v row)"
 cd $CWD
 
+#Function to run msf_commands
+run_msf_commands() {
+      /bin/cp $CONF/msf_default.rc $CONF/msf.rc
+      for cmd in "$@"; do
+          echo "$cmd" >> $CONF/msf.rc
+      done
+      echo "quit -y" >> $CONF/msf.rc
+      $MSFBIN -r $CONF/msf.rc
+  }
+
 #####Do a Quick & efficient NMAP discovery##########
 echo "============Phase 1 Nmap Discovery Scan ============"
 
