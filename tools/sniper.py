@@ -50,7 +50,7 @@ def load_os_updates(filename='conf/os_rules.csv'):
         with open(filename, 'r') as f:
         	reader = csv.DictReader(f)
         	for row in reader:
-        		if not row['os_name'].startswith('#'):  # Skip comments
+        		if row['os_name'].strip():
         			updates.append(row)
         return updates
 
