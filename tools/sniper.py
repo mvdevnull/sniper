@@ -185,7 +185,7 @@ def apply_eyewitness_updates(cur):
         		cur.execute(query)
 
 def validate_eyewitness_csv_format(filename='conf/eyewitness_rules.csv'):
-      """Validate eyewitness CSV format"""
+        """Validate eyewitness CSV format"""
         errors = []
         try:
         	with open(filename, 'r') as f:
