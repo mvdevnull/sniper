@@ -186,7 +186,7 @@ def apply_eyewitness_updates(cur):
         		query = f"UPDATE hosts SET {set_clause} WHERE {where_clause}"
         		print ("DEBUG-",query)
         		cur.execute(query)
-				conn.commit()
+        		conn.commit()
 
 def validate_eyewitness_csv_format(filename='conf/eyewitness_rules.csv'):
         """Validate eyewitness CSV format"""
