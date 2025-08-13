@@ -1,5 +1,5 @@
 os_name,os_flavor,grep_pattern,info,purpose,only_unknown
-TestOS,TestFlavor,plaintext.css,TestINFO,TestPurpose,False
+TestOS,TestFlavor,pre>File / not_found,TestINFO,TestPurpose,False
 DELL iDRAC 9,,Integrated Remote Access Controller 9,,,True
 Hanwha Vision,camera,Hanwha Vision WebViewer,,camera,True
 Pelco Sarix Pro,camera,title>Sarix Pro,,camera,True
