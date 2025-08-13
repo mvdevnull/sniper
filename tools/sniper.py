@@ -46,6 +46,12 @@ def nss_report(nss,desc,vuln):
 ###############################################
 #OS Updates Function
 def load_os_updates(filename='conf/os_rules.csv'):
+        validation_errors = validate_csv_format(filename)
+        if validation_errors:
+        	print("CSV Validation Errors:")
+        	for error in validation_errors:
+        		print(f"  ERROR: {error}")
+        	raise ValueError(f"CSV file '{filename}' has validation errors. Please fix before proceeding.")
         updates = []
         with open(filename, 'r') as f:
         	reader = csv.DictReader(f)
@@ -81,6 +87,50 @@ def apply_os_updates(cur):
         	print ("DEBUG-",query)
         	cur.execute(query)
 
+def validate_csv_format(filename='conf/os_rules.csv'):
+        errors = []
+        line_num = 0
+
+        try:
+        	with open(filename, 'r') as f:
+        	lines = f.readlines()
+
+        	# Check if file is empty
+        	if not lines:
+        		errors.append("CSV file is empty")
+        		return errors
+
+        	for line_num, line in enumerate(lines, 1):
+        		line = line.strip()
+        		if not line:  # Skip empty lines
+        			continue
+        		# Count commas - should be exactly 5 (for 6 columns)
+        		comma_count = line.count(',')
+        		if comma_count != 5:
+        			errors.append(f"Line {line_num}: Expected 5 commas, found {comma_count} - '{line}'")
+        			continue
+        		fields = line.split(',')
+        		# Skip header line
+        		if line_num == 1:
+        			continue
+        		# Check required fields - os_name must not be empty
+        		os_name = fields[0]
+        		if not os_name.strip():
+        			errors.append(f"Line {line_num}: 'os_name' is required")
+        		# Port validation - should be numeric or empty
+        		port = fields[2]
+        		if port.strip() and not port.strip().isdigit():
+        			errors.append(f"Line {line_num}: 'port' must be numeric or empty, got '{port}'")
+        		# Check for unescaped quotes or special chars
+        		if "'" in line and line.count("'") % 2 != 0:
+        			errors.append(f"Line {line_num}: Unmatched single quote in line")
+
+        except FileNotFoundError:
+        	errors.append(f"CSV file '{filename}' not found")
+        except Exception as e:
+        	errors.append(f"Error reading CSV file: {str(e)}")
+
+        return errors
 
 
 ###############################################
