@@ -182,7 +182,7 @@ def apply_eyewitness_updates(cur):
         			where_clause += " and os_name = 'Unknown'"
 
         		query = f"UPDATE hosts SET {set_clause} WHERE {where_clause}"
-				print ("DEBUG-",query)
+        		print ("DEBUG-",query)
         		cur.execute(query)
 
 def validate_eyewitness_csv_format(filename='conf/eyewitness_rules.csv'):
