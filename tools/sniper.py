@@ -182,6 +182,7 @@ def apply_eyewitness_updates(cur):
         			where_clause += " and os_name = 'Unknown'"
 
         		query = f"UPDATE hosts SET {set_clause} WHERE {where_clause}"
+				print ("DEBUG-",query)
         		cur.execute(query)
 
 def validate_eyewitness_csv_format(filename='conf/eyewitness_rules.csv'):
@@ -255,7 +256,7 @@ def db_update(cur):
 	####################################################
 	#OS UPDATES via eyewitness information
 	apply_eyewitness_updates(cur)
-	"""
+	'''
 	if os.path.isdir("./eyewitness/source/") and len(os.listdir("./eyewitness/source/")) > 0:
 		print("Eyewitness results found -  processing known OS hosts..")
 		#IDRAC9 via eyewitness
@@ -356,7 +357,7 @@ def db_update(cur):
 	
 	####Commit all changes above
 	conn.commit()
-	"""
+	'''
  
 	#Need to confirm that we are ONLY passing args (db_update)  and nothing else...
 	if num_args > 1:
