@@ -197,7 +197,6 @@ else
 			read user;
 			echo -n "(Optional) Specify the Windows password?";
 			read pass;
-                        /bin/cp $CONF/msf_default.rc $CONF/msf.rc;
             run_msf_commands \
 				"use auxiliary/scanner/smb/smb_version" \
 				"services -p 445 -R" \
