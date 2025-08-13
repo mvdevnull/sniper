@@ -1,11 +1,11 @@
 os_name,os_flavor,grep_pattern,info,purpose,only_unknown
 DELL iDRAC 9,,Integrated Remote Access Controller 9,,,True
-Hanwha Vision,camera,Hanwha Vision WebViewer,,,True
-Pelco Sarix Pro,camera,title>Sarix Pro,,,True
-BARIX Barionet 50,I/O,title>BARIX Barionet 50,,,True
-Cisco UCS KVM Direct,KVM,title>Cisco UCS KVM Direct,,,True
-iSTAR Ultra,I/O controller,>iSTAR Ultra,,,True
-Pelco Endura camera,camera,tle>Endura,unauth liveview,,True
+Hanwha Vision,camera,Hanwha Vision WebViewer,,camera,True
+Pelco Sarix Pro,camera,title>Sarix Pro,,camera,True
+BARIX Barionet 50,I/O,title>BARIX Barionet 50,,I/O,True
+Cisco UCS KVM Direct,KVM,title>Cisco UCS KVM Direct,,KVM,True
+iSTAR Ultra,I/O controller,>iSTAR Ultra,,I/O,True
+Pelco Endura camera,camera,tle>Endura,unauth liveview,camera,True
 NETAPP ONTAP,storage,ONTAP System Manager,,,True
 Zebra Printer,printer,www.zebra.com,admin:1234,printer,False
 Hanwha Vision - Wisenet,camera,Wisenet WEBVIEWER,,camera,False
