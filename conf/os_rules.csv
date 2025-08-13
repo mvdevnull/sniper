@@ -7,11 +7,15 @@ Cisco,VOIP,,,%andberg%VoIP%,Unknown
 Linux,Ubuntu,22,ssh,%buntu%,Unknown
 Linux,CentOS,,http,%CentOS%,
 Linux,Debian,,http,%Debian%,
+Linux,Fedora,,http,%Fedora%,
+Linux,Slackware,,,,%lackware%,
 Linux,,23,,%Linux%,Unknown
 BSD,,23,,%BSD%,Unknown
 Linux,Red Hat Enterprise,,http,%Red%Hat%Enter%,
 Microsoft Windows,,,,%icrosof%,Unknown
-Microsoft Windows,,,,%indow%,Unknown
+Microsoft Windows,,,,%indows%,Unknown
+Microsoft Windows,2000,,,%Microsoft Windows 2000%,
+Microsoft Windows,Server 2003,,,%Microsoft Windows Server 2003%,
 VMWare ESX,,,http,%ESX%,Unknown
 VMWare ESX,,,,%VMware%,
 F5-BIGIP,,,http,%BIG-IP%,
