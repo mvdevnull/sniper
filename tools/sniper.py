@@ -54,6 +54,34 @@ def load_os_updates(filename='../conf/os_rules.csv'):
         			updates.append(row)
         return updates
 
+def apply_os_updates(cur):
+        updates = load_os_updates()
+
+        for rule in updates:
+        	conditions = []
+        	if rule['port'] and rule['port'] != '%':
+        		conditions.append(f"port = '{rule['port']}'")
+        	if rule['service_name'] and rule['service_name'] != '%':
+        		conditions.append(f"name = '{rule['service_name']}'")
+        	if rule['info_pattern'] and rule['info_pattern'] != '%':
+        		conditions.append(f"info like ('{rule['info_pattern']}')")
+
+        	service_where = " and ".join(conditions) if conditions else "1=1"
+
+        	# Build UPDATE query
+        	set_clause = f"os_name = '{rule['os_name']}', comments = 'OS-Updated-by-sniper.py'"
+        	if rule['os_flavor']:
+        		set_clause += f", os_flavor = '{rule['os_flavor']}'"
+
+        	where_clause = f"id in (SELECT host_id from services where {service_where})"
+        	if rule['prev_os_name']:
+        		where_clause += f" and os_name = '{rule['prev_os_name']}'"
+
+        	query = f"UPDATE hosts SET {set_clause} WHERE {where_clause}"
+        	cur.execute(query)
+
+
+
 ###############################################
 #SNIPER-DB-Cleaning
 def db_update(cur):
@@ -83,16 +111,21 @@ def db_update(cur):
 	##################################################################################
 
 	#OS UPDATES
-	
+	apply_os_updates(cur)
+
+	##################
+	#Testing function with SUN/CIsco only
 	#OS-SUN
 	#Sun via ssh
-	cur.execute("""UPDATE hosts SET os_name = 'Sun', comments = 'OS-Updated-by-sniper.py'\
-	where id in (SELECT host_id from services where name = 'ssh' and info like ('%Sun%')) and os_name = 'Unknown' """)
+	#cur.execute("""UPDATE hosts SET os_name = 'Sun', comments = 'OS-Updated-by-sniper.py'\
+	#where id in (SELECT host_id from services where name = 'ssh' and info like ('%Sun%')) and os_name = 'Unknown' """)
 
-        #Cisco via any service
-	cur.execute("""UPDATE hosts SET os_name = 'Cisco', comments = 'OS-Updated-by-sniper.py'\
-	where id in (SELECT host_id from services where info like ('%isco%')) and os_name = 'Unknown' """)
-
+    #Cisco via any service
+	#cur.execute("""UPDATE hosts SET os_name = 'Cisco', comments = 'OS-Updated-by-sniper.py'\
+	#where id in (SELECT host_id from services where info like ('%isco%')) and os_name = 'Unknown' """)
+	#END testing
+	#####################
+	
         #Ubuntu via ssh
 	cur.execute("""UPDATE hosts SET os_name = 'Linux', os_flavor = 'Ubuntu', comments = 'OS-Updated-by-sniper.py'\
 	where id in (SELECT host_id from services where name = 'ssh' and info like ('%buntu%')) and os_name = 'Unknown' """)
