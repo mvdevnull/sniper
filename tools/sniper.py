@@ -8,6 +8,7 @@ import psycopg2
 import sys
 import os
 import re
+import csv
 
 dbpass = os.popen("cat /usr/share/metasploit-framework/config/database.yml | grep -m1 password | cut -d \":\" -f 2 | awk '{ gsub (\" \", \"\", $0); print}'").read()
 constring = "dbname='msf' user='msf' host='localhost' port='5432' password='"+str(dbpass)+"'"
@@ -42,6 +43,16 @@ def nss_report(nss,desc,vuln):
         for row in rows:
                 print("\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")")
 
+###############################################
+#OS Updates Function
+def load_os_updates(filename='../conf/os_rules.csv'):
+        updates = []
+        with open(filename, 'r') as f:
+          reader = csv.DictReader(f)
+          for row in reader:
+              if not row['os_name'].startswith('#'):  # Skip comments
+                  updates.append(row)
+      return updates
 
 ###############################################
 #SNIPER-DB-Cleaning
