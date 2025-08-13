@@ -45,7 +45,7 @@ def nss_report(nss,desc,vuln):
 
 ###############################################
 #OS Updates Function
-def load_os_updates(filename='../conf/os_rules.csv'):
+def load_os_updates(filename='conf/os_rules.csv'):
         updates = []
         with open(filename, 'r') as f:
         	reader = csv.DictReader(f)
