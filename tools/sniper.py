@@ -160,71 +160,12 @@ def db_update(cur):
 	#At this point, we have all known hosts in the DB
 	
 	##################################################################################
-
 	#OS UPDATES va os_rules.csv
 	apply_os_updates(cur)
 
-	############################################################
-	#OS_FLAVOR UPDATES
-	#OS_FLAVOR-SLACKWARE (via hosts.info)
-	cur.execute("""UPDATE hosts SET os_flavor = 'Slackware'
-	where info like ('%lackware%') and os_flavor = '' """)
-	cur.execute("""UPDATE hosts SET os_name = 'Linux', comments = 'OS-Updated-by-sniper.py'
-	where os_flavor = 'Slackware'""")
-
-	#OS_FLAVOR-WIN2k (via host.info)
-	cur.execute("""UPDATE hosts SET os_flavor = '2000'
-	where info like ('%Microsoft Windows 2000%') and os_flavor = '' """)
-	cur.execute("""UPDATE hosts SET os_name = 'Microsoft Windows', comments = 'OS-Updated-by-sniper.py'
-	where os_flavor = '2000'""")
-
-	#OS_FLAVOR-WIN2k3 (via host.info)
-	cur.execute("""UPDATE hosts SET os_flavor = '2003'
-	where info like ('%Microsoft Windows Server 2003%') """)
-
-	#OS_FLAVOR-UBUNTU (via os_name )"
-	cur.execute("""UPDATE hosts SET os_flavor = 'Ubuntu', comments = 'OS-Updated-by-sniper.py'
-	where os_name like ('%buntu%') and os_flavor = '' """)
-	cur.execute("""UPDATE hosts SET os_name = 'Linux', comments = 'OS-Updated-by-sniper.py'
-	where os_flavor = 'Ubuntu'""")
-
-	#OS_FLAVOR-Debian (via os_name)
-	cur.execute("""UPDATE hosts SET os_flavor = 'Debian', comments = 'OS-Updated-by-sniper.py'
-	where os_name like ('%Debian%') and os_flavor = '' """)
-	cur.execute("""UPDATE hosts SET os_name = 'Linux', comments = 'OS-Updated-by-sniper.py'
-	where os_flavor = 'Debian'""")
-
-	#OS_FLAVOR-CentOS (via os_name)
-	cur.execute("""UPDATE hosts SET os_flavor = 'CentOS', comments = 'OS-Updated-by-sniper.py'
-	where os_name like ('%CentOS%') and os_flavor = '' """)
-	cur.execute("""UPDATE hosts SET os_name = 'Linux', comments = 'OS-Updated-by-sniper.py'
-	where os_flavor = 'CentOS'""")
-
-	#OS_FLAVOR-Fedora (via os_name)
-	cur.execute("""UPDATE hosts SET os_flavor = 'Fedora', comments = 'OS-Updated-by-sniper.py'
-	where os_name like ('%Fedora%') and os_flavor = '' """)
-	cur.execute("""UPDATE hosts SET os_name = 'Linux', comments = 'OS-Updated-by-sniper.py'
-	where os_flavor = 'Fedora'""")
-
-        ####################################################
-	#OS Service_PACK UPDATES
-	
-	#OS_SP-Win-SP1-6 (via host.info)
-	cur.execute("""UPDATE hosts SET os_sp = 'SP1'
-	where info like ('%Microsoft Windows%Service Pack 1%') """)
-	cur.execute("""UPDATE hosts SET os_sp = 'SP2'
-	where info like ('%Microsoft Windows%Service Pack 2%') """)
-	cur.execute("""UPDATE hosts SET os_sp = 'SP3'
-	where info like ('%Microsoft Windows%Service Pack 3%') """)
-	cur.execute("""UPDATE hosts SET os_sp = 'SP4'
-	where info like ('%Microsoft Windows%Service Pack 4%') """)
-	cur.execute("""UPDATE hosts SET os_sp = 'SP5'
-	where info like ('%Microsoft Windows%Service Pack 5%') """)
-	cur.execute("""UPDATE hosts SET os_sp = 'SP6'
-	where info like ('%Microsoft Windows%Service Pack 6%') """)
 
 	####################################################
-	#OS via eyewitness UPDATES
+	#OS UPDATES via eyewitness information
 	if os.path.isdir("./eyewitness/source/") and len(os.listdir("./eyewitness/source/")) > 0:
 		print("Eyewitness results found -  processing known OS hosts..")
 		#IDRAC9 via eyewitness
@@ -335,10 +276,6 @@ def db_update(cur):
 
 ##################END db_update(cur) FUNCTION##############################################
 
-
-
-
-
 if num_args > 1:
 	if str(sys.argv[1]) == "db_update":
         	print( "only updating the DB")
@@ -351,8 +288,6 @@ if num_args > 1:
 
 #Code to Run ALL the time....
 db_update(cur)
-
-
 
 
 #SNIPER-REPORT-Findings
