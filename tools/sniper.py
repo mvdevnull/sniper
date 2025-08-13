@@ -161,28 +161,28 @@ def apply_eyewitness_updates(cur):
         updates = load_eyewitness_updates()
 
         for rule in updates:
-        # Extract IPs using grep pattern
-        cmd = f"grep -i '{rule['grep_pattern']}' ./eyewitness/source/* | cut -d ':' -f1 | grep -Eo '([0-9]{{1,3}}\.){{3}}[0-9]{{1,3}}'"
-        ips = os.popen(cmd).read().strip()
-        ip_list = [ip for ip in ips.split('\n') if ip]
+        	# Extract IPs using grep pattern
+        	cmd = f"grep -i '{rule['grep_pattern']}' ./eyewitness/source/* | cut -d ':' -f1 | grep -Eo '([0-9]{{1,3}}\.){{3}}[0-9]{{1,3}}'"
+        	ips = os.popen(cmd).read().strip()
+        	ip_list = [ip for ip in ips.split('\n') if ip]
 
-        for ip in ip_list:
-        	# Build SET clause
-        	set_clause = f"os_name = '{rule['os_name']}', comments = 'OS-Updated-by-sniper-eyewitness.py'"
-        	if rule['os_flavor']:
-        		set_clause += f", os_flavor = '{rule['os_flavor']}'"
-        	if rule['info']:
-        		set_clause += f", info = '{rule['info']}'"
-        	if rule['purpose']:
-        		set_clause += f", purpose = '{rule['purpose']}'"
+        	for ip in ip_list:
+        		# Build SET clause
+        		set_clause = f"os_name = '{rule['os_name']}', comments = 'OS-Updated-by-sniper-eyewitness.py'"
+        		if rule['os_flavor']:
+        			set_clause += f", os_flavor = '{rule['os_flavor']}'"
+        		if rule['info']:
+        			set_clause += f", info = '{rule['info']}'"
+        		if rule['purpose']:
+        			set_clause += f", purpose = '{rule['purpose']}'"
 
-        	# Build WHERE clause
-        	where_clause = f"address = '{ip}'"
-        	if rule['only_unknown']:
-        		where_clause += " and os_name = 'Unknown'"
+        		# Build WHERE clause
+        		where_clause = f"address = '{ip}'"
+        		if rule['only_unknown']:
+        			where_clause += " and os_name = 'Unknown'"
 
-        	query = f"UPDATE hosts SET {set_clause} WHERE {where_clause}"
-        	cur.execute(query)
+        		query = f"UPDATE hosts SET {set_clause} WHERE {where_clause}"
+        		cur.execute(query)
 
 def validate_eyewitness_csv_format(filename='conf/eyewitness_rules.csv'):
       """Validate eyewitness CSV format"""
