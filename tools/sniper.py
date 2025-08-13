@@ -1,8 +1,7 @@
 #!/usr/bin/python3
-#Script - sniper.py 
-#Description - script used for DISCOVERY, various targeted nessus scans and Reports.
+
 #Author - chrisdhebert@gmail.com
-#Version - 2.2025-08-13
+#Version - 3.2025-08-13
 
 import psycopg2
 import sys
