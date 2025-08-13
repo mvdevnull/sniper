@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #Author - chrisdhebert@gmail.com
-#Version - 2.2025-08-13
+#Version - 3.2025-08-13
 
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
