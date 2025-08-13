@@ -3,7 +3,7 @@ TestingOS,TestingFlav,445,,%626e657%,
 SUN,,22,ssh,%Sun%,Unknown
 SUN ILO,,,http,%Sun-ILOM%,Unknown
 Cisco,,,,%isco%,Unknown
-Cisco,VOIP,,,,%andberg%VoIP%,Unknown
+Cisco,VOIP,,,%andberg%VoIP%,Unknown
 Linux,Ubuntu,22,ssh,%buntu%,Unknown
 Linux,CentOS,,http,%CentOS%,
 Linux,Debian,,,http,%Debian%,
