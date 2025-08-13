@@ -44,7 +44,7 @@ def nss_report(nss,desc,vuln):
                 print("\t", row[0], "\t", row[1], "\t", row[4]," (",row[2],"/",row[3],")")
 
 ###############################################
-#OS Updates Function
+#OS Updates via services Function
 def load_os_updates(filename='conf/os_rules.csv'):
         validation_errors = validate_os_csv_format(filename)
         if validation_errors:
@@ -132,6 +132,95 @@ def validate_os_csv_format(filename='conf/os_rules.csv'):
 
         return errors
 
+##############################################
+#OS Updates via eyewitness Function
+def load_eyewitness_updates(filename='conf/eyewitness_rules.csv'):
+        validation_errors = validate_eyewitness_csv_format(filename)
+        if validation_errors:
+        	print("Eyewitness CSV Validation Errors:")
+        	for error in validation_errors:
+        		print(f"  ERROR: {error}")
+        	raise ValueError(f"CSV file '{filename}' has validation errors.")
+
+        updates = []
+        with open(filename, 'r') as f:
+        	reader = csv.DictReader(f)
+        	for row in reader:
+        		if row['os_name'].strip():
+        			# Convert string 'True'/'False' to boolean
+        			row['only_unknown'] = row['only_unknown'].strip().lower() == 'true'
+        			updates.append(row)
+        return updates
+
+def apply_eyewitness_updates(cur):
+        if not (os.path.isdir("./eyewitness/source/") and len(os.listdir("./eyewitness/source/")) > 0):
+        	print("No Eyewitness results found - skipping..")
+        	return
+
+        print("Eyewitness results found - processing known OS hosts..")
+        updates = load_eyewitness_updates()
+
+        for rule in updates:
+        # Extract IPs using grep pattern
+        cmd = f"grep -i '{rule['grep_pattern']}' ./eyewitness/source/* | cut -d ':' -f1 | grep -Eo
+  '([0-9]{{1,3}}\.){{3}}[0-9]{{1,3}}'"
+        ips = os.popen(cmd).read().strip()
+        ip_list = [ip for ip in ips.split('\n') if ip]
+
+        for ip in ip_list:
+        	# Build SET clause
+        	set_clause = f"os_name = '{rule['os_name']}', comments = 'OS-Updated-by-sniper-eyewitness.py'"
+        	if rule['os_flavor']:
+        		set_clause += f", os_flavor = '{rule['os_flavor']}'"
+        	if rule['info']:
+        		set_clause += f", info = '{rule['info']}'"
+        	if rule['purpose']:
+        		set_clause += f", purpose = '{rule['purpose']}'"
+
+        	# Build WHERE clause
+        	where_clause = f"address = '{ip}'"
+        	if rule['only_unknown']:
+        		where_clause += " and os_name = 'Unknown'"
+
+        	query = f"UPDATE hosts SET {set_clause} WHERE {where_clause}"
+        	cur.execute(query)
+
+def validate_eyewitness_csv_format(filename='conf/eyewitness_rules.csv'):
+      """Validate eyewitness CSV format"""
+        errors = []
+        try:
+        	with open(filename, 'r') as f:
+        		lines = f.readlines()
+
+        	for line_num, line in enumerate(lines, 1):
+        		line = line.strip()
+        		if not line:
+        			continue
+
+        	# Should have exactly 5 commas (6 fields)
+        	if line.count(',') != 5:
+        		errors.append(f"Line {line_num}: Expected 5 commas, found {line.count(',')} - '{line}'")
+        		continue
+
+        	if line_num == 1:  # Skip header
+        		continue
+
+        	fields = line.split(',')
+        	os_name, os_flavor, grep_pattern, info, purpose, only_unknown = fields
+
+        	if not os_name.strip():
+        		errors.append(f"Line {line_num}: 'os_name' is required")
+        	if not grep_pattern.strip():
+        		errors.append(f"Line {line_num}: 'grep_pattern' is required")
+        	if only_unknown.strip().lower() not in ['true', 'false', '']:
+        		errors.append(f"Line {line_num}: 'only_unknown' must be 'True' or 'False'")
+
+        except FileNotFoundError:
+        	errors.append(f"CSV file '{filename}' not found")
+        except Exception as e:
+        	errors.append(f"Error reading CSV file: {str(e)}")
+
+        return errors
 
 ###############################################
 #SNIPER-DB-Cleaning
@@ -166,6 +255,8 @@ def db_update(cur):
 
 	####################################################
 	#OS UPDATES via eyewitness information
+	apply_eyewitness_updates(cur)
+	"""
 	if os.path.isdir("./eyewitness/source/") and len(os.listdir("./eyewitness/source/")) > 0:
 		print("Eyewitness results found -  processing known OS hosts..")
 		#IDRAC9 via eyewitness
@@ -266,7 +357,8 @@ def db_update(cur):
 	
 	####Commit all changes above
 	conn.commit()
-
+	"""
+ 
 	#Need to confirm that we are ONLY passing args (db_update)  and nothing else...
 	if num_args > 1:
 		if str(sys.argv[1]) == "db_update":
