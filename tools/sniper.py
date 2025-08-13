@@ -48,11 +48,11 @@ def nss_report(nss,desc,vuln):
 def load_os_updates(filename='../conf/os_rules.csv'):
         updates = []
         with open(filename, 'r') as f:
-          reader = csv.DictReader(f)
-          for row in reader:
-              if not row['os_name'].startswith('#'):  # Skip comments
-                  updates.append(row)
-      return updates
+        	reader = csv.DictReader(f)
+        	for row in reader:
+        		if not row['os_name'].startswith('#'):  # Skip comments
+        			updates.append(row)
+        return updates
 
 ###############################################
 #SNIPER-DB-Cleaning
