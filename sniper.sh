@@ -10,6 +10,73 @@ fi
 
 clear
 
+show_help() {
+        echo "Usage: $0 [OPTION]"
+        echo ""
+        echo "SNIPER - Security Network Information Penetration Enumeration and Reporting"
+        echo ""
+        echo "Options:"
+        echo "  --reinit    Reinitialize SNIPER - cleans database and removes all scan files"
+        echo "  --help      Display this help and exit"
+        echo ""
+        echo "If no option is provided, SNIPER runs in normal mode."
+        echo ""
+        exit 0
+}
+
+reinit_sniper() {
+        echo "========== SNIPER REINIT =========="
+        echo "WARNING: This will delete ALL scan data and reinitialize the database!"
+        read -p "Are you sure you want to continue? (y/N): " confirm
+
+        case $confirm in
+        	[Yy]*)
+        		echo "(REINIT) - Reinitializing MSF database..."
+        		msfdb reinit
+
+        		echo "(REINIT) - Deleting nmap files..."
+        		rm -f $CWD/nmap/*.xml ./nmap/*.gnmap ./nmap/*.nmap 2>/dev/null || true
+        		rm -f $CWD/nmap/new/*.xml 2>/dev/null || true
+        		rm -f $CWD/nmap/import_complete/*.xml 2>/dev/null || true
+
+        		echo "(REINIT) - Deleting nessus files..."
+        		rm -f $CWD/nessus/*.nessus ./nessus/*.xml 2>/dev/null || true
+        		rm -f $CWD/nessus/new/*.nessus ./nessus/new/*.xml 2>/dev/null || true
+        		rm -f $CWD/nessus/import_complete/*.nessus ./nessus/import_complete/*.xml 2>/dev/null || true
+
+        		echo "(REINIT) - Deleting eyewitness files..."
+        		if [ -d "$CWD/eyewitness" ]; then
+        			rm -rf $CWD/eyewitness/* 2>/dev/null || true
+        		fi
+
+        		echo "(REINIT) - SNIPER reinitialization complete!"
+        		;;
+        	*)
+        		echo "(REINIT) - Canceled by user"
+        		;;
+        esac
+        exit 0
+}
+
+
+
+if [ $# -gt 0 ]; then
+        case "$1" in
+        	--help|-h)
+        		show_help
+        		;;
+        	--reinit)
+        		reinit_sniper
+        		;;
+        	*)
+        		echo "Unknown option: $1"
+        		echo "Use --help for usage information"
+        		exit 1
+        		;;
+        esac
+fi
+
+
 CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 MSFBIN="/usr/bin/msfconsole -q"
 EYEWITNESS="/usr/bin/eyewitness"
