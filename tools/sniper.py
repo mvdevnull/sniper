@@ -162,7 +162,9 @@ def apply_eyewitness_updates(cur):
 
         for rule in updates:
         	# Extract IPs using grep pattern
-        	cmd = f"grep -i '{rule['grep_pattern']}' ./eyewitness/source/* | cut -d ':' -f1 | grep -Eo '([0-9]{{1,3}}\.){{3}}[0-9]{{1,3}}'"
+        	regex_pattern = r'([0-9]{1,3}\.){3}[0-9]{1,3}'
+        	cmd = f"grep -i '{rule['grep_pattern']}' ./eyewitness/source/* | cut -d ':' -f1 | grep -Eo '{regex_pattern}'"
+        	#cmd = f"grep -i '{rule['grep_pattern']}' ./eyewitness/source/* | cut -d ':' -f1 | grep -Eo '([0-9]{{1,3}}\.){{3}}[0-9]{{1,3}}'"
         	ips = os.popen(cmd).read().strip()
         	ip_list = [ip for ip in ips.split('\n') if ip]
 
