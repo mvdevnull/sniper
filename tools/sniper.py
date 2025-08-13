@@ -84,7 +84,7 @@ def apply_os_updates(cur):
         		where_clause += f" and os_name = '{rule['prev_os_name']}'"
 
         	query = f"UPDATE hosts SET {set_clause} WHERE {where_clause}"
-        	print ("DEBUG-",query)
+        	#print ("DEBUG-",query)
         	cur.execute(query)
 
 def validate_csv_format(filename='conf/os_rules.csv'):
