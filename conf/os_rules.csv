@@ -1,30 +1,32 @@
 os_name,os_flavor,port,service_name,info_pattern,prev_os_name
 TestingOS,TestingFlav,445,,%626e657%,
-Sun,,22,ssh,%Sun%,Unknown
+SUN,,22,ssh,%Sun%,Unknown
 SUN ILO,,,http,%Sun-ILOM%,Unknown
 Cisco,,,,%isco%,Unknown
+Cisco,VOIP,,,,%andberg%VoIP%,Unknown
 Linux,Ubuntu,22,ssh,%buntu%,Unknown
-Linux,CentOS,,http,%CentOS%,
-Linux,Debian,,http,%Debian%,
+Linux,CentOS,,,http,%CentOS%,
+Linux,Debian,,,http,%Debian%,
 Linux,,23,,%Linux%,Unknown
 BSD,,23,,%BSD%,Unknown
-Linux,Red Hat Enterprise,,http,%Red%Hat%Enter%,
+Linux,Red Hat Enterprise,,,http,%Red%Hat%Enter%,
 Microsoft Windows,,,,%icrosof%,Unknown
 Microsoft Windows,,,,%indow%,Unknown
-VMWare ESX,,http,%ESX%,Unknown
+VMWare ESX,,,http,%ESX%,Unknown
 VMWare ESX,,,,%VMware%,
-F5-BIGIP,,,%BIG-IP%,
-NETAPP,,http,%ONTAP%,
-NETAPP,,www,%ONTAP%,
-CITRIX,,http,%CITRIX%,
-CITRIX,,www,%CITRIX%,
-CITRIX,,https,%CITRIX%,
-CITRIX,,ssl/http,Citrix%,
-CITRIX,,http,Citrix%,
-CITRIX,,www,Citrix%,
-CITRIX,,https,Citrix%,
-HP,iLO - Integrated Lights Out,,ssh,%HP%Integrated%Lights%,
-HP,iLO - Integrated Lights Out,,www,%HP%Integrated%Lights%,
+F5-BIGIP,,,,%BIG-IP%,
+NETAPP,,,http,%ONTAP%,
+NETAPP,,,www,%ONTAP%,
+CITRIX,,,http,%CITRIX%,
+CITRIX,,,www,%CITRIX%,
+CITRIX,,,https,%CITRIX%,
+CITRIX,,,ssl/http,Citrix%,
+CITRIX,,,http,Citrix%,
+CITRIX,,,www,Citrix%,
+CITRIX,,,https,Citrix%,
+HP,iLO-Integrated Lights Out,,ssh,%HP%Integrated%Lights%,
+HP,iLO-Integrated Lights Out,,www,%HP%Integrated%Lights%,
+HP iLO,,,,%P Integrated Lights-Ou HP Integrated Lights-Ou%,Unknown
 DELL,DRAC6,,,%iDRAC6%,
 DELL,iDRAC,,,%iDRAC%,Unknown
 APC OS,,,,'%APC%UPS%,Unknown
@@ -32,18 +34,16 @@ Wind River VxWorks,,,telnet,%VxWor%,Unknown
 HP Printer - Jet Direct,,,snmp,%JETDIRECT%,Unknown
 HP Printer - Jet Direct,,,http,%JetDirect%,Unknown
 HP Printer - Jet Direct,,,http,%jetdirect%,Unknown
-HP Printer - Jet Direct,,9100,jetdirect,,Unknown
+HP Printer - Jet Direct,,9100,,jetdirect,,Unknown
 HP Printer - LaserJet,,,,%LaserJet%,Unknown
 Axis Network Camera,,21,,%xis%amera%,Unknown
 Axis Network Camera,,21,,%XIS%amera%,Unknown
-D-Link DCS-2130 or Pelco IDE10DN Camera,,554,,%DCS-2130%IDE10DN%,Unknown
+D-Link-DCS-2130 or Pelco-IDE10DN Camera,,554,,%DCS-2130%IDE10DN%,Unknown
 2N Helios IP Intercom/Camera,,80,,%2N%Helios%,Unknown
 Stanley NT500,I/O Device,80,,%Stanley%NT500%,Unknown
 DoorBird Video Doorbell,,554,,%Door%Bird%,Unknown
 Vivotek FD8134V webcam,,554,,%Vivotek%FD8134V%,Unknown
 Avocent KVM,,443,,%vocent%KVM%,Unknown
 TRENDnet webcam,,,,TRENDnet%webcam%,Unknown
-HP iLO,,,,%P Integrated Lights-Ou HP Integrated Lights-Ou%,Unknown
-CISCO,VOIP,,,%%andberg%VoIP%,Unknown
-POLYCOM,VOIP,,,%%olycom%VoIP%,Unknown
-Netgear,Prosafe,,,%%etgear%ProSafe%,Unknown
+POLYCOM,VOIP,,,%olycom%VoIP%,Unknown
+Netgear,Prosafe,,,%etgear%ProSafe%,Unknown
