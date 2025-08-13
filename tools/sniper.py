@@ -197,23 +197,23 @@ def validate_eyewitness_csv_format(filename='conf/eyewitness_rules.csv'):
         		if not line:
         			continue
 
-        	# Should have exactly 5 commas (6 fields)
-        	if line.count(',') != 5:
-        		errors.append(f"Line {line_num}: Expected 5 commas, found {line.count(',')} - '{line}'")
-        		continue
+        		# Should have exactly 5 commas (6 fields)
+        		if line.count(',') != 5:
+        			errors.append(f"Line {line_num}: Expected 5 commas, found {line.count(',')} - '{line}'")
+        			continue
 
-        	if line_num == 1:  # Skip header
-        		continue
+        		if line_num == 1:  # Skip header
+        			continue
 
-        	fields = line.split(',')
-        	os_name, os_flavor, grep_pattern, info, purpose, only_unknown = fields
+        		fields = line.split(',')
+        		os_name, os_flavor, grep_pattern, info, purpose, only_unknown = fields
 
-        	if not os_name.strip():
-        		errors.append(f"Line {line_num}: 'os_name' is required")
-        	if not grep_pattern.strip():
-        		errors.append(f"Line {line_num}: 'grep_pattern' is required")
-        	if only_unknown.strip().lower() not in ['true', 'false', '']:
-        		errors.append(f"Line {line_num}: 'only_unknown' must be 'True' or 'False'")
+        		if not os_name.strip():
+        			errors.append(f"Line {line_num}: 'os_name' is required")
+        		if not grep_pattern.strip():
+        			errors.append(f"Line {line_num}: 'grep_pattern' is required")
+        		if only_unknown.strip().lower() not in ['true', 'false', '']:
+        			errors.append(f"Line {line_num}: 'only_unknown' must be 'True' or 'False'")
 
         except FileNotFoundError:
         	errors.append(f"CSV file '{filename}' not found")
