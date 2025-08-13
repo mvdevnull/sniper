@@ -2,7 +2,7 @@
 #Script - sniper.py 
 #Description - script used for DISCOVERY, various targeted nessus scans and Reports.
 #Author - chrisdhebert@gmail.com
-#Version - 2.2021-02-25
+#Version - 2.2025-08-13
 
 import psycopg2
 import sys
@@ -171,7 +171,7 @@ def apply_eyewitness_updates(cur):
 
         	for ip in ip_list:
         		# Build SET clause
-        		set_clause = f"os_name = '{rule['os_name']}', comments = 'OS-Updated-by-sniper-eyewitness.py'"
+        		set_clause = f"os_name = '{rule['os_name']}', comments = 'OS-Updated-by-sniper-eyewitness'"
         		if rule['os_flavor']:
         			set_clause += f", os_flavor = '{rule['os_flavor']}'"
         		if rule['info']:
