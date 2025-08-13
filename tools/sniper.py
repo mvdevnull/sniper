@@ -372,7 +372,7 @@ if rows:
 	choice = input().lower()
 	if choice in yes:
 		for row in rows:
-			print(row[0],"TCP/",row[3],"(",row[2],")")
+			print(row[0],"TCP/"+row[3],"(",row[2],")")
 		print("END -- Insecure Protocols")
 	elif choice in no:
 		pass
