@@ -93,7 +93,7 @@ def validate_csv_format(filename='conf/os_rules.csv'):
 
         try:
         	with open(filename, 'r') as f:
-        	lines = f.readlines()
+        		lines = f.readlines()
 
         	# Check if file is empty
         	if not lines:
