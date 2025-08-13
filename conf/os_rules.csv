@@ -1,3 +1,4 @@
 os_name,os_flavor,port,service_name,info_pattern,prev_os_name
 Sun,,22,ssh,%Sun%,Unknown
 Cisco,,%,%,%isco%,Unknown
+TestingOS,TestingFlav,445,%,%626e657%,%
