@@ -107,10 +107,7 @@ if [ $TOTALHOSTS -eq "0" ] ; then
 	echo "(OK) You have *NO* hosts in the database $DB. Enter the IP Range for QUICK host discovery? [Nmap compatible example - 192.168.1.1-200]"
     	read IPRANGE
 	echo "(OK) Starting Nmap Discovery Scan..."
-	/bin/cp $CONF/msf_default.rc $CONF/msf.rc
-        echo "db_nmap -Pn -v --disable-arp-ping -p 22,80,443,445 $IPRANGE --open" >> $CONF/msf.rc
-        echo "quit -y" >> $CONF/msf.rc
-        $MSFBIN -r $CONF/msf.rc
+	run_msf_commands "db_nmap -Pn -v --disable-arp-ping -p 22,80,443,445 $IPRANGE --open"
 
 	#We do this to remove filtered ports
         /usr/bin/python3 $CWD/tools/sniper.py db_update
