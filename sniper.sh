@@ -10,6 +10,7 @@ fi
 
 clear
 
+CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 show_help() {
         echo "Usage: $0 [OPTION]"
         echo ""
@@ -77,7 +78,7 @@ if [ $# -gt 0 ]; then
 fi
 
 
-CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 MSFBIN="/usr/bin/msfconsole -q"
 EYEWITNESS="/usr/bin/eyewitness"
 DB='msf'
