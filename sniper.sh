@@ -40,7 +40,7 @@ echo '/_______  /___|  /__|   __/ \___  >__|   '
 echo '        \/     \/   |__|        \/       '
 
 
-#Copying all known Nmap 
+#Directory mappings
 nmapRESULTS=$CWD/nmap
 nessusRESULTS=$CWD/nessus
 CONF=$CWD/conf
@@ -48,7 +48,16 @@ CONF=$CWD/conf
 #this is needed only if we call msfconsole as opposed to nc to msfd on localhost: 55554
 cp $CONF/msf_default.rc $CONF/msf.rc
 
-
+#Function to run msf_commands
+run_msf_commands() {
+      /bin/cp $CONF/msf_default.rc $CONF/msf.rc
+      for cmd in "$@"; do
+          echo "$cmd" >> $CONF/msf.rc
+      done
+      echo "quit -y" >> $CONF/msf.rc
+      $MSFBIN -r $CONF/msf.rc
+  }
+  
 
 #Here is where we make msfd a "tiny" bit faster...by
 ##Getting rid of all metasploit banners!!!!
@@ -59,10 +68,7 @@ echo /usr/share/metasploit-framework/data/logos/*.txt | xargs -n1 cp /dev/null
 
 if ls $nmapRESULTS/new/*.xml &> /dev/null; then
 		echo "(OK) - Importing only newer NMAP to $DB database - (all Nmap output in ./nmap/new directory to $DB...)"
-		/bin/cp $CONF/msf_default.rc $CONF/msf.rc
-		echo "db_import $nmapRESULTS/new/*.xml" >> $CONF/msf.rc
-		echo "quit -y" >> $CONF/msf.rc
-		$MSFBIN -r $CONF/msf.rc
+		run_msf_commands "db_import $nmapRESULTS/new/*.xml"
 		mv $nmapRESULTS/new/*.xml $nmapRESULTS/import_complete
 		echo "(OK) - NMAP - DB Import Complete..."
 		/usr/bin/python3 $CWD/tools/sniper.py db_update
@@ -72,10 +78,7 @@ fi
 
 if ls $nessusRESULTS/new/*.nessus &> /dev/null; then
 		echo "(OK) - Importing only newer Nessus to $DB database - (all Nessus output in ./nessus/new directory to $DB...)"
-		/bin/cp $CONF/msf_default.rc $CONF/msf.rc
-		echo "db_import $nessusRESULTS/new/*.nessus" >> $CONF/msf.rc
-		echo "quit -y" >> $CONF/msf.rc
-		$MSFBIN -r $CONF/msf.rc
+		run_msf_commands "db_import $nessusRESULTS/new/*.nessus"
 		mv $nessusRESULTS/new/*.nessus $nessusRESULTS/import_complete
 		echo "(OK) - Nessus - DB Import Complete..."
 		/usr/bin/python3 $CWD/tools/sniper.py db_update
@@ -90,15 +93,7 @@ cd /tmp
 TOTALHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """Select count(*) from hosts;""" | grep row -B 1| grep -v row)"
 cd $CWD
 
-#Function to run msf_commands
-run_msf_commands() {
-      /bin/cp $CONF/msf_default.rc $CONF/msf.rc
-      for cmd in "$@"; do
-          echo "$cmd" >> $CONF/msf.rc
-      done
-      echo "quit -y" >> $CONF/msf.rc
-      $MSFBIN -r $CONF/msf.rc
-  }
+
 
 #####Do a Quick & efficient NMAP discovery##########
 echo "============Phase 1 Nmap Discovery Scan ============"
@@ -121,10 +116,7 @@ else
                 	[Yy]* ) echo "Enter the IP Range for QUICK host discovery? [Nmap compatible example - 192.168.1.1-200]";
                 	read IPRANGE;
 			echo "(OK) Starting Nmap (2nd) Discovery scan... ";
-        		/bin/cp $CONF/msf_default.rc $CONF/msf.rc;
-        		echo "db_nmap -Pn -v --disable-arp-ping -p 22,80,443,445 $IPRANGE " >> $CONF/msf.rc;
-        		echo "quit -y" >> $CONF/msf.rc;
-        		$MSFBIN -r $CONF/msf.rc;
+        		run_msf_commands "db_nmap -Pn -v --disable-arp-ping -p 22,80,443,445 $IPRANGE --open" ;
 
 			#We do this to remove filtered ports
         		/usr/bin/python3 $CWD/tools/sniper.py db_update;
