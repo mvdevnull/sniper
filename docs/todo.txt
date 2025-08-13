@@ -8,13 +8,6 @@ Issue/Bugs
     Close try below (but no cigar) to remove OS guess from .nessus file - need to look at this in detail
     awk '/<plugin_output>/ && /Following OS Fingerprints/ {f=0} /<\/plugin_output>/{f=1} f' test.nessus > testnew.nessus
     [-] Failed to import /usr/local/src/github/sniper/nessus/new/testnew.nessus: Could not automatically determine file type
-3)add arg to sniper.sh ->  if a user runs sniper.sh --reinit  , it will clean up working docs similiar to the following:
-    msfdb reinit; 
-    delete these nmap files -- ./nmap/*.{xml,gnmap,nmap}  ./nmap/new/*.xml ./nmap/import_complete/*.xml 
-    delete these nessus files -- ./nessus/*.{nessus,xml}  ./nessus/new/*.{nessus,.xml}  ./nessus/import_complete/*.{nessus,.xml}
-    delete these eyewitness files recursively -- ./eyewitness/*   but preserve the folder itself
-    add arg --help to show usage options as well.
-
 
 Speed Ideas to consider:
 1) nmap -sV is slowest needs to thread or run mult hosts at a time.   (bc we are breaking down by 1 host and 1 port. we need this b/c timeouts give no information when only 1 port fails) (confirmed db_nmap and nmap -sV same speed)  
