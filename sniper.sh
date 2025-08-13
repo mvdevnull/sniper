@@ -198,21 +198,22 @@ else
 			echo -n "(Optional) Specify the Windows password?";
 			read pass;
                         /bin/cp $CONF/msf_default.rc $CONF/msf.rc;
-                	echo "use auxiliary/scanner/smb/smb_version" >> $CONF/msf.rc;
-			echo "services -p 445 -R" >> $CONF/msf.rc;
-			echo "set SMBDomain = $domain" >> $CONF/msf.rc;
-			echo "set SMBUser = $user" >> $CONF/msf.rc;
-			echo "set SMBPass = $pass" >> $CONF/msf.rc;
-			echo "run" >> $CONF/msf.rc;
-			echo "use auxiliary/scanner/netbios/nbname" >> $CONF/msf.rc;
-			echo "services -u -p 137 -R" >> $CONF/msf.rc;
-			echo "run" >> $CONF/msf.rc;
+            run_msf_commands \
+				"use auxiliary/scanner/smb/smb_version" \
+				"services -p 445 -R" \
+				"set SMBDomain = $domain" \
+				"set SMBUser = $user" \
+				"set SMBPass = $pass" \
+				"run" 
+            run_msf_commands \
+				"use auxiliary/scanner/netbios/nbname" \
+				"services -u -p 137 -R" \
+				"run"
    			#RPC mapper seemed to muddy waters give too many ports that were more internal than external
 			#echo "use auxiliary/scanner/dcerpc/endpoint_mapper" >> $CONF/msf.rc;
 			#echo "services -p 135 -R" >> $CONF/msf.rc;
-                        #echo "run" >> $CONF/msf.rc;
-                	echo "quit -y" >> $CONF/msf.rc;
-                	$MSFBIN -r $CONF/msf.rc;;
+            #echo "run" >> $CONF/msf.rc;
+			echo "";;
 
  		[Nn]* ) echo "(OK) Skipping MSF Windows Scan";;
                 * ) echo "(OK) Skipping MSF Windows Scan";;
