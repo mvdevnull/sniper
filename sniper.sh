@@ -32,7 +32,9 @@ reinit_sniper() {
         case $confirm in
         	[Yy]*)
         		echo "(REINIT) - Reinitializing MSF database..."
-        		msfdb reinit
+		  		msfdb stop
+	  			msfdb delete
+        		msfdb init
 
         		echo "(REINIT) - Deleting nmap files..."
         		rm -f $CWD/nmap/*.xml ./nmap/*.gnmap ./nmap/*.nmap 2>/dev/null || true
