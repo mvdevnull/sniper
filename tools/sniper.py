@@ -46,7 +46,7 @@ def nss_report(nss,desc,vuln):
 ###############################################
 #OS Updates Function
 def load_os_updates(filename='conf/os_rules.csv'):
-        validation_errors = validate_csv_format(filename)
+        validation_errors = validate_os_csv_format(filename)
         if validation_errors:
         	print("CSV Validation Errors:")
         	for error in validation_errors:
@@ -87,7 +87,7 @@ def apply_os_updates(cur):
         	#print ("DEBUG-",query)
         	cur.execute(query)
 
-def validate_csv_format(filename='conf/os_rules.csv'):
+def validate_os_csv_format(filename='conf/os_rules.csv'):
         errors = []
         line_num = 0
 
@@ -160,7 +160,7 @@ def db_update(cur):
 	#At this point, we have all known hosts in the DB
 	
 	##################################################################################
-	#OS UPDATES va os_rules.csv
+	#OS UPDATES via os_rules.csv
 	apply_os_updates(cur)
 
 
