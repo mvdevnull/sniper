@@ -159,19 +159,18 @@ else
 	fi
         case $yn in
 		[Yy]* ) echo "(OK) - Starting Nmap top "$numports" Port Scan ...";
-  		/bin/cp $CONF/msf_default.rc $CONF/msf.rc
+  		/bin/cp $CONF/msf_default.rc $CONF/msf.rc;
 		#Adjustable way to increase timeouts to a function of "$numports".  (X/10)+50
 		timeout=$(awk "BEGIN {print int((($numports / 10) + 50) + 0.5)}")
-        run_msf_commands \
+        #run_msf_commands \
 			#"db_nmap --top-ports="$numports" -Pn -v -n --disable-arp-ping --max-rtt-timeout 1500ms --version-intensity 2 --host-timeout "$timeout"s --script-timeout 50s --save -oG ./nmap/top-"$numports"ports-"`date +"%Y-%m-%d"`.gnmap" -oN ./nmap/top-"$numports"ports-"`date +"%Y-%m-%d"`.nmap" $TODOHOSTSCOMMA" \
         	#"mv ~/.msf4/local/*.xml ./nmap/top-"$numports"ports-"`date +"%Y-%m-%d"`.xml""
-		#echo "db_nmap --top-ports="$numports" -Pn -v -n --disable-arp-ping --max-rtt-timeout 1500ms --version-intensity 2 --host-timeout "$timeout"s --script-timeout 50s --save -oG ./nmap/top-"$numports"ports-"`date +"%Y-%m-%d"`.gnmap" -oN ./nmap/top-"$numports"ports-"`date +"%Y-%m-%d"`.nmap" $TODOHOSTSCOMMA" >> $CONF/msf.rc ;
-        #echo "mv ~/.msf4/local/*.xml ./nmap/top-"$numports"ports-"`date +"%Y-%m-%d"`.xml"" >> $CONF/msf.rc;
-		
-	 	#Considering adding a udp scan, but problem is it's open/filtered and get's deleted later on.  reason is, aux scan needes port 137 .
-   		#echo "db_nmap -sU -p 137,161 -Pn -v -n --disable-arp-ping --max-rtt-timeout 1500ms --host-timeout 30s $TODOHOSTSCOMMA" >> $CONF/msf.rc ;;
-	    #echo "quit -y" >> $CONF/msf.rc
-      	#$MSFBIN -r $CONF/msf.rc
+		echo "db_nmap --top-ports="$numports" -Pn -v -n --disable-arp-ping --max-rtt-timeout 1500ms --version-intensity 2 --host-timeout "$timeout"s --script-timeout 50s --save -oG ./nmap/top-"$numports"ports-"`date +"%Y-%m-%d"`.gnmap" -oN ./nmap/top-"$numports"ports-"`date +"%Y-%m-%d"`.nmap" $TODOHOSTSCOMMA" >> $CONF/msf.rc ;
+        echo "mv ~/.msf4/local/*.xml ./nmap/top-"$numports"ports-"`date +"%Y-%m-%d"`.xml"" >> $CONF/msf.rc;
+		#Considering adding a udp scan, but problem is it's open/filtered and get's deleted later on.  reason is, aux scan needes port 137 .
+   		#echo "db_nmap -sU -p 137,161 -Pn -v -n --disable-arp-ping --max-rtt-timeout 1500ms --host-timeout 30s $TODOHOSTSCOMMA" >> $CONF/msf.rc ;
+	    echo "quit -y" >> $CONF/msf.rc;
+      	$MSFBIN -r $CONF/msf.rc;;
 
 		[Nn]* ) echo "(OK) Skipping Nmap top"$numports" Port Scan";;
 		* ) echo "(OK) Skipping Nmap top"$numports" Port Scan";;
