@@ -35,18 +35,18 @@ reinit_sniper() {
 		  		msfdb reinit
 	
         		echo "(REINIT) - Deleting nmap files..."
-        		rm -f $CWD/nmap/*.xml ./nmap/*.gnmap ./nmap/*.nmap 2>/dev/null || true
-        		rm -f $CWD/nmap/new/*.xml 2>/dev/null || true
-        		rm -f $CWD/nmap/import_complete/*.xml 2>/dev/null || true
+        		sudo rm -f $CWD/nmap/*.xml ./nmap/*.gnmap ./nmap/*.nmap 2>/dev/null || true
+        		sudo rm -f $CWD/nmap/new/*.xml 2>/dev/null || true
+        		sudo rm -f $CWD/nmap/import_complete/*.xml 2>/dev/null || true
 
         		echo "(REINIT) - Deleting nessus files..."
-        		rm -f $CWD/nessus/*.nessus ./nessus/*.xml 2>/dev/null || true
-        		rm -f $CWD/nessus/new/*.nessus ./nessus/new/*.xml 2>/dev/null || true
-        		rm -f $CWD/nessus/import_complete/*.nessus ./nessus/import_complete/*.xml 2>/dev/null || true
+        		sudo rm -f $CWD/nessus/*.nessus ./nessus/*.xml 2>/dev/null || true
+        		sudo rm -f $CWD/nessus/new/*.nessus ./nessus/new/*.xml 2>/dev/null || true
+        		sudo rm -f $CWD/nessus/import_complete/*.nessus ./nessus/import_complete/*.xml 2>/dev/null || true
 
         		echo "(REINIT) - Deleting eyewitness files..."
         		if [ -d "$CWD/eyewitness" ]; then
-        			rm -rf $CWD/eyewitness/* 2>/dev/null || true
+        			sudo rm -rf $CWD/eyewitness/* 2>/dev/null || true
         		fi
 
         		echo "(REINIT) - SNIPER reinitialization complete!"
