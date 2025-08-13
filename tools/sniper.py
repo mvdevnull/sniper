@@ -86,6 +86,7 @@ def apply_os_updates(cur):
         	query = f"UPDATE hosts SET {set_clause} WHERE {where_clause}"
         	#print ("DEBUG-",query)
         	cur.execute(query)
+        	conn.commit()
 
 def validate_os_csv_format(filename='conf/os_rules.csv'):
         errors = []
