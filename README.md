@@ -16,7 +16,7 @@ sniper saves time by efficiently scanning in a strategic order:
 ###### Data Updates
 * Service banner details
 * OS name/flavor/SP confirmation
-* Nessus .xml integration
+* Nmap & Nessus import integration
 ###### Reporting
 * Insecure protocols via nmap
 * Unpatched/Outdated Services via nmap
@@ -43,5 +43,4 @@ msfconsole                                        #run in separate window and wa
 ```
 
 ### Future Features (TBD)
-* nessus API (standard , gaping holes and compliance)
 * Other bugs and potential features are noted in the [/docs/todo.txt](https://github.com/mvdevnull/sniper/blob/master/docs/todo.txt) file.
