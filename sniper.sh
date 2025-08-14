@@ -4,13 +4,21 @@
 #Version - 3.2025-08-13
 
 if [ "$EUID" -ne 0 ]
-  then echo "Please run as root"
+  then echo "Please run sniper.sh as root"
   exit
 fi
 
 clear
 
+echo '  _________      .__                     ' 
+echo ' /   _____/ ____ |__|_____   ___________ '
+echo ' \_____  \ /    \|  \____ \_/ __ \_  __ \'
+echo ' /        \   |  \  |  |_> >  ___/|  | \/'
+echo '/_______  /___|  /__|   __/ \___  >__|   '
+echo '        \/     \/   |__|        \/       '
+
 CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 show_help() {
         echo "Usage: $0 [OPTION]"
         echo ""
@@ -78,8 +86,9 @@ if [ $# -gt 0 ]; then
         esac
 fi
 
-
-
+nmapRESULTS=$CWD/nmap
+nessusRESULTS=$CWD/nessus
+CONF=$CWD/conf
 MSFBIN="/usr/bin/msfconsole -q"
 EYEWITNESS="/usr/bin/eyewitness"
 DB='msf'
@@ -101,19 +110,6 @@ else
     exit
 fi
 
-echo '  _________      .__                     ' 
-echo ' /   _____/ ____ |__|_____   ___________ '
-echo ' \_____  \ /    \|  \____ \_/ __ \_  __ \'
-echo ' /        \   |  \  |  |_> >  ___/|  | \/'
-echo '/_______  /___|  /__|   __/ \___  >__|   '
-echo '        \/     \/   |__|        \/       '
-
-
-#Directory mappings
-nmapRESULTS=$CWD/nmap
-nessusRESULTS=$CWD/nessus
-CONF=$CWD/conf
-
 #this is needed only if we call msfconsole as opposed to nc to msfd on localhost: 55554
 cp $CONF/msf_default.rc $CONF/msf.rc
 
@@ -127,14 +123,7 @@ run_msf_commands() {
       $MSFBIN -r $CONF/msf.rc
   }
   
-
-#Here is where we make msfd a "tiny" bit faster...by
-##Getting rid of all metasploit banners!!!!
-echo /usr/share/metasploit-framework/data/logos/*.txt | xargs -n1 cp /dev/null
-
-
-#Only import files if we have new ones
-
+#Only import nmap files if we have new files in nmap/new/*.xml
 if ls $nmapRESULTS/new/*.xml &> /dev/null; then
 		echo "(OK) - Importing only newer NMAP to $DB database - (all Nmap output in ./nmap/new directory to $DB...)"
 		run_msf_commands "db_import $nmapRESULTS/new/*.xml"
@@ -145,6 +134,7 @@ else
 		echo "(OK) - No new nmap files found in ./nmap/new directory to import"
 fi
 
+#Only import nessus files if we have new files in nessus/new/*.nessus
 if ls $nessusRESULTS/new/*.nessus &> /dev/null; then
 		echo "(OK) - Importing only newer Nessus to $DB database - (all Nessus output in ./nessus/new directory to $DB...)"
 		run_msf_commands "db_import $nessusRESULTS/new/*.nessus"
@@ -163,8 +153,6 @@ TOTALHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """Select count(*) from h
 cd $CWD
 
 
-
-#####Do a Quick & efficient NMAP discovery##########
 echo "============Phase 1 Nmap Discovery Scan ============"
 
 if [ $TOTALHOSTS -eq "0" ] ; then
@@ -195,11 +183,9 @@ else
                 	* ) echo "(OK) Skipping Nmap (2nd) Discovery scan";;
         	esac
 fi
+######################################################################
 
-
-
-
-echo "===========Phase 2 - NMAP top### Port Scan==========="
+echo "===========Phase 2 - NMAP Top-### Port Scan==========="
 
 #Careful here --> this SQL took a long time to get accurate!!! 
 TODOHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT DISTINCT H1.address                              
@@ -211,9 +197,9 @@ WHERE H2b.address IS NULL AND H1.info IS NULL and H1.os_name like '%Unknown%'"""
 
 cd $CWD
 if [ -z "$TODOHOSTS" ] ; then
-	echo "(OK) Skipping Nmap top200 Port Scan - No appropriate hosts";
+	echo "(OK) Skipping Nmap Top-### Port Scan - No appropriate hosts";
 else
-#########NMAP Probing Top-### tcp ports for known hosts============"
+#########NMAP Probing Top-### ports for known hosts============"
 	#echo "$TODOHOSTS"
 	for i in $TODOHOSTS; do TODOHOSTSCOMMA=`echo $TODOHOSTSCOMMA$i\ `; done
 	#Removes trailing comma and add space between commas
@@ -244,8 +230,6 @@ fi
 
 ######################################################################
 
-
-
 echo "==========Phase 3 General Metasploit (Aux) Scans ================"
 #WINWMI auxiliary MSF a)smb_version, b)nbname(for hostname) and c)endpoint_mapper (for other hostname when nbname doesn't work)
 TODOHOSTS=""
@@ -253,7 +237,7 @@ TODOHOSTS="$(/usr/bin/sudo -u postgres psql -d $DB -c """SELECT DISTINCT host_id
 port in (139,137,445) and info = '' """| grep -v row | grep -v host_id | grep -v """-""" )"
 cd $CWD
 if [ -z "$TODOHOSTS" ] ; then
-	echo "(OK) Skipping Metasploit (Aux) Scan - No appropriate hosts";
+	echo "(OK) Skipping Metasploit (Aux) Scan - No appropriate Windows hosts";
 else
 
 	read -p "(?) Do you want MSF to determine the Windows OS name/flavor or hostname?(y/N)" yn
@@ -277,7 +261,7 @@ else
 				"use auxiliary/scanner/netbios/nbname" \
 				"services -u -p 137 -R" \
 				"run"
-   			#RPC mapper seemed to muddy waters give too many ports that were more internal than external
+   			#RPC mapper seemed to muddy waters give too many ports that were more likely internal than external
 			#echo "use auxiliary/scanner/dcerpc/endpoint_mapper" >> $CONF/msf.rc;
 			#echo "services -p 135 -R" >> $CONF/msf.rc;
             #echo "run" >> $CONF/msf.rc;
@@ -341,7 +325,7 @@ else
 
 
                 [Nn]* ) echo "(OK) Skipping DB_Nmap -sV scan ";;
-                * ) echo "(OK) Skipping Nmap Version scan ";;
+                * ) echo "(OK) Skipping Nmap Version Scan ";;
         esac
 fi
 ######################################################################
