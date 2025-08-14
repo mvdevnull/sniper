@@ -83,7 +83,7 @@ def apply_os_updates(cur):
         		where_clause += f" and os_name = '{rule['prev_os_name']}'"
 
         	query = f"UPDATE hosts SET {set_clause} WHERE {where_clause}"
-        	#print ("DEBUG-",query)
+        	#print ("DEBUG-OS SERVICES Updates",query)
         	cur.execute(query)
         	conn.commit()
 
@@ -184,7 +184,7 @@ def apply_eyewitness_updates(cur):
         			where_clause += " and os_name = 'Unknown'"
 
         		query = f"UPDATE hosts SET {set_clause} WHERE {where_clause}"
-        		print ("DEBUG-",query)
+        		#print ("DEBUG OS-EYEWITNESS updates-",query)
         		cur.execute(query)
         		conn.commit()
 
