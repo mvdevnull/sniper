@@ -125,24 +125,24 @@ run_msf_commands() {
   
 #Only import nmap files if we have new files in nmap/new/*.xml
 if ls $nmapRESULTS/new/*.xml &> /dev/null; then
-		echo "(OK) - Importing only newer NMAP to $DB database - (all Nmap output in ./nmap/new directory to $DB...)"
+		echo "(OK) - Importing only newer NMAP to $DB database - (all Nmap output in nmap/new directory to $DB...)"
 		run_msf_commands "db_import $nmapRESULTS/new/*.xml"
 		mv $nmapRESULTS/new/*.xml $nmapRESULTS/import_complete
 		echo "(OK) - NMAP - DB Import Complete..."
 		/usr/bin/python3 $CWD/tools/sniper.py db_update
 else
-		echo "(OK) - No new nmap files found in ./nmap/new directory to import"
+		echo "(OK) - No new nmap files found in nmap/new directory to import"
 fi
 
 #Only import nessus files if we have new files in nessus/new/*.nessus
 if ls $nessusRESULTS/new/*.nessus &> /dev/null; then
-		echo "(OK) - Importing only newer Nessus to $DB database - (all Nessus output in ./nessus/new directory to $DB...)"
+		echo "(OK) - Importing only newer Nessus to $DB database - (all Nessus output in nessus/new directory to $DB...)"
 		run_msf_commands "db_import $nessusRESULTS/new/*.nessus"
 		mv $nessusRESULTS/new/*.nessus $nessusRESULTS/import_complete
 		echo "(OK) - Nessus - DB Import Complete..."
 		/usr/bin/python3 $CWD/tools/sniper.py db_update
 else
-		echo "(OK) - No new Nessus files found in ./nessus/new directory to import"
+		echo "(OK) - No new Nessus files found in nessus/new directory to import"
 fi
 
 ############################################
