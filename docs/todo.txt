@@ -3,7 +3,9 @@ Issues/Bugs/Enhancements Section:
 sniper.sh
 ---------
 Issue/Bugs
-1)fix sniper_id.py  (python2 -> python3)
+1)some nmap initial IP's to scan dont' work. why didn't this work 10.241.53.194, 10.241.53.191, 10.240.57.20, 10.240.57.23, 10.242.80.15, 10.242.80.18, 10.243.53.194, 10.243.53.192  ?   compare nmap   vs db_nmap   vs within sniper.sh see diff.
+
+1.2)fix sniper_id.py  (python2 -> python3)
 2)sniper.sh --reinit needs to check if msfconsole is running.  if it is, do not --reinit and instruct user to close msfconsole before --reinit
 3)db_import *.nessus will reset some hostnames incorrectly.    Would have to "strip" some of the terrible host discovery from XML .nessus to do anything.
     Close try below (but no cigar) to remove OS guess from .nessus file - need to look at this in detail
