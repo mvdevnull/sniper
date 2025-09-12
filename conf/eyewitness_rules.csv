@@ -10,3 +10,4 @@ Pelco Endura camera,camera,tle>Endura,unauth liveview,camera,True
 NETAPP ONTAP,storage,ONTAP System Manager,,,True
 Zebra Printer,printer,www.zebra.com,admin:1234,printer,False
 Hanwha Vision - Wisenet,camera,Wisenet WEBVIEWER,,camera,False
+Sharp Printer,printer,sharp-world.com,admin:admin,printer,False
