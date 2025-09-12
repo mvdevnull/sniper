@@ -8,9 +8,9 @@ Cisco UCS KVM Direct,KVM,title>Cisco UCS KVM Direct,,KVM,True
 iSTAR Ultra,I/O controller,>iSTAR Ultra,,I/O controller,True
 Pelco Endura camera,camera,tle>Endura,unauth liveview,camera,True
 NETAPP ONTAP,storage,ONTAP System Manager,,,True
-Zebra Printer,printer,www.zebra.com,Default-admin:1234,printer,False
+Zebra Printer,printer,www.zebra.com,DefaultCred-admin:1234,printer,False
 Hanwha Vision - Wisenet,camera,Wisenet WEBVIEWER,,camera,False
-Sharp Printer,printer,sharp-world.com,Default-Administrator:admin,printer,False
+Sharp Printer,printer,sharp-world.com,DefaultCred-Administrator:admin,printer,False
 Sharp Printer,Sharp MX-M350N,<title>MX-M350N,,printer,False
 Sharp Printer,Sharp BP-####,<title>Machine Identification - BP-,,printer,False
 Sharp Printer,Sharp MX-####,<title>Machine Identification - MX-,,printer,False
@@ -22,7 +22,7 @@ HP Printer,HP DesignJet,HP DesignJet,,printer,False
 HP Printer,HP Embedded Web Server,HP Embedded Web Server,,printer,True
 Lexmark Printer,Lexmark CX###,<title>Lexmark CX,,printer,True
 Lexmark Printer,Lexmark MS###,<title>Lexmark MS,,printer,True
-Honeywell Printer,Honeywell PM43 Printer,PM43:,,printer,True
+Honeywell Printer,Honeywell PM43 Printer,PM43:,DefaultCred-admin:pass,printer,True
 
 
 
