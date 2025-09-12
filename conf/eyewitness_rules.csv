@@ -11,6 +11,7 @@ NETAPP ONTAP,storage,ONTAP System Manager,,,True
 Zebra Printer,printer,www.zebra.com,Default-admin:1234,printer,False
 Hanwha Vision - Wisenet,camera,Wisenet WEBVIEWER,,camera,False
 Sharp Printer,printer,sharp-world.com,Default-Administrator:admin,printer,False
+Sharp Printer,Sharp MX-M350N,<title>MX-M350N,,printer,False
 HP Printer,HP Color LaserJet,HP Color LaserJet,,printer,False
 HP Printer,HP LaserJet MFP,HP LaserJet MFP,,printer,False
 HP Printer,HP LaserJet Pro MFP,HP LaserJet Pro MFP,,printer,False
@@ -19,6 +20,8 @@ HP Printer,HP DesignJet,HP DesignJet,,printer,False
 HP Printer,HP Embedded Web Server,HP Embedded Web Server,,printer,True
 Lexmark Printer,Lexmark CX###,<title>Lexmark CX,,printer,True
 Lexmark Printer,Lexmark MS###,<title>Lexmark MS,,printer,True
+Sharp Printer,
+
 
 
 
