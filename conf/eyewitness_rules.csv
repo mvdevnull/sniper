@@ -22,7 +22,7 @@ HP Printer,HP DesignJet,HP DesignJet,,printer,False
 HP Printer,HP Embedded Web Server,HP Embedded Web Server,,printer,True
 Lexmark Printer,Lexmark CX###,<title>Lexmark CX,,printer,True
 Lexmark Printer,Lexmark MS###,<title>Lexmark MS,,printer,True
-Honeywell Printer,Honeywell PM43 Printer,<title>PM43:,,printer,True
+Honeywell Printer,Honeywell PM43 Printer,<title>\nPM43:,,printer,True
 
 
 
