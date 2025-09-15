@@ -7,6 +7,7 @@ Cisco,VOIP,,,%andberg%VoIP%,Unknown
 Linux,Ubuntu,22,ssh,%buntu%,Unknown
 Linux,CentOS,,http,%CentOS%,
 Linux,Debian,,http,%Debian%,
+Linux,Debian,22,ssh,%Debian%,
 Linux,Fedora,,http,%Fedora%,
 Linux,Slackware,,,%lackware%,
 Linux,Raspbian,22,,%Raspbian%,
