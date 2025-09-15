@@ -9,6 +9,7 @@ Linux,CentOS,,http,%CentOS%,
 Linux,Debian,,http,%Debian%,
 Linux,Fedora,,http,%Fedora%,
 Linux,Slackware,,,%lackware%,
+Linux,Raspbian,22,,%Raspbian%,
 Linux,,23,,%Linux%,Unknown
 BSD,,23,,%BSD%,Unknown
 Linux,Red Hat Enterprise,,http,%Red%Hat%Enter%,
