@@ -11,6 +11,7 @@ DELL iDRAC 9,iDRAC 9,Integrated Remote Access Controller 9,,OOB Mgmt,True
 NETAPP,ONTAP,ONTAP System Manager,,Storage,True
 NETAPP,StorageGRID,NetApp® StorageGRID,,Storage,True
 Zebra Printer,printer,www.zebra.com,DefaultCred-admin:1234,printer,False
+Zebra Printer,printer,Zebra Technologies,DefaultCred-admin:1234,printer,False
 Sharp Printer,printer,sharp-world.com,DefaultCred-Administrator:admin,printer,False
 Sharp Printer,Sharp MX-M350N,<title>MX-M350N,DefaultCred-Administrator:admin,printer,False
 Sharp Printer,Sharp BP-####,<title>Machine Identification - BP-,DefaultCred-Administrator:admin,printer,False
