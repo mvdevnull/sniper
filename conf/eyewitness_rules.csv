@@ -7,7 +7,7 @@ BARIX Barionet 50,I/O controller,title>BARIX Barionet 50,,I/O controller,True
 Cisco UCS KVM Direct,KVM,title>Cisco UCS KVM Direct,,KVM,True
 iSTAR Ultra,I/O controller,>iSTAR Ultra,,I/O controller,True
 Pelco Endura camera,camera,tle>Endura,unauth liveview,camera,True
-NETAPP ONTAP,storage,ONTAP System Manager,,,True
+NETAPP ONTAP,storage,ONTAP System Manager,,Storage,True
 Zebra Printer,printer,www.zebra.com,DefaultCred-admin:1234,printer,False
 Hanwha Vision - Wisenet,camera,Wisenet WEBVIEWER,,camera,False
 Sharp Printer,printer,sharp-world.com,DefaultCred-Administrator:admin,printer,False
