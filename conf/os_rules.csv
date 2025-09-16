@@ -36,6 +36,7 @@ HP,iLO-Integrated Lights Out,,www,%HP%Integrated%Lights%,
 HP iLO,,,,%P Integrated Lights-Ou HP Integrated Lights-Ou%,Unknown
 DELL,DRAC6,,,%iDRAC6%,
 APC OS,,,,%APC%UPS%,Unknown
+Tridium Niagara,I/O,80,http,%Tridium%Niagara%,Unknown
 Wind River VxWorks,,,telnet,%VxWor%,Unknown
 HP Printer - Jet Direct,,,snmp,%JETDIRECT%,Unknown
 HP Printer - Jet Direct,,,http,%JetDirect%,Unknown
