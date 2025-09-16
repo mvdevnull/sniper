@@ -13,10 +13,11 @@ sniper saves time by efficiently scanning in a strategic order:
 * db_nmap (all nmap results centralized in Metasploit database)
 * metasploit discovery (auxiliary results centralized in Metasploit database)
 * eyewitness web thumbnails (centralized in eyewitness/report.html)
-###### Data Updates
-* Service banner details
-* OS name/flavor/SP confirmation
+* Service banner details via nmap
 * Nmap & Nessus import integration
+###### Custom OS Detection
+* OS name confirmation via custom nmap rules
+* OS name confirmation via custom eyewitness source rules
 ###### Reporting
 * Insecure protocols via nmap
 * Unpatched/Outdated Services via nmap
