@@ -4,7 +4,7 @@ Hanwha Vision,camera,Hanwha Vision WebViewer,,camera,True
 Pelco Sarix Pro,camera,title>Sarix Pro,,camera,True
 Hanwha Vision - Wisenet,camera,Wisenet WEBVIEWER,,camera,False
 Pelco Endura camera,camera,tle>Endura,unauth liveview,camera,True
-exacqVision,camera,title="exacqVision ,,camera,True
+exacqVision,camera,title="exacqVision,,camera,True
 BARIX Barionet 50,I/O controller,title>BARIX Barionet 50,,I/O controller,True
 iSTAR Ultra,I/O controller,>iSTAR Ultra,,I/O controller,True
 Cisco UCS KVM Direct,KVM,title>Cisco UCS KVM Direct,,OOB Mgmt,True
