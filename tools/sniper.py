@@ -8,6 +8,7 @@ import sys
 import os
 import re
 import csv
+import requests
 
 dbpass = os.popen("cat /usr/share/metasploit-framework/config/database.yml | grep -m1 password | cut -d \":\" -f 2 | awk '{ gsub (\" \", \"\", $0); print}'").read()
 constring = "dbname='msf' user='msf' host='localhost' port='5432' password='"+str(dbpass)+"'"
@@ -670,7 +671,7 @@ else:
 
 #Default Credentials (now only working with Zebra printers)  
 cur.execute("""select address FROM hosts where os_name = 'Zebra Printer' """)
-rows = cur.fetchall()
+rowszebra = cur.fetchall()
 if rows:
 	print("Would you like to examine default creds for Printers (Zebra testing)? (y/N)")
 	yes = set(['yes','y'])
@@ -679,7 +680,17 @@ if rows:
 	choice = input().lower()
 	if choice in yes:
 		for row in rows:
-			print(row[0])
+			#print(row[0])
+			zebra.payload = {"0": "1234"}
+			url = f"http://{row[0]}/authorize"
+			try:
+            # Send the POST request using the requests library
+            response = requests.post(url, data=payload, timeout=timeout_seconds)
+            
+            # Check for the "Access Granted" string in the response text
+            if "Access Granted" in response.text:
+                print(f"[+] Access Granted for {row[0]}")
+				
 		print("END -- Zebra printers above")
 	elif choice in no:
 		pass
