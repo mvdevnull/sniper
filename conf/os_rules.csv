@@ -34,6 +34,7 @@ CITRIX,,,www,Citrix%,
 CITRIX,,,https,Citrix%,
 HP,iLO-Integrated Lights Out,,ssh,%HP%Integrated%Lights%,
 HP,iLO-Integrated Lights Out,,www,%HP%Integrated%Lights%,
+HP,iLO-Integrated Lights Out,80,,%HP%Integrated%Lights%,
 HP iLO,,,,%P Integrated Lights-Ou HP Integrated Lights-Ou%,Unknown
 DELL,DRAC6,,,%iDRAC6%,
 APC OS,,,,%APC%UPS%,Unknown
