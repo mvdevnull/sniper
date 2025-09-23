@@ -669,7 +669,7 @@ else:
 
 
 #Default Credentials (now only working with Zebra printers)  
-cur.execute("""select address, name FROM hosts where os_name = 'Zebra Printer' """)
+cur.execute("""select address FROM hosts where os_name = 'Zebra Printer' """)
 rows = cur.fetchall()
 if rows:
 	print("Would you like to examine default creds for Printers (Zebra testing)? (y/N)")
@@ -679,7 +679,7 @@ if rows:
 	choice = input().lower()
 	if choice in yes:
 		for row in rows:
-			print(row[0], "\t", row[1], "\t", row[2])
+			print(row[0])
 		print("END -- Zebra printers above")
 	elif choice in no:
 		pass
