@@ -672,7 +672,7 @@ else:
 cur.execute("""select address FROM hosts where os_name = 'Zebra Printer' """)
 rows = cur.fetchall()
 if rows:
-	print("Would you like to examine default creds for Printers (Zebra testing)? (y/N)")
+	print("Would you like to examine default creds for Printers (Zebra testing only for now)? (y/N)")
 	yes = set(['yes','y'])
 	no = set(['no','n',''])
 
@@ -686,7 +686,7 @@ if rows:
 			    # Send the POST request using the requests library
 			    response = requests.post(url, data=payload, timeout=5)
 			    if "Access Granted" in response.text:
-			         print(f"[+] Access Granted for {row[0]}")
+			         print(f"[+] {row[0]} - Default Zebra Credential (pass=1234) ")
 			except:
 				pass
 		print("END -- Zebra printers above")
