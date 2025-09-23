@@ -668,10 +668,9 @@ else:
 	pass
 
 
-'''
 #Default Credentials (now only working with Zebra printers)  
 cur.execute("""select address FROM hosts where os_name = 'Zebra Printer' """)
-rowszebra = cur.fetchall()
+rows = cur.fetchall()
 if rows:
 	print("Would you like to examine default creds for Printers (Zebra testing)? (y/N)")
 	yes = set(['yes','y'])
@@ -684,8 +683,8 @@ if rows:
 			zebra.payload = {"0": "1234"}
 			url = f"http://{row[0]}/authorize"
 			try:
-            	# Send the POST request using the requests library
-            	response = requests.post(url, data=payload, timeout=timeout_seconds)
+                # Send the POST request using the requests library
+                response = requests.post(url, data=payload, timeout=timeout_seconds)
 	            if "Access Granted" in response.text:
     	            print(f"[+] Access Granted for {row[0]}")
 				
@@ -696,7 +695,6 @@ if rows:
 		print("Please respond with 'yes' or 'no'")
 else:
 	pass
-'''
 
 
 #UNKNOWN HOSTS - manual review
