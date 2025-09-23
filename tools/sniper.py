@@ -668,7 +668,7 @@ else:
 	pass
 
 
-
+'''
 #Default Credentials (now only working with Zebra printers)  
 cur.execute("""select address FROM hosts where os_name = 'Zebra Printer' """)
 rowszebra = cur.fetchall()
@@ -696,7 +696,7 @@ if rows:
 		print("Please respond with 'yes' or 'no'")
 else:
 	pass
-
+'''
 
 
 #UNKNOWN HOSTS - manual review
