@@ -667,6 +667,29 @@ else:
 	pass
 
 
+
+#Default Credentials (now only working with Zebra printers)  
+cur.execute("""select address, name FROM hosts where os_name = "Zebra Printer" """)
+rows = cur.fetchall()
+if rows:
+	print("Would you like to examine default creds for Printers (Zebra testing)? (y/N)")
+	yes = set(['yes','y'])
+	no = set(['no','n',''])
+
+	choice = input().lower()
+	if choice in yes:
+		for row in rows:
+			print(row[0], "\t", row[1], "\t", row[2])
+		print("END -- Zebra printers above")
+	elif choice in no:
+		pass
+	else:
+		print("Please respond with 'yes' or 'no'")
+else:
+	pass
+
+
+
 #UNKNOWN HOSTS - manual review
 cur.execute("""select h.address, s.port, s.name, s.info from hosts h FULL join services s on h.id = s.host_id where (h.os_name = 'Unknown' and s.info <> '')""")
 rows = cur.fetchall()
