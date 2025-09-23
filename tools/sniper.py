@@ -686,6 +686,8 @@ if rows:
 			    # Send the POST request using the requests library
 			    response = requests.post(url, data=payload, timeout=5)
 			    if "Access Granted" in response.text:
+			         #msf>creds add realm:1.1.1.1-Zebra password:1234    #work around b/c creds not working
+			         #msf>creds add host:1.1.1.1 realm:ZebraPrinterDefault password:1234    #should be something more like after bug fixed by metasploit people
 			         print(f"[+] {row[0]} - Default Zebra Credential (pass=1234) ")
 			except:
 				pass
