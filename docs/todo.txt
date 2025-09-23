@@ -5,7 +5,10 @@ sniper.sh
 Issue/Bugs
 1)some nmap initial IP's to scan dont' work. why didn't this work 10.241.53.194, 10.241.53.191, 10.240.57.20, 10.240.57.23, 10.242.80.15, 10.242.80.18, 10.243.53.194, 10.243.53.192  ?   compare nmap   vs db_nmap   vs within sniper.sh see diff.
 2)nmap rules need to be formated more like eyewitness rules and columns.   (example: need purpose on nmap,etc)
-3)I have 3 printer (sharp,lexmark,zebra) default password checkers.. they are similiar, but need to be combined and brought into sniper somehow.   after we get a cred, we don't want to test it again.  we also want to keep it somewhere. maybe in creds-- creds add user:admin password:1234 address:1.1.1.1 port:80 protocol:?dontknow?
+3)Default creds functionality (now with zebra.  )
+    it needs to support multiple devices (like (sharp,lexmark using curl i made a test for) 
+    after we get a cred, we don't want to test it again.  
+    we also want to keep it somewhere. maybe in creds-- creds add user:admin password:1234 address:1.1.1.1 port:80 protocol:?dontknow?
 
 1.2)fix sniper_id.py  (python2 -> python3)
 2)sniper.sh --reinit needs to check if msfconsole is running.  if it is, do not --reinit and instruct user to close msfconsole before --reinit
