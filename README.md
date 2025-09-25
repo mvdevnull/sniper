@@ -28,14 +28,14 @@ sniper saves time by efficiently scanning in a strategic order:
 ```
 git clone https://github.com/mvdevnull/sniper.git
 cd sniper
-msfdb init                                        #Initialize postgres for MSF
+sudo msfdb init                                        #Initialize postgres for MSF
 ```
 ###### Dependencies
 ````
-apt-get install metasploit-framework              #Install metasploit framework
-apt-get install eyewitness                        #Install eyewitness
-apt-get install python3                           #Install python3
-apt-get install python3-psycopg2                  #Install postgresql python3 library
+sudo apt-get install metasploit-framework              #Install metasploit framework
+sudo apt-get install eyewitness                        #Install eyewitness
+sudo apt-get install python3                           #Install python3
+sudo apt-get install python3-psycopg2                  #Install postgresql python3 library
 ````
 ### Usage
 ```
