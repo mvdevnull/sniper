@@ -33,4 +33,5 @@ SATO Printer,SATO ST400 Printer,SATO ST400,DefaultCred-0310,printer,True
 Brother Printer,Brother PT-### Printer,tle>Brother PT-,,printer,True
 Cisco,Cisco IP Phone,Cisco IP Phone,,VOIP,True
 Schneider Electric,APC UPS,images/se_logo.gif,DefaultCred:varies-google,UPS,True
+Motorola,Motorola RFID Reader,Motorola RFID Reader Configuration,DefaultCred:admin:2301,RFIDReader,True
 QMATIC,Qmatic Platform,itle>Qmatic Platform,DefaultCred-Administrator:ulan,webapp,True
