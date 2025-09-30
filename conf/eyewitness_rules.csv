@@ -35,3 +35,4 @@ Cisco,Cisco IP Phone,Cisco IP Phone,,VOIP,True
 Schneider Electric,APC UPS,images/se_logo.gif,DefaultCred:varies-google,UPS,True
 Motorola,Motorola RFID Reader,Motorola RFID Reader Configuration,DefaultCred-admin:2301&admin:change,RFIDReader,True
 QMATIC,Qmatic Platform,itle>Qmatic Platform,DefaultCred-Administrator:ulan,webapp,True
+NetBotz,NetBotz Wall Monitor 355,le>NetBotz Wall Monitor 355,,webapp,True
