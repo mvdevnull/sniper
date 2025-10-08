@@ -3,6 +3,10 @@ Issues/Bugs/Enhancements Section:
 sniper.sh
 ---------
 Issue/Bugs
+!)sniper is missing in one  example 35% of all IP's by missing pingable and assuming 22,80,443,445 would be open.
+a)needs to ping db_nmap -sn first for  the initial range.
+b)then subrtract known IP's from above range and generate the remainder.  For the remainder, do the existing db_nmap on port 22,80,443,445 on the rest.
+
 1)some nmap initial IP's to scan dont' work. why didn't this work 10.241.53.194, 10.241.53.191, 10.240.57.20, 10.240.57.23, 10.242.80.15, 10.242.80.18, 10.243.53.194, 10.243.53.192  ?   compare nmap   vs db_nmap   vs within sniper.sh see diff.
 2)nmap rules need to be formated more like eyewitness rules and columns.   (example: need purpose on nmap,etc)
 3)Default creds functionality (now with zebra.  )
