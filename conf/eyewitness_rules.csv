@@ -9,7 +9,7 @@ BARIX Barionet 50,I/O controller,title>BARIX Barionet 50,,I/O controller,True
 iSTAR Ultra,I/O controller,>iSTAR Ultra,,I/O controller,True
 LG BACnet Gateway,I/O controller,LG BACnet Gateway,,I/O controller,True
 Cisco UCS KVM Direct,KVM,title>Cisco UCS KVM Direct,,OOB Mgmt,True
-Cisco vKVM,Kvm,PageTitle">vKVM -,,OOB Mgmt,True
+Cisco vKVM,Kvm,>vKVM -,,OOB Mgmt,True
 DELL iDRAC 9,iDRAC 9,Integrated Remote Access Controller 9,,OOB Mgmt,True
 NETAPP,ONTAP,ONTAP System Manager,,Storage,True
 NETAPP,StorageGRID,NetApp® StorageGRID,,Storage,True
