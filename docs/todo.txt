@@ -30,10 +30,12 @@ Coding Neatness to consider:
 2)sometype of debug mode -v -vv
 3)convert all python.sh  to python.py
 
-
 Enhancements to consider:
 1)other msf aux modules to do all time -  example -- use auxiliary/scanner/ftp/anonymous on all FTP (msf>snmp public or >smtpenum or >dns zonexfer)  (there may be some aux modules for misc OS/appliance? might look for ruby code with updates to database and work that way?)
 2)Early dependency checking (check for python library, msfconsole, etc)
+3)right now, eyewitness only get's IP#'s not FQDN.   we could run some magic to replace IP with fqdn if we can resolve.  might need to get a DNS to better resolve though..
+4)?for the IIS (older i think), we can run https://github.com/sw33tLie/sns.git  to get folder directory info.  sorta like a DIRB that brutes 1 character at a time..
+
 
 
 GAPING HOLES found by msf compatable nessus plugins (BROKEN now)
