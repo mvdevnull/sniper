@@ -11,6 +11,7 @@ LG BACnet Gateway,I/O controller,LG BACnet Gateway,,I/O controller,True
 Cisco UCS KVM Direct,KVM,title>Cisco UCS KVM Direct,,OOB Mgmt,True
 Cisco vKVM,Kvm,>vKVM -,,OOB Mgmt,True
 Cisco UCS,Cisco UCS,Cisco Unified Communications,,Web,True
+Cisco IMC,Cisco Integrated Management Controller,Cisco Integrated Management Controller,,,True
 DELL iDRAC 9,iDRAC 9,Integrated Remote Access Controller 9,,OOB Mgmt,True
 NETAPP,ONTAP,ONTAP System Manager,,Storage,True
 NETAPP,StorageGRID,NetApp® StorageGRID,,Storage,True
