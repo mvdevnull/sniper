@@ -388,10 +388,10 @@ cur.execute("""SELECT DISTINCT H.address, S.port, H.name ,S.name, H.os_name, S.i
 WHERE (S.port = '1433' and S.info like '%SQL%Server%2016%' and S.state = 'open') 
 AND S.host_id = H.id
 UNION ALL
-#cur.execute("""SELECT DISTINCT H.address, S.port, H.name ,S.name, H.os_name, S.info FROM hosts H, services S
-#WHERE (S.port = '1433' and S.info like '%SQL%Server%2008%' and S.state = 'open') 
-#AND S.host_id = H.id
-#UNION ALL
+SELECT DISTINCT H.address, S.port, H.name ,S.name, H.os_name, S.info FROM hosts H, services S
+WHERE (S.port = '1433' and S.info like '%SQL%Server%2008%' and S.state = 'open') 
+AND S.host_id = H.id
+UNION ALL
 /*Unpatched/Outdated Service Holder for next  ABC (6666)*/
 SELECT DISTINCT H.address, S.port, H.name ,S.name, H.os_name, S.info FROM hosts H, services S
 WHERE (S.name like '%tbd%' and S.port = '6666' and S.info like '%tbdL%tbd%tbd%' and S.state = 'open') 
