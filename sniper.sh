@@ -339,8 +339,8 @@ fi
 ######################################################################
 
 
-echo "==========Phase 5 Eyewitness Web Thumbnail Scans ================"
-read -p "(?) Do you want to create thumbnails on ports (80,443,8000,8080,8443) with 'eyewitness' ?(y/N)" yn
+echo "==========Phase 5 Eyewitness & Gowitness Web Thumbnail Scans ================"
+read -p "(?) Do you want to create thumbnails on ports (80,443,8000,8080,8443) with 'eyewitness' and 'gowitness' ?(y/N)" yn
 
 case $yn in
 	[Yy]* ) echo "(OK) Starting - Eyewitness Scan..."
@@ -357,11 +357,12 @@ case $yn in
 			rm /tmp/sniper.eyewitness.txt
 			chmod o+w .
 	  		/usr/bin/sudo -u postgres $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --max-retries 0 --web --timeout 5 --threads 20 -d eyewitness
+	  		/usr/bin/sudo -u postgres $GOWITNESS scan file -f /tmp/sniper.eyewitness.b.txt --write-db -D --log-scan-errors
      			rm /tmp/sniper.eyewitness.b.txt
        		fi
-		echo "(OK) Eyewitness scan complete - see ./eyewitness/report.html";;
-    [Nn]* ) echo "(OK) Skipping Eyewitness Scan";;
-    * ) echo "(OK) Skipping Eyewitness Scan";;
+		echo "(OK) Eyewitness & Gowitness scan complete - see ./eyewitness/report.html & ./gowitness.sqlite3";;
+    [Nn]* ) echo "(OK) Skipping Eyewitness & Gowitness Scan";;
+    * ) echo "(OK) Skipping Eyewitness & Gowitness Scan";;
 esac
 ##################################################
 	
