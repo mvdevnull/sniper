@@ -91,6 +91,7 @@ nessusRESULTS=$CWD/nessus
 CONF=$CWD/conf
 MSFBIN="/usr/bin/msfconsole -q"
 EYEWITNESS="/usr/bin/eyewitness"
+GOWITNESS="/usr/bin/gowitness"
 DB='msf'
 
 SERVICE='postgresql'
@@ -107,6 +108,13 @@ if test -f "$EYEWITNESS"; then
     echo "(OK) - Found $EYEWITNESS "
 else
     echo "(ERROR) - eyewitness not found - install eyewitness (ex: apt-get install eyewitness)"
+    exit
+fi
+
+if test -f "$GOWITNESS"; then
+    echo "(OK) - Found $GOWITNESS "
+else
+    echo "(ERROR) - gowitness not found - install gowitness (ex: apt-get install gowitness)"
     exit
 fi
 
