@@ -33,6 +33,7 @@ Lexmark Printer,Lexmark MS###,<title>Lexmark MS,,printer,True
 Honeywell Printer,Honeywell PM43 Printer,PM43:,DefaultCred-admin:pass,printer,True
 Intermec P4i,Easycoder Label Printer,tle>EasyCoder P,DefaultCred-admin:pass,printer,True
 SATO Printer,SATO ST400 Printer,SATO ST400,DefaultCred-0310,printer,True
+SATO Printer,SATO ST400 Printer,itle>ST400 Setup,DefaultCred-0310,printer,True
 Brother Printer,Brother PT-### Printer,tle>Brother PT-,,printer,True
 Cisco,Cisco IP Phone,Cisco IP Phone,,VOIP,True
 Schneider Electric,APC UPS,images/se_logo.gif,DefaultCred:varies-google,UPS,True
