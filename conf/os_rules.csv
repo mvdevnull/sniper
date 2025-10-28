@@ -46,6 +46,7 @@ HP Printer - Jet Direct,,,snmp,%JETDIRECT%,Unknown
 HP Printer - Jet Direct,,,http,%JetDirect%,Unknown
 HP Printer - Jet Direct,,,http,%jetdirect%,Unknown
 HP Printer - LaserJet,,,,%LaserJet%,Unknown
+HP,HP Printer,80,http,%Virata-EmWeb%,Unknown
 Linksys,Kiss DP-558 PVR,21,,%Kiss%DP-558%,Unknown
 Axis Network Camera,,21,,%xis%amera%,Unknown
 Axis Network Camera,,21,,%XIS%amera%,Unknown
@@ -60,6 +61,6 @@ POLYCOM,VOIP,,,%olycom%VoIP%,Unknown
 Netgear,Prosafe,,,%etgear%ProSafe%,Unknown
 Ricoh Printer,printer,80,,%Ricoh%Aficio%,Unknown
 Ricoh Printer,printer,443,,%Ricoh%Aficio%,Unknown
-HP,HP Printer,80,http,%Virata-EmWeb%,Unknown
+Zebra Printer,printer,80,,%ZebraNet%,Unknown
 Lexmark,Lexmark Printer,515,,%Lexmark%,Unknown
 VxWorks,VxWorks RTOS,23,,&VxWorks&,Unknown
