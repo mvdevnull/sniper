@@ -9,6 +9,8 @@ b)then subrtract known IP's from above range and generate the remainder.  For th
 
 -)add to .py script (at end)  the question to auto assign unknown OS with port 9100 to "Unknown Printer"
 
+-add gowitness to eyewitness areas
+
 1)some nmap initial IP's to scan dont' work. why didn't this work 10.241.53.194, 10.241.53.191, 10.240.57.20, 10.240.57.23, 10.242.80.15, 10.242.80.18, 10.243.53.194, 10.243.53.192  ?   compare nmap   vs db_nmap   vs within sniper.sh see diff.
 2)nmap rules need to be formated more like eyewitness rules and columns.   (example: need purpose on nmap,etc)
 3)Default creds functionality (now with zebra.  )
