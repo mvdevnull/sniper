@@ -57,6 +57,7 @@ reinit_sniper() {
         		if [ -d "$CWD/eyewitness" ]; then
         			rm -rf $CWD/eyewitness/* 2>/dev/null || true
 		   			rm -f $CWD/geckodriver.log
+					rm -f $CWD/gowitness.sqlite3
         		fi
 
         		echo "(REINIT) - SNIPER reinitialization complete!"
