@@ -3,18 +3,14 @@ Issues/Bugs/Enhancements Section:
 sniper.sh
 ---------
 Issue/Bugs
-!)sniper is missing in one  example 35% of all IP's by missing pingable and assuming 22,80,443,445 would be open.
-a)needs to ping db_nmap -sn first for  the initial range.  be very careful if you do this, if you get all IP's 1-255 results it's false positive.  if you can't account for that situation, might have to forget about it.
-b)then subrtract known IP's from above range and generate the remainder.  For the remainder, do the existing db_nmap on port 22,80,443,445 on the rest.
-
 -)add to .py script (at end)  the question to auto assign unknown OS with port 9100 to "Unknown Printer"
 
-1)some nmap initial IP's to scan dont' work. why didn't this work 10.241.53.194, 10.241.53.191, 10.240.57.20, 10.240.57.23, 10.242.80.15, 10.242.80.18, 10.243.53.194, 10.243.53.192  ?   compare nmap   vs db_nmap   vs within sniper.sh see diff.
-2)nmap rules need to be formated more like eyewitness rules and columns.   (example: need purpose on nmap,etc)
-3)Default creds functionality (now with zebra.  )
+1)nmap rules need to be formated more like eyewitness rules and columns.   (example: need purpose on nmap,etc)
+2)Default creds functionality (now with zebra.  )
     it needs to support multiple devices (like (sharp,lexmark using curl i made a test for) 
     after we get a cred, we don't want to test it again.  
     we also want to keep it somewhere. maybe in creds-- creds add user:admin password:1234 address:1.1.1.1 port:80 protocol:?dontknow?
+    we also may want to do anon ftp for all port 21?
 
 1.2)fix sniper_id.py  (python2 -> python3)
 2)sniper.sh --reinit needs to check if msfconsole is running.  if it is, do not --reinit and instruct user to close msfconsole before --reinit
@@ -82,6 +78,10 @@ nessus ----> https://www.tenable.com/downloads/nessus
 ---------
 Future (Low Priority - if any)
 ---------
+!)sniper is missing in one  example 35% of all IP's by missing pingable and assuming 22,80,443,445 would be open.
+a)needs to ping db_nmap -sn first for  the initial range.  be very careful if you do this, if you get all IP's 1-255 results it's false positive.  if you can't account for that situation, might have to forget about it.
+b)then subrtract known IP's from above range and generate the remainder.  For the remainder, do the existing db_nmap on port 22,80,443,445 on the rest.
+
 X)Do some logic for Account Credential issues
 =1)See parse_nessus_xml.v19.pl  (specifically in section where it lists accounts)
 =2)NSS-10860 will get local accounts
