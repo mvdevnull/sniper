@@ -352,7 +352,7 @@ fi
 
 
 echo "==========Phase 5 Eyewitness & Gowitness Web Thumbnail Scans ================"
-read -p "(?) Do you want to create thumbnails on ports (80,443,8000,8080,8443) with 'eyewitness' and 'gowitness' ?(y/N)" yn
+read -p "(?) Do you want to create thumbnails on ports (80,443,8000,8080,8443) with 'eyewitness' , 'gowitness' and 'dirb+gowitness' 404 blank pages ?(y/N)" yn
 
 case $yn in
 	[Yy]* ) echo "(OK) Starting - Eyewitness Scan..."
