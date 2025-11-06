@@ -95,6 +95,8 @@ MSFBIN="/usr/bin/msfconsole -q"
 EYEWITNESS="/usr/bin/eyewitness"
 GOWITNESS="/usr/bin/gowitness"
 SQLITE3="/usr/bin/sqlite3"
+DIRB="/usr/bin/dirb"
+
 DB='msf'
 
 SERVICE='postgresql'
@@ -111,6 +113,13 @@ if test -f "$EYEWITNESS"; then
     echo "(OK) - Found $EYEWITNESS "
 else
     echo "(ERROR) - eyewitness not found - install eyewitness (ex: apt-get install eyewitness)"
+    exit
+fi
+
+if test -f "$DIRB"; then
+    echo "(OK) - Found $DIRB "
+else
+    echo "(ERROR) - dirb not found - install dirb (ex: apt-get install dirb)"
     exit
 fi
 
@@ -369,6 +378,37 @@ case $yn in
 			chmod o+w .
 	  		/usr/bin/sudo -u postgres $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --max-retries 0 --web --timeout 5 --threads 20 -d eyewitness
 	  		/usr/bin/sudo -u postgres $GOWITNESS scan file -f /tmp/sniper.eyewitness.b.txt --write-db -D --log-scan-errors
+
+	  		# DIRB integration
+	  		rm -f /tmp/dirb.go.txt /tmp/dirb.url.txt /tmp/dirb.txt /tmp/dirb.to_delete.txt
+	  		# Extract 404 URLs
+	  		/usr/bin/sudo -u postgres $SQLITE3 gowitness.sqlite3 "SELECT url FROM results WHERE response_code=404;" > /tmp/dirb.url.txt
+	  		# Open file descriptor 3 for reading the URL list
+	  		exec 3</tmp/dirb.url.txt
+	  		# Read from file descriptor 3
+	  		while IFS= read -r base_url <&3; do
+	  			echo "[*] Scanning $base_url with dirb..."
+	  			$DIRB "$base_url" -o /tmp/dirb.txt
+		  		# Extract found paths
+		  		grep '^+' /tmp/dirb.txt | cut -d " " -f2 >> /tmp/dirb.go.txt
+	  		done
+	  		# Close file descriptor
+	  		exec 3<&-
+	  		# Deduplicate
+	  		sort -u /tmp/dirb.go.txt -o /tmp/dirb.go.txt
+	  		# Screenshot discovered paths
+	  		/usr/bin/sudo -u postgres $GOWITNESS scan file -f /tmp/dirb.go.txt --write-db -D --log-scan-errors
+	  		#Cleanup any IP:port(404's) that we now have new information on from dirb  
+	  		/usr/bin/sudo -u postgres $SQLITE3 gowitness.sqlite3 "
+	  		DELETE FROM results
+	  		WHERE response_code = 404
+  	  		AND EXISTS (
+    	  		SELECT 1 FROM results AS r2
+    	  		WHERE r2.url LIKE results.url || '/%' AND r2.response_code != 404
+  	  		);
+	  		"
+	  		# Clean up
+	  		rm -f /tmp/dirb.go.txt /tmp/dirb.url.txt /tmp/dirb.txt /tmp/dirb.to_delete.txt
 			#Remove 400 response code (http/https protocol mismatch)
 			/usr/bin/sudo -u postgres $SQLITE3 gowitness.sqlite3 "DELETE FROM results WHERE response_code = 400;"
      			rm /tmp/sniper.eyewitness.b.txt
