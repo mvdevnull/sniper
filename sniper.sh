@@ -93,6 +93,7 @@ nessusRESULTS=$CWD/nessus
 CONF=$CWD/conf
 MSFBIN="/usr/bin/msfconsole -q"
 
+#Tool Prerequisites
 EYEWITNESS="/usr/bin/eyewitness"
 GOWITNESS="/usr/bin/gowitness"
 SQLITE3="/usr/bin/sqlite3"
@@ -110,7 +111,7 @@ declare -A tools=(
 for path in "${!tools[@]}"; do
     name="${tools[$path]}"
     if [[ -f "$path" ]]; then
-        #echo "(OK) - Found $path"
+        echo "(OK) - Found tool $path"
     else
         echo "(ERROR) - $name not found - install $name (ex: apt-get install $name)"
         exit 1
