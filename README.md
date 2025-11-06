@@ -33,9 +33,12 @@ sudo msfdb init                                        #Initialize postgres for 
 ###### Dependencies
 ````
 sudo apt-get install metasploit-framework              #Install metasploit framework
-sudo apt-get install eyewitness                        #Install eyewitness
 sudo apt-get install python3                           #Install python3
 sudo apt-get install python3-psycopg2                  #Install postgresql python3 library
+sudo apt-get install eyewitness                        #Install eyewitness
+sudo apt-get install gowitness                         #Install gowitness
+sudo apt-get install sqlite3                           #Install sqlite3
+sudo apt-get install dirb                              #Install dirb
 ````
 ### Usage
 ```
