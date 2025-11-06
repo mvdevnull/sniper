@@ -92,10 +92,30 @@ nmapRESULTS=$CWD/nmap
 nessusRESULTS=$CWD/nessus
 CONF=$CWD/conf
 MSFBIN="/usr/bin/msfconsole -q"
+
 EYEWITNESS="/usr/bin/eyewitness"
 GOWITNESS="/usr/bin/gowitness"
 SQLITE3="/usr/bin/sqlite3"
 DIRB="/usr/bin/dirb"
+
+# Map paths to friendly tool names
+declare -A tools=(
+    ["$EYEWITNESS"]="eyewitness"
+    ["$DIRB"]="dirb"
+    ["$GOWITNESS"]="gowitness"
+    ["$SQLITE3"]="sqlite3"
+)
+
+# Loop through and check each tool
+for path in "${!tools[@]}"; do
+    name="${tools[$path]}"
+    if [[ -f "$path" ]]; then
+        echo "(OK) - Found $path"
+    else
+        echo "(ERROR) - $name not found - install $name (ex: apt-get install $name)"
+        exit 1
+    fi
+done
 
 DB='msf'
 
@@ -107,35 +127,6 @@ else
         echo "(OK) - Starting $SERVICE .... "
         /etc/init.d/$SERVICE start
         echo "(OK) - Starting $SERVICE service "
-fi
-
-if test -f "$EYEWITNESS"; then
-    echo "(OK) - Found $EYEWITNESS "
-else
-    echo "(ERROR) - eyewitness not found - install eyewitness (ex: apt-get install eyewitness)"
-    exit
-fi
-
-if test -f "$DIRB"; then
-    echo "(OK) - Found $DIRB "
-else
-    echo "(ERROR) - dirb not found - install dirb (ex: apt-get install dirb)"
-    exit
-fi
-
-if test -f "$GOWITNESS"; then
-    echo "(OK) - Found $GOWITNESS "
-else
-    echo "(ERROR) - gowitness not found - install gowitness (ex: apt-get install gowitness)"
-    exit
-fi
-
-
-if test -f "$SQLITE3"; then
-    echo "(OK) - Found $SQLITE3 "
-else
-    echo "(ERROR) - sqlite3 not found - install sqlite3 (ex: apt-get install sqlite3)"
-    exit
 fi
 
 #this is needed only if we call msfconsole as opposed to nc to msfd on localhost: 55554
