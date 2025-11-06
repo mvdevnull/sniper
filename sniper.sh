@@ -94,6 +94,7 @@ CONF=$CWD/conf
 MSFBIN="/usr/bin/msfconsole -q"
 EYEWITNESS="/usr/bin/eyewitness"
 GOWITNESS="/usr/bin/gowitness"
+SQLITE3="/usr/bin/sqlite3"
 DB='msf'
 
 SERVICE='postgresql'
@@ -117,6 +118,14 @@ if test -f "$GOWITNESS"; then
     echo "(OK) - Found $GOWITNESS "
 else
     echo "(ERROR) - gowitness not found - install gowitness (ex: apt-get install gowitness)"
+    exit
+fi
+
+
+if test -f "$SQLITE3"; then
+    echo "(OK) - Found $SQLITE3 "
+else
+    echo "(ERROR) - sqlite3 not found - install sqlite3 (ex: apt-get install sqlite3)"
     exit
 fi
 
@@ -360,6 +369,8 @@ case $yn in
 			chmod o+w .
 	  		/usr/bin/sudo -u postgres $EYEWITNESS -f /tmp/sniper.eyewitness.b.txt --no-prompt --max-retries 0 --web --timeout 5 --threads 20 -d eyewitness
 	  		/usr/bin/sudo -u postgres $GOWITNESS scan file -f /tmp/sniper.eyewitness.b.txt --write-db -D --log-scan-errors
+			#Remove 400 response code (http/https protocol mismatch)
+			/usr/bin/sudo -u postgres $SQLITE3 gowitness.sqlite3 "DELETE FROM results WHERE response_code = 400;"
      			rm /tmp/sniper.eyewitness.b.txt
        		fi
 		echo "(OK) Eyewitness & Gowitness scan complete - see ./eyewitness/report.html & ./gowitness.sqlite3";;
