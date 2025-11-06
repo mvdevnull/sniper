@@ -110,7 +110,7 @@ declare -A tools=(
 for path in "${!tools[@]}"; do
     name="${tools[$path]}"
     if [[ -f "$path" ]]; then
-        echo "(OK) - Found $path"
+        #echo "(OK) - Found $path"
     else
         echo "(ERROR) - $name not found - install $name (ex: apt-get install $name)"
         exit 1
