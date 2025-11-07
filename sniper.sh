@@ -360,6 +360,8 @@ case $yn in
 	 		echo "(OK) - Found unfinished scan - resuming.. "
 			/usr/bin/sudo -u postgres $EYEWITNESS --resume ./eyewitness/ew.db    			
 		else
+			#Remove 400 response code (http/https protocol mismatch)
+			/usr/bin/sudo -u postgres $SQLITE3 gowitness.sqlite3 "DELETE FROM results WHERE response_code = 400;"
 			/bin/cp $CONF/msf_default.rc /tmp/sniper-eye.msf.rc
 			echo "services -p 80,443,8000,8080,8443 -u -o /tmp/sniper.eyewitness.txt"  >> /tmp/sniper-eye.msf.rc
 			echo "quit -y" >> /tmp/sniper-eye.msf.rc
@@ -380,7 +382,7 @@ case $yn in
 	  		# Read from file descriptor 3
 	  		while IFS= read -r base_url <&3; do
 	  			echo "[*] Scanning $base_url with dirb..."
-	  			$DIRB "$base_url" -o /tmp/dirb.txt -r
+	  			$DIRB "$base_url" -o "/tmp/dirb_$(echo $base_url | tr '/:' '_').txt"  -r
 		  		# Extract found paths
 		  		grep '^+' /tmp/dirb.txt | cut -d " " -f2 >> /tmp/dirb.go.txt
 	  		done
@@ -400,10 +402,7 @@ case $yn in
   	  		);
 	  		"
 	  		# Clean up
-	  		rm -f /tmp/dirb.go.txt /tmp/dirb.url.txt /tmp/dirb.txt /tmp/dirb.to_delete.txt
-			#Remove 400 response code (http/https protocol mismatch)
-			/usr/bin/sudo -u postgres $SQLITE3 gowitness.sqlite3 "DELETE FROM results WHERE response_code = 400;"
-     			rm /tmp/sniper.eyewitness.b.txt
+	  		rm -f /tmp/dirb.go.txt /tmp/dirb.url.txt /tmp/dirb.txt /tmp/dirb.to_delete.txt /tmp/sniper.eyewitness.b.txt
        		fi
 		echo "(OK) Eyewitness & Gowitness scan complete - see ./eyewitness/report.html & ./gowitness.sqlite3";;
     [Nn]* ) echo "(OK) Skipping Eyewitness & Gowitness Scan";;
