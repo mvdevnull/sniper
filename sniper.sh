@@ -382,7 +382,8 @@ case $yn in
 	  		# Read from file descriptor 3
 	  		while IFS= read -r base_url <&3; do
 	  			echo "[*] Scanning $base_url with dirb..."
-	  			$DIRB "$base_url" -o "/tmp/dirb_$(echo $base_url | tr '/:' '_').txt"  -r
+	  			$DIRB "$base_url" -o /tmp/dirb.txt  -r
+				cp /tmp/dirb.txt "/tmp/dirb_$(echo $base_url | tr '/:' '_').txt"
 		  		# Extract found paths
 		  		grep '^+' /tmp/dirb.txt | cut -d " " -f2 >> /tmp/dirb.go.txt
 	  		done
