@@ -384,13 +384,13 @@ case $yn in
 	  			echo "[*] Scanning $base_url with dirb..."
 	  			$DIRB "$base_url" -o /tmp/dirb.txt  -r
 		  		# Extract found paths
-		  		grep '^+' /tmp/dirb.txt | cut -d " " -f2 >> /tmp/dirb.go.txt
+		  		grep '^+' /tmp/dirb.txt | cut -d " " -f2 > /tmp/dirb.go.txt
 				# Screenshot discovered paths
 				/usr/bin/sudo -u postgres $GOWITNESS scan file -f /tmp/dirb.go.txt --write-db -D --log-scan-errors
 	  		done
 	  		# Close file descriptor
 	  		exec 3<&-
-	  		#Cleanup any IP:port(404's) that we now have new information on from dirb  
+	  		#Cleanup any IP:port(404's) base url's that we now have new information on from dirb  
 	  		/usr/bin/sudo -u postgres $SQLITE3 gowitness.sqlite3 "
 	  		DELETE FROM results
 	  		WHERE response_code = 404
