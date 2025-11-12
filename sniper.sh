@@ -383,16 +383,13 @@ case $yn in
 	  		while IFS= read -r base_url <&3; do
 	  			echo "[*] Scanning $base_url with dirb..."
 	  			$DIRB "$base_url" -o /tmp/dirb.txt  -r
-				cp /tmp/dirb.txt "/tmp/dirb_$(echo $base_url | tr '/:' '_').txt"
 		  		# Extract found paths
 		  		grep '^+' /tmp/dirb.txt | cut -d " " -f2 >> /tmp/dirb.go.txt
+				# Screenshot discovered paths
+				/usr/bin/sudo -u postgres $GOWITNESS scan file -f /tmp/dirb.go.txt --write-db -D --log-scan-errors
 	  		done
 	  		# Close file descriptor
 	  		exec 3<&-
-	  		# Deduplicate
-	  		sort -u /tmp/dirb.go.txt -o /tmp/dirb.go.txt
-	  		# Screenshot discovered paths
-	  		/usr/bin/sudo -u postgres $GOWITNESS scan file -f /tmp/dirb.go.txt --write-db -D --log-scan-errors
 	  		#Cleanup any IP:port(404's) that we now have new information on from dirb  
 	  		/usr/bin/sudo -u postgres $SQLITE3 gowitness.sqlite3 "
 	  		DELETE FROM results
