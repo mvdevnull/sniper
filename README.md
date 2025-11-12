@@ -7,7 +7,7 @@ sniper saves time by efficiently scanning in a strategic order:
 * 2)TCP ports for only alive hosts
 * 3)Deep -sV banner scans for only open tcp ports and will not repeat -sV for queries with no response
 * 4)Runs eyewitness and gowitness for web frontends
-* 5)Runs dirb+gowitness to find url directory's only for blank (404) front pages
+* 5)Runs dirb+gowitness to find url directory's (only for blank (404) front pages)
 
 ### Core Features
 ###### Scanning
