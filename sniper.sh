@@ -383,7 +383,7 @@ case $yn in
 	  		while IFS= read -r base_url <&3; do
 	  			echo "[*] Scanning $base_url with dirb..."
 				rm -f /tmp/dirb.txt
-	  			$DIRB "$base_url" -o /tmp/dirb.txt  -r
+	  			$DIRB "$base_url" /usr/share/dirb/wordlists/small.txt -o /tmp/dirb.txt  -r
 		  		# Extract found paths
 		  		grep '^+' /tmp/dirb.txt | cut -d " " -f2 > /tmp/dirb.go.txt
 				# Screenshot discovered paths
