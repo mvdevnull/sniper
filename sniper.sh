@@ -388,6 +388,8 @@ case $yn in
 		  		grep '^+' /tmp/dirb.txt | cut -d " " -f2 > /tmp/dirb.go.txt
 				# Screenshot discovered paths
 				/usr/bin/sudo -u postgres $GOWITNESS scan file -f /tmp/dirb.go.txt --write-db -D --log-scan-errors
+				#If we have a 404 directory, we don't care about it.
+				/usr/bin/sudo -u postgres $SQLITE3 gowitness.sqlite3 "DELETE FROM results WHERE response_code=404 and url like '${base_url}/%';"
 	  		done
 	  		# Close file descriptor
 	  		exec 3<&-
