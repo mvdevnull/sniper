@@ -32,6 +32,7 @@ HP Printer,HP DesignJet,HP DesignJet,,printer,False
 HP Printer,HP Embedded Web Server,HP Embedded Web Server,,printer,True
 Lexmark Printer,Lexmark CX###,<title>Lexmark CX,,printer,True
 Lexmark Printer,Lexmark MS###,<title>Lexmark MS,,printer,True
+Xerox Printer,Xerox Printer,www.xerox.com,,printer,True
 Honeywell Printer,Honeywell PM43 Printer,PM43:,DefaultCred-admin:pass,printer,True
 Honeywell Printer,Honeywell PM45 Printer,PM45:,DefaultCred-admin:pass,printer,True
 Intermec P4i,Easycoder Label Printer,tle>EasyCoder P,DefaultCred-admin:pass,printer,True
