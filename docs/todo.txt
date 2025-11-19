@@ -3,17 +3,15 @@ Issues/Bugs/Enhancements Section:
 sniper.sh
 ---------
 Issue/Bugs
--)add to .py script (at end)  the question to auto assign unknown OS with port 9100 to "Unknown Printer"
 
-1)nmap rules need to be formated more like eyewitness rules and columns.   (example: need purpose on nmap,etc)
-2)Default creds functionality (now with zebra.  )
+1)nmap rules need to be formated more like eyewitness rules and columns.   (example: need info on nmap)
+2)Default creds functionality (now with zebra)
     it needs to support multiple devices (like (sharp,lexmark using curl i made a test for) 
     after we get a cred, we don't want to test it again.  
     we also want to keep it somewhere. maybe in creds-- creds add user:admin password:1234 address:1.1.1.1 port:80 protocol:?dontknow?
     we also may want to do anon ftp for all port 21?
 
-1.2)fix sniper_id.py  (python2 -> python3)
-2)db_import *.nessus will reset some hostnames incorrectly.    Would have to "strip" some of the terrible host discovery from XML .nessus to do anything.
+3)db_import *.nessus will reset some hostnames incorrectly.    Would have to "strip" some of the terrible host discovery from XML .nessus to do anything.
     Close try below (but no cigar) to remove OS guess from .nessus file - need to look at this in detail
     awk '/<plugin_output>/ && /Following OS Fingerprints/ {f=0} /<\/plugin_output>/{f=1} f' test.nessus > testnew.nessus
     [-] Failed to import /usr/local/src/github/sniper/nessus/new/testnew.nessus: Could not automatically determine file type
@@ -29,9 +27,8 @@ Coding Neatness to consider:
 
 Enhancements to consider:
 1)other msf aux modules to do all time -  example -- use auxiliary/scanner/ftp/anonymous on all FTP (msf>snmp public or >smtpenum or >dns zonexfer)  (there may be some aux modules for misc OS/appliance? might look for ruby code with updates to database and work that way?)
-2)Early dependency checking (check for python library, msfconsole, etc)
-3)right now, eyewitness only get's IP#'s not FQDN.   we could run some magic to replace IP with fqdn if we can resolve.  might need to get a DNS to better resolve though..
-4)?for the IIS (older i think), we can run https://github.com/sw33tLie/sns.git  to get folder directory info.  sorta like a DIRB that brutes 1 character at a time..
+2)right now, eyewitness only get's IP#'s not FQDN.   we could run some magic to replace IP with fqdn if we can resolve.  might need to get a DNS to better resolve though..
+3)?for the IIS (older i think), we can run https://github.com/sw33tLie/sns.git  to get folder directory info.  sorta like a DIRB that brutes 1 character at a time..
 
 
 
@@ -44,9 +41,8 @@ This code and ideas are in the MAGIC CVE section of sniper.sh and within cve_upd
 ----------------
 sniper.py
 --------------
-OS Detection:
-1)Expand os_rules.csv with more  service ways to detect OS.
-2)Expand eyewitness_rules.csv with more service ways to detect OS.
+-)add to .py script (at end)  the question to auto assign unknown OS with port 9100 to "Unknown Printer"
+-)fix sniper_id.py  (python2 -> python3)
 
 LOGIC BUG:
 
