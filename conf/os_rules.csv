@@ -1,66 +1,66 @@
-os_name,os_flavor,port,service_name,info_pattern,prev_os_name
-TestingOS,TestingFlav,445,,%626e657%,
-SUN,,22,ssh,%Sun%,Unknown
-SUN ILO,,,http,%Sun-ILOM%,Unknown
-Cisco,,,,%isco%,Unknown
-Cisco,VOIP,,,%andberg%VoIP%,Unknown
-Linux,Ubuntu,22,ssh,%buntu%,Unknown
-Linux,CentOS,,http,%CentOS%,
-Linux,Debian,,http,%Debian%,
-Linux,Debian,22,ssh,%Debian%,
-Linux,Fedora,,http,%Fedora%,
-Linux,Slackware,,,%lackware%,
-Linux,Raspbian,22,,%Raspbian%,
-Linux,,23,,%Linux%,Unknown
-BSD,,23,,%BSD%,Unknown
-Linux,Red Hat Enterprise,,http,%Red%Hat%Enter%,
-Microsoft Windows,,,,%icrosof%,Unknown
-Microsoft Windows,,,,%indows%,Unknown
-Microsoft Windows,2000,,,%Microsoft Windows 2000%,
-Microsoft Windows,Server 2003,,,%Microsoft Windows Server 2003%,
-Microsoft Windows,Server 2016 or Win10,445,,%10.0.14393%,   
-Microsoft Windows,Server 2025 or Win11,445,,%10.0.26100%,
-VMWare ESX,,,http,%ESX%,Unknown
-VMWare ESX,,,,%VMware%,
-F5-BIGIP,,,http,%BIG-IP%,
-F5-BIGIP,,,www,%BIG-IP%,
-NETAPP,,,http,%ONTAP%,
-NETAPP,,10000,,%ONTAP%,
-NASLite,NASLite-SMB (DefaultCred-admin:nas),23,,%NASLite-SMB/Sveasoft%,
-CITRIX,,,http,%CITRIX%,
-CITRIX,,,www,%CITRIX%,
-CITRIX,,,https,%CITRIX%,
-CITRIX,,,ssl/http,Citrix%,
-CITRIX,,,http,Citrix%,
-CITRIX,,,www,Citrix%,
-CITRIX,,,https,Citrix%,
-HP,iLO-Integrated Lights Out,,ssh,%HP%Integrated%Lights%,
-HP,iLO-Integrated Lights Out,,www,%HP%Integrated%Lights%,
-HP,iLO-Integrated Lights Out,80,,%HP%Integrated%Lights%,
-HP iLO,,,,%P Integrated Lights-Ou HP Integrated Lights-Ou%,Unknown
-DELL,DRAC6,,,%iDRAC6%,
-APC OS,,,,%APC%UPS%,Unknown
-Tridium Niagara,I/O,80,http,%Tridium%Niagara%,Unknown
-Wind River VxWorks,,,telnet,%VxWor%,Unknown
-HP Printer - Jet Direct,,,snmp,%JETDIRECT%,Unknown
-HP Printer - Jet Direct,,,http,%JetDirect%,Unknown
-HP Printer - Jet Direct,,,http,%jetdirect%,Unknown
-HP Printer - LaserJet,,,,%LaserJet%,Unknown
-HP,HP Printer,80,http,%Virata-EmWeb%,Unknown
-Linksys,Kiss DP-558 PVR,21,,%Kiss%DP-558%,Unknown
-Axis Network Camera,,21,,%xis%amera%,Unknown
-Axis Network Camera,,21,,%XIS%amera%,Unknown
-D-Link-DCS-2130 or Pelco-IDE10DN Camera,,554,,%DCS-2130%IDE10DN%,Unknown
-2N Helios IP Intercom/Camera,,80,,%2N%Helios%,Unknown
-Stanley NT500,I/O Device,80,,%Stanley%NT500%,Unknown
-DoorBird Video Doorbell,,554,,%Door%Bird%,Unknown
-Vivotek FD8134V webcam,,554,,%Vivotek%FD8134V%,Unknown
-Avocent KVM,,443,,%vocent%KVM%,Unknown
-TRENDnet webcam,,,,TRENDnet%webcam%,Unknown
-POLYCOM,VOIP,,,%olycom%VoIP%,Unknown
-Netgear,Prosafe,,,%etgear%ProSafe%,Unknown
-Ricoh Printer,printer,80,,%Ricoh%Aficio%,Unknown
-Ricoh Printer,printer,443,,%Ricoh%Aficio%,Unknown
-Zebra Printer,printer,80,,%ZebraNet%,Unknown
-Lexmark,Lexmark Printer,515,,%Lexmark%,Unknown
-VxWorks,VxWorks RTOS,23,,&VxWorks&,Unknown
+os_name,os_flavor,port,service_name,info_pattern,purpose,prev_os_name
+TestingOS,TestingFlav,445,,%626e657%,TestPurpose,
+SUN,,22,ssh,%Sun%,server,Unknown
+SUN ILO,,,http,%Sun-ILOM%,OOB Mgmt,Unknown
+Cisco,,,,%isco%,server,Unknown
+Cisco,VOIP,,,%andberg%VoIP%,VOIP,Unknown
+Linux,Ubuntu,22,ssh,%buntu%,server,Unknown
+Linux,CentOS,,http,%CentOS%,server,
+Linux,Debian,,http,%Debian%,server,
+Linux,Debian,22,ssh,%Debian%,server,
+Linux,Fedora,,http,%Fedora%,server,
+Linux,Slackware,,,%lackware%,server,
+Linux,Raspbian,22,,%Raspbian%,server,
+Linux,,23,,%Linux%,server,Unknown
+BSD,,23,,%BSD%,server,Unknown
+Linux,Red Hat Enterprise,,http,%Red%Hat%Enter%,server,
+Microsoft Windows,,,,%icrosof%,server,Unknown
+Microsoft Windows,,,,%indows%,server,Unknown
+Microsoft Windows,2000,,,%Microsoft Windows 2000%,server,
+Microsoft Windows,Server 2003,,,%Microsoft Windows Server 2003%,server,
+Microsoft Windows,Server 2016 or Win10,445,,%10.0.14393%,server,
+Microsoft Windows,Server 2025 or Win11,445,,%10.0.26100%,server,
+VMWare ESX,,,http,%ESX%,Virtualization,Unknown
+VMWare ESX,,,,%VMware%,Virtualization,
+F5-BIGIP,,,http,%BIG-IP%,Load Balancer,
+F5-BIGIP,,,www,%BIG-IP%,Load Balancer,
+NETAPP,,,http,%ONTAP%,Storage,
+NETAPP,,10000,,%ONTAP%,Storage,
+NASLite,NASLite-SMB (DefaultCred-admin:nas),23,,%NASLite-SMB/Sveasoft%,Storage,
+CITRIX,,,http,%CITRIX%,Virtualization,
+CITRIX,,,www,%CITRIX%,Virtualization,
+CITRIX,,,https,%CITRIX%,Virtualization,
+CITRIX,,,ssl/http,Citrix%,Virtualization,
+CITRIX,,,http,Citrix%,Virtualization,
+CITRIX,,,www,Citrix%,Virtualization,
+CITRIX,,,https,Citrix%,Virtualization,
+HP,iLO-Integrated Lights Out,,ssh,%HP%Integrated%Lights%,OOB Mgmt,
+HP,iLO-Integrated Lights Out,,www,%HP%Integrated%Lights%,OOB Mgmt,
+HP,iLO-Integrated Lights Out,80,,%HP%Integrated%Lights%,OOB Mgmt,
+HP iLO,,,,%P Integrated Lights-Ou HP Integrated Lights-Ou%,OOB Mgmt,Unknown
+DELL,DRAC6,,,%iDRAC6%,OOB Mgmt,
+APC OS,,,,%APC%UPS%,UPS,Unknown
+Tridium Niagara,I/O,80,http,%Tridium%Niagara%,TBD,Unknown
+Wind River VxWorks,,,telnet,%VxWor%,TBD,Unknown
+HP Printer - Jet Direct,,,snmp,%JETDIRECT%,printer,Unknown
+HP Printer - Jet Direct,,,http,%JetDirect%,printer,Unknown
+HP Printer - Jet Direct,,,http,%jetdirect%,printer,Unknown
+HP Printer - LaserJet,,,,%LaserJet%,printer,Unknown
+HP,HP Printer,80,http,%Virata-EmWeb%,printer,Unknown
+Linksys,Kiss DP-558 PVR,21,,%Kiss%DP-558%,PVR,Unknown
+Axis Network Camera,,21,,%xis%amera%,camera,Unknown
+Axis Network Camera,,21,,%XIS%amera%,camera,Unknown
+D-Link-DCS-2130 or Pelco-IDE10DN Camera,,554,,%DCS-2130%IDE10DN%,camera,Unknown
+2N Helios IP Intercom/Camera,,80,,%2N%Helios%,camera,Unknown
+Stanley NT500,I/O Device,80,,%Stanley%NT500%,I/O controller,Unknown
+DoorBird Video Doorbell,,554,,%Door%Bird%,camera,Unknown
+Vivotek FD8134V webcam,,554,,%Vivotek%FD8134V%,camera,Unknown
+Avocent KVM,,443,,%vocent%KVM%,OOB Mgmt,Unknown
+TRENDnet webcam,,,,TRENDnet%webcam%,camera,Unknown
+POLYCOM,VOIP,,,%olycom%VoIP%,VOIP,Unknown
+Netgear,Prosafe,,,%etgear%ProSafe%,Network Device,Unknown
+Ricoh Printer,printer,80,,%Ricoh%Aficio%,printer,Unknown
+Ricoh Printer,printer,443,,%Ricoh%Aficio%,printer,Unknown
+Zebra Printer,printer,80,,%ZebraNet%,printer,Unknown
+Lexmark,Lexmark Printer,515,,%Lexmark%,printer,Unknown
+VxWorks,VxWorks RTOS,23,,&VxWorks&,TBD,Unknown

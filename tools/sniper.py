@@ -78,6 +78,8 @@ def apply_os_updates(cur):
         	set_clause = f"os_name = '{rule['os_name']}', comments = 'OS-Updated-by-sniper.py'"
         	if rule['os_flavor']:
         		set_clause += f", os_flavor = '{rule['os_flavor']}'"
+        	if rule['purpose']:
+        		set_clause += f", purpose = '{rule['purpose']}'"
 
         	where_clause = f"id in (SELECT host_id from services where {service_where})"
         	if rule['prev_os_name']:
@@ -105,10 +107,10 @@ def validate_os_csv_format(filename='conf/os_rules.csv'):
         		line = line.strip()
         		if not line:  # Skip empty lines
         			continue
-        		# Count commas - should be exactly 5 (for 6 columns)
+        		# Count commas - should be exactly 6 (for 7 columns)
         		comma_count = line.count(',')
-        		if comma_count != 5:
-        			errors.append(f"Line {line_num}: Expected 5 commas, found {comma_count} - '{line}'")
+        		if comma_count != 6:
+        			errors.append(f"Line {line_num}: Expected 6 commas, found {comma_count} - '{line}'")
         			continue
         		fields = line.split(',')
         		# Skip header line
