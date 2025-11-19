@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 #Author - chrisdhebert@gmail.com
-#Version - 3.2025-08-13
+#Version - 3.2025-11-19
 
 import psycopg2
 import sys
