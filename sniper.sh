@@ -58,7 +58,7 @@ reinit_sniper() {
         			rm -rf $CWD/eyewitness/* 2>/dev/null || true
 		   			rm -f $CWD/geckodriver.log
 					rm -f $CWD/gowitness.sqlite3
-					rm -f $CWD/screenshots
+					rm -rf $CWD/screenshots
         		fi
 
         		echo "(REINIT) - SNIPER reinitialization complete!"
