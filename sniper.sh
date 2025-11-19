@@ -35,6 +35,15 @@ show_help() {
 
 reinit_sniper() {
         echo "========== SNIPER REINIT =========="
+
+        # Check if msfconsole is running
+        if pgrep -x msfconsole > /dev/null; then
+                echo "(ERROR) - msfconsole is currently running!"
+                echo "(ERROR) - Please close msfconsole before running --reinit"
+                echo "(ERROR) - SNIPER reinit aborted"
+                exit 1
+        fi
+
         echo "WARNING: This will delete ALL scan data and reinitialize the database!"
         read -p "Are you sure you want to continue? (y/N): " confirm
 
