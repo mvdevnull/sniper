@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #Author - chrisdhebert@gmail.com
-#Version - 3.2025-11-6
+#Version - 3.2025-11-19
 
 if [ "$EUID" -ne 0 ]
   then echo "Please run sniper.sh as root"
