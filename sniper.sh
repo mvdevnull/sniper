@@ -37,7 +37,7 @@ reinit_sniper() {
         echo "========== SNIPER REINIT =========="
 
         # Check if msfconsole is running
-        if pgrep -x msfconsole > /dev/null; then
+        if pgrep -f "/usr/bin/msfconsole" > /dev/null; then
                 echo "(ERROR) - msfconsole is currently running!"
                 echo "(ERROR) - Please close msfconsole before running --reinit"
                 echo "(ERROR) - SNIPER reinit aborted"
