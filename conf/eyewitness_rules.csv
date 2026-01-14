@@ -8,6 +8,7 @@ exacqVision,camera,exacqVision,DefaultCred-admin:admin256,camera,True
 BARIX Barionet 50,I/O controller,title>BARIX Barionet 50,,I/O controller,True
 iSTAR Ultra,I/O controller,>iSTAR Ultra,,I/O controller,True
 LG BACnet Gateway,I/O controller,LG BACnet Gateway,,I/O controller,True
+mPower,mPower Clinical Analtic,<title>mPower Clinical Analytic,,MedicalDevice,true
 VMWare,VMWare ESXi,www.vmware.com,,Virtualization,True
 VMWare,ESXi Host Client,ESXi Host Client,,Virtualization,True
 PaloAlto,PaloAlto,panw_new_logo,,Firewall,True
