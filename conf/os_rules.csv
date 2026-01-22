@@ -61,7 +61,7 @@ POLYCOM,VOIP,,,%olycom%VoIP%,VOIP,Unknown
 Netgear,Prosafe,,,%etgear%ProSafe%,Network Device,Unknown
 Ricoh Printer,printer,80,,%Ricoh%Aficio%,printer,Unknown
 Ricoh Printer,printer,443,,%Ricoh%Aficio%,printer,Unknown
-Zebra Printer,printer,80,,%ZebraNet%,printer,Unknown
-Zebra Printer,printer,161,,%ZebraNet%,printer,Unknown
+Zebra Printer,printer,80,,%Zebra%,printer,Unknown
+Zebra Printer,printer,161,,%Zebra%,printer,Unknown
 Lexmark,Lexmark Printer,515,,%Lexmark%,printer,Unknown
 VxWorks,VxWorks RTOS,23,,&VxWorks&,TBD,Unknown
