@@ -43,6 +43,7 @@ Intermec P4i,Easycoder Label Printer,tle>EasyCoder P,DefaultCred-admin:pass,prin
 SATO Printer,SATO ST400 Printer,SATO ST400,DefaultCred-0310,printer,True
 SATO Printer,SATO ST400 Printer,itle>ST400 Setup,DefaultCred-0310,printer,True
 Brother Printer,Brother PT-### Printer,tle>Brother PT-,,printer,True
+Brother Printer,Brother MFC-### Printer,tle>Brother MFC-,,printer,True
 Cisco,Cisco IP Phone,Cisco IP Phone,,VOIP,True
 Sangoma,Sangoma Vega 400G,<title>Sangoma Vega 400G,,VOIP,true
 Schneider Electric,APC UPS,images/se_logo.gif,DefaultCred:varies-google,UPS,True
