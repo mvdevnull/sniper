@@ -12,9 +12,9 @@ Issue/Bugs
     we also may want to do anon ftp for all port 21?
 3)RTSP unauth check idea:
     dependency = ffplay
-    1)Boa camera  (shame this doesn't confirm that 554 is open :(  )
+    1)Boa (old axis?) camera  (shame this doesn't confirm that 554 is open :(  )
     services -S Boa -p 8080
-    10.42.48.42  8080  tcp    http  open   Boa HTTPd 0.94.14rc21
+    10.42.48.42  8080  tcp    http  open   Boa HTTPd 0.94.14rc21    (But these Boa might be old Axis)   http://10.42.78.17/incl/version.shtml
     10.42.48.55  8080  tcp    http  open   Boa HTTPd 0.94.14rc21
     Then run loop on ip's 
     ffplay rtsp://$ip:554/live.sdp -rtsp_transport tcp&
