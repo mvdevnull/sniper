@@ -98,8 +98,25 @@
 {% block scripts %}
 <script>
 $(document).ready(function() {
+    var totalRows = $('#servicesTable tbody tr').length;
+    var pageLengths = [50, 100, 250, 500, 1000];
+    var pageLabels = ['50', '100', '250', '500', '1000'];
+
+    // Add percentage options for large datasets
+    if (totalRows > 500) {
+        var pct10 = Math.ceil(totalRows * 0.1);
+        var pct25 = Math.ceil(totalRows * 0.25);
+        var pct50 = Math.ceil(totalRows * 0.5);
+        pageLengths.push(pct10, pct25, pct50, -1);
+        pageLabels.push('10% (' + pct10 + ')', '25% (' + pct25 + ')', '50% (' + pct50 + ')', 'All (' + totalRows + ')');
+    } else {
+        pageLengths.push(-1);
+        pageLabels.push('All');
+    }
+
     $('#servicesTable').DataTable({
-        pageLength: 50,
+        pageLength: 100,
+        lengthMenu: [pageLengths, pageLabels],
         order: [[0, 'asc'], [1, 'asc']]
     });
 });
