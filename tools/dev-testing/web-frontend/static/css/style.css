@@ -1,0 +1,123 @@
+/* Sniper Web Frontend - Custom Styles */
+
+body {
+    background-color: #f8f9fa;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table code {
+    background-color: #e9ecef;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.badge {
+    font-weight: 500;
+}
+
+/* DataTables customization */
+.dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+}
+
+/* Responsive table adjustments */
+@media (max-width: 768px) {
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+}
+
+/* Stats cards */
+.display-4 {
+    font-size: 2.5rem;
+    font-weight: 300;
+}
+
+/* Breadcrumb styling */
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+/* Form controls */
+.form-label {
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+/* Copy functionality */
+.copyable {
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s;
+}
+
+.copyable:hover {
+    background-color: rgba(13, 110, 253, 0.1);
+}
+
+.copyable code {
+    pointer-events: none;
+}
+
+.copy-col-btn {
+    cursor: pointer;
+    opacity: 0.7;
+    margin-left: 0.5rem;
+    font-size: 0.85rem;
+    transition: opacity 0.2s;
+}
+
+.copy-col-btn:hover {
+    opacity: 1;
+}
+
+/* Toast notification for copy feedback */
+.copy-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #198754;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.copy-toast.show {
+    opacity: 1;
+}
+
+/* Header with copy button */
+th .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

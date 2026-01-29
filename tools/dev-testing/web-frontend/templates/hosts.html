@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}Hosts - Sniper{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Hosts</h1>
+    <div>
+        <a href="{{ url_for('export_hosts') }}" class="btn btn-outline-secondary btn-sm">Export CSV</a>
+    </div>
+</div>
+
+<!-- Filters -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">OS Name</label>
+                <select name="os_name" class="form-select form-select-sm">
+                    <option value="">All</option>
+                    {% for os in os_options %}
+                    <option value="{{ os }}" {% if request.args.get('os_name') == os %}selected{% endif %}>{{ os }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Purpose</label>
+                <select name="purpose" class="form-select form-select-sm">
+                    <option value="">All</option>
+                    {% for p in purpose_options %}
+                    <option value="{{ p }}" {% if request.args.get('purpose') == p %}selected{% endif %}>{{ p }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Search</label>
+                <input type="text" name="search" class="form-control form-control-sm" value="{{ request.args.get('search', '') }}" placeholder="IP, hostname...">
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary btn-sm me-2">Filter</button>
+                <a href="{{ url_for('hosts') }}" class="btn btn-outline-secondary btn-sm">Clear</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table id="hostsTable" class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Address <span class="copy-col-btn" onclick="copyColumn('address')" title="Copy all IPs">&#128203;</span></th>
+                <th>Hostname</th>
+                <th>OS Name</th>
+                <th>OS Flavor</th>
+                <th>Purpose</th>
+                <th>MAC</th>
+                <th>Services</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for host in hosts %}
+            <tr>
+                <td class="copyable" data-col="address" data-value="{{ host.address }}" onclick="copyCell(this)"><code>{{ host.address }}</code></td>
+                <td>{{ host.name or '-' }}</td>
+                <td>{{ host.os_name or 'Unknown' }}</td>
+                <td>{{ host.os_flavor or '-' }}</td>
+                <td>{{ host.purpose or '-' }}</td>
+                <td><small>{{ host.mac or '-' }}</small></td>
+                <td><span class="badge bg-info">{{ host.service_count }}</span></td>
+                <td>
+                    <a href="{{ url_for('host_detail', host_id=host.id) }}" class="btn btn-sm btn-outline-primary">Details</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    $('#hostsTable').DataTable({
+        pageLength: 50,
+        order: [[0, 'asc']],
+        columnDefs: [
+            { orderable: false, targets: -1 }
+        ]
+    });
+});
+
+function showToast(message) {
+    let toast = document.getElementById('copyToast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'copyToast';
+        toast.className = 'copy-toast';
+        document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+function copyToClipboard(text) {
+    // Fallback method that works over HTTP
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    return true;
+}
+
+function copyCell(element) {
+    const value = element.getAttribute('data-value');
+    copyToClipboard(value);
+    showToast('Copied: ' + value);
+}
+
+function copyColumn(colName) {
+    const cells = document.querySelectorAll(`td[data-col="${colName}"]`);
+    const values = Array.from(cells).map(cell => cell.getAttribute('data-value'));
+    const uniqueValues = [...new Set(values)];
+    const text = uniqueValues.join('\n');
+    copyToClipboard(text);
+    showToast('Copied ' + uniqueValues.length + ' IPs to clipboard');
+}
+</script>
+{% endblock %}

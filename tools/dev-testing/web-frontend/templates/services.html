@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}Services - Sniper{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Services</h1>
+    <div>
+        <button class="btn btn-outline-primary btn-sm me-2" onclick="copyIPPort()">Copy IP:Port</button>
+        <a href="{{ url_for('export_services') }}" class="btn btn-outline-secondary btn-sm">Export CSV</a>
+    </div>
+</div>
+
+<!-- Filters -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-2">
+                <label class="form-label">State</label>
+                <select name="state" class="form-select form-select-sm">
+                    <option value="">All</option>
+                    <option value="open" {% if request.args.get('state') == 'open' %}selected{% endif %}>Open</option>
+                    <option value="closed" {% if request.args.get('state') == 'closed' %}selected{% endif %}>Closed</option>
+                    <option value="filtered" {% if request.args.get('state') == 'filtered' %}selected{% endif %}>Filtered</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Protocol</label>
+                <select name="proto" class="form-select form-select-sm">
+                    <option value="">All</option>
+                    <option value="tcp" {% if request.args.get('proto') == 'tcp' %}selected{% endif %}>TCP</option>
+                    <option value="udp" {% if request.args.get('proto') == 'udp' %}selected{% endif %}>UDP</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Port</label>
+                <input type="text" name="port" class="form-control form-control-sm" value="{{ request.args.get('port', '') }}" placeholder="e.g., 22,80,443">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Service Name</label>
+                <select name="name" class="form-select form-select-sm">
+                    <option value="">All</option>
+                    {% for svc in service_options %}
+                    <option value="{{ svc }}" {% if request.args.get('name') == svc %}selected{% endif %}>{{ svc }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Search</label>
+                <input type="text" name="search" class="form-control form-control-sm" value="{{ request.args.get('search', '') }}" placeholder="Banner, IP...">
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary btn-sm me-2">Filter</button>
+                <a href="{{ url_for('services') }}" class="btn btn-outline-secondary btn-sm">Clear</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table id="servicesTable" class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Host <span class="copy-col-btn" onclick="copyColumn('address')" title="Copy all IPs">&#128203;</span></th>
+                <th>Port <span class="copy-col-btn" onclick="copyColumn('port')" title="Copy all Ports">&#128203;</span></th>
+                <th>Protocol</th>
+                <th>Service</th>
+                <th>State</th>
+                <th>Banner/Info</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for svc in services %}
+            <tr data-ip="{{ svc.address }}" data-port="{{ svc.port }}">
+                <td class="copyable" data-col="address" data-value="{{ svc.address }}" onclick="copyCell(this)">
+                    <a href="{{ url_for('host_detail', host_id=svc.host_id) }}" onclick="event.stopPropagation()"><code>{{ svc.address }}</code></a>
+                </td>
+                <td class="copyable" data-col="port" data-value="{{ svc.port }}" onclick="copyCell(this)">{{ svc.port }}</td>
+                <td>{{ svc.proto }}</td>
+                <td>{{ svc.name or '-' }}</td>
+                <td>
+                    {% if svc.state == 'open' %}
+                    <span class="badge bg-success">open</span>
+                    {% elif svc.state == 'closed' %}
+                    <span class="badge bg-secondary">closed</span>
+                    {% else %}
+                    <span class="badge bg-warning">{{ svc.state }}</span>
+                    {% endif %}
+                </td>
+                <td><small class="text-muted">{{ svc.info[:100] if svc.info else '-' }}{{ '...' if svc.info and svc.info|length > 100 else '' }}</small></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    $('#servicesTable').DataTable({
+        pageLength: 50,
+        order: [[0, 'asc'], [1, 'asc']]
+    });
+});
+
+function showToast(message) {
+    let toast = document.getElementById('copyToast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'copyToast';
+        toast.className = 'copy-toast';
+        document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+function copyToClipboard(text) {
+    // Fallback method that works over HTTP
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    return true;
+}
+
+function copyCell(element) {
+    const value = element.getAttribute('data-value');
+    copyToClipboard(value);
+    showToast('Copied: ' + value);
+}
+
+function copyColumn(colName) {
+    const cells = document.querySelectorAll(`td[data-col="${colName}"]`);
+    const values = Array.from(cells).map(cell => cell.getAttribute('data-value'));
+    const uniqueValues = [...new Set(values)];
+    const text = uniqueValues.join('\n');
+    const label = colName === 'address' ? 'IPs' : 'Ports';
+    copyToClipboard(text);
+    showToast('Copied ' + uniqueValues.length + ' ' + label + ' to clipboard');
+}
+
+function copyIPPort() {
+    const rows = document.querySelectorAll('#servicesTable tbody tr');
+    const pairs = Array.from(rows).map(row => {
+        const ip = row.getAttribute('data-ip');
+        const port = row.getAttribute('data-port');
+        return ip + ':' + port;
+    }).filter(p => p !== 'null:null');
+    const uniquePairs = [...new Set(pairs)];
+    const text = uniquePairs.join('\n');
+    copyToClipboard(text);
+    showToast('Copied ' + uniquePairs.length + ' IP:Port pairs to clipboard');
+}
+</script>
+{% endblock %}

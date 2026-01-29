@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Vulnerabilities - Sniper{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Vulnerabilities</h1>
+    <div>
+        <a href="{{ url_for('export_vulns') }}" class="btn btn-outline-secondary btn-sm">Export CSV</a>
+    </div>
+</div>
+
+<!-- Filters -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Search</label>
+                <input type="text" name="search" class="form-control form-control-sm" value="{{ request.args.get('search', '') }}" placeholder="Vulnerability name, host IP...">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Reference (NSS-ID)</label>
+                <input type="text" name="ref" class="form-control form-control-sm" value="{{ request.args.get('ref', '') }}" placeholder="e.g., NSS-41028">
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary btn-sm me-2">Filter</button>
+                <a href="{{ url_for('vulns') }}" class="btn btn-outline-secondary btn-sm">Clear</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table id="vulnsTable" class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Host <span class="copy-col-btn" onclick="copyColumn('address')" title="Copy all IPs">&#128203;</span></th>
+                <th>Hostname</th>
+                <th>Port <span class="copy-col-btn" onclick="copyColumn('port')" title="Copy all Ports">&#128203;</span></th>
+                <th>Vulnerability</th>
+                <th>References</th>
+                <th>Info</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vuln in vulns %}
+            <tr>
+                <td class="copyable" data-col="address" data-value="{{ vuln.address }}" onclick="copyCell(this)">
+                    <a href="{{ url_for('host_detail', host_id=vuln.host_id) }}" onclick="event.stopPropagation()"><code>{{ vuln.address }}</code></a>
+                </td>
+                <td>{{ vuln.hostname or '-' }}</td>
+                <td class="copyable" data-col="port" data-value="{{ vuln.port or '' }}" onclick="copyCell(this)">{{ vuln.port or '-' }}</td>
+                <td><strong>{{ vuln.name }}</strong></td>
+                <td>
+                    {% if vuln.refs %}
+                    <small class="text-muted">{{ vuln.refs }}</small>
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+                <td><small class="text-muted">{{ vuln.info[:80] if vuln.info else '-' }}{{ '...' if vuln.info and vuln.info|length > 80 else '' }}</small></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    $('#vulnsTable').DataTable({
+        pageLength: 50,
+        order: [[0, 'asc'], [3, 'asc']]
+    });
+});
+
+function showToast(message) {
+    let toast = document.getElementById('copyToast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'copyToast';
+        toast.className = 'copy-toast';
+        document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+function copyToClipboard(text) {
+    // Fallback method that works over HTTP
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    return true;
+}
+
+function copyCell(element) {
+    const value = element.getAttribute('data-value');
+    if (value) {
+        copyToClipboard(value);
+        showToast('Copied: ' + value);
+    }
+}
+
+function copyColumn(colName) {
+    const cells = document.querySelectorAll(`td[data-col="${colName}"]`);
+    const values = Array.from(cells)
+        .map(cell => cell.getAttribute('data-value'))
+        .filter(v => v && v !== '');
+    const uniqueValues = [...new Set(values)];
+    const text = uniqueValues.join('\n');
+    const label = colName === 'address' ? 'IPs' : 'Ports';
+    copyToClipboard(text);
+    showToast('Copied ' + uniqueValues.length + ' ' + label + ' to clipboard');
+}
+</script>
+{% endblock %}

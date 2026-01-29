@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Sniper{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Dashboard</h1>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">Total Hosts</h5>
+                <h2 class="display-4">{{ stats.hosts }}</h2>
+                <a href="{{ url_for('hosts') }}" class="btn btn-light btn-sm">View Hosts</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Open Services</h5>
+                <h2 class="display-4">{{ stats.services_open }}</h2>
+                <a href="{{ url_for('services') }}?state=open" class="btn btn-light btn-sm">View Services</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <h5 class="card-title">Vulnerabilities</h5>
+                <h2 class="display-4">{{ stats.vulns }}</h2>
+                <a href="{{ url_for('vulns') }}" class="btn btn-light btn-sm">View Vulns</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>OS Distribution</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Operating System</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for os in os_distribution %}
+                        <tr>
+                            <td>{{ os.os_name or 'Unknown' }}</td>
+                            <td>{{ os.count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Top Ports</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Port</th>
+                            <th>Service</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for port in top_ports %}
+                        <tr>
+                            <td>{{ port.port }}</td>
+                            <td>{{ port.name or '-' }}</td>
+                            <td>{{ port.count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}{{ host.address }} - Sniper{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('hosts') }}">Hosts</a></li>
+        <li class="breadcrumb-item active">{{ host.address }}</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Host Information</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm">
+                    <tr>
+                        <th style="width: 30%">IP Address</th>
+                        <td><code>{{ host.address }}</code></td>
+                    </tr>
+                    <tr>
+                        <th>Hostname</th>
+                        <td>{{ host.name or '-' }}</td>
+                    </tr>
+                    <tr>
+                        <th>OS Name</th>
+                        <td>{{ host.os_name or 'Unknown' }}</td>
+                    </tr>
+                    <tr>
+                        <th>OS Flavor</th>
+                        <td>{{ host.os_flavor or '-' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Purpose</th>
+                        <td>{{ host.purpose or '-' }}</td>
+                    </tr>
+                    <tr>
+                        <th>MAC Address</th>
+                        <td>{{ host.mac or '-' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Info</th>
+                        <td>{{ host.info or '-' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Comments</th>
+                        <td><small>{{ host.comments or '-' }}</small></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Statistics</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col">
+                        <h3 class="text-success">{{ services|selectattr('state', 'equalto', 'open')|list|length }}</h3>
+                        <small>Open Ports</small>
+                    </div>
+                    <div class="col">
+                        <h3 class="text-secondary">{{ services|length }}</h3>
+                        <small>Total Services</small>
+                    </div>
+                    <div class="col">
+                        <h3 class="text-danger">{{ vulns|length }}</h3>
+                        <small>Vulnerabilities</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h5>Services</h5>
+    </div>
+    <div class="card-body">
+        <table id="hostServicesTable" class="table table-striped table-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>Port</th>
+                    <th>Protocol</th>
+                    <th>Service</th>
+                    <th>State</th>
+                    <th>Banner/Info</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for svc in services %}
+                <tr>
+                    <td>{{ svc.port }}</td>
+                    <td>{{ svc.proto }}</td>
+                    <td>{{ svc.name or '-' }}</td>
+                    <td>
+                        {% if svc.state == 'open' %}
+                        <span class="badge bg-success">open</span>
+                        {% elif svc.state == 'closed' %}
+                        <span class="badge bg-secondary">closed</span>
+                        {% else %}
+                        <span class="badge bg-warning">{{ svc.state }}</span>
+                        {% endif %}
+                    </td>
+                    <td><small class="text-muted">{{ svc.info or '-' }}</small></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if vulns %}
+<div class="card mb-4">
+    <div class="card-header">
+        <h5>Vulnerabilities</h5>
+    </div>
+    <div class="card-body">
+        <table id="hostVulnsTable" class="table table-striped table-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>Port</th>
+                    <th>Vulnerability</th>
+                    <th>References</th>
+                    <th>Info</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vuln in vulns %}
+                <tr>
+                    <td>{{ vuln.port or '-' }}</td>
+                    <td><strong>{{ vuln.name }}</strong></td>
+                    <td><small>{{ vuln.refs or '-' }}</small></td>
+                    <td><small class="text-muted">{{ vuln.info[:100] if vuln.info else '-' }}</small></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    $('#hostServicesTable').DataTable({
+        pageLength: 25,
+        order: [[0, 'asc']]
+    });
+    {% if vulns %}
+    $('#hostVulnsTable').DataTable({
+        pageLength: 25,
+        order: [[1, 'asc']]
+    });
+    {% endif %}
+});
+</script>
+{% endblock %}
