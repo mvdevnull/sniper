@@ -401,4 +401,4 @@ def export_vulns():
 if __name__ == '__main__':
     print("Starting Sniper Web Frontend...")
     print("Access the application at: http://0.0.0.0:5000")
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True, use_debugger=False)
