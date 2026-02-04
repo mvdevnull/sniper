@@ -48,10 +48,11 @@ msfconsole                                        #run in separate window and wa
 ```
 
 ### (Optional BETA) Web Frontend (view only access to Metasploit PostgreSQL DB)
+```
 pip install -r ./tools/dev-testing/web-frontend/requirements.txt
 python ./tools/dev-testing/web-frontend/app.py
 Browse http://0.0.0.0:5000   (user:tester  pass:tester)
-
+```
 
 ### Future Features (TBD)
 * Other bugs and potential features are noted in the [/docs/todo.txt](https://github.com/mvdevnull/sniper/blob/master/docs/todo.txt) file.
