@@ -27,11 +27,7 @@ Sharp Printer,Sharp MX-M350N,<title>MX-M350N,DefaultCred-Administrator:admin,pri
 Sharp Printer,Sharp BP-####,<title>Machine Identification - BP-,DefaultCred-Administrator:admin,printer,False
 Sharp Printer,Sharp MX-####,<title>Machine Identification - MX-,DefaultCred-Administrator:admin,printer,False
 HP Printer,HP Color LaserJet,HP Color LaserJet,,printer,False
-HP Printer,HP LaserJet MFP,HP LaserJet MFP,,printer,False
-HP Printer,HP LaserJet Pro MFP,HP LaserJet Pro MFP,,printer,False
-HP Printer,HP LaserJet M608,HP LaserJet M608,,printer,False
-HP Printer,HP LaserJet M507,HP LaserJet M507,,printer,False
-HP Printer,HP LaserJet Flow MFP,HP LaserJet Flow MFP,,printer,False
+HP Printer,HP LaserJet,HP LaserJet,,printer,False
 HP Printer,HP DesignJet,HP DesignJet,,printer,False
 HP Printer,HP Embedded Web Server,HP Embedded Web Server,,printer,True
 Lexmark Printer,Lexmark CX###,<title>Lexmark CX,,printer,True
