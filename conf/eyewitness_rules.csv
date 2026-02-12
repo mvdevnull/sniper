@@ -26,6 +26,7 @@ Sharp Printer,printer,sharp-world.com,DefaultCred-Administrator:admin,printer,Fa
 Sharp Printer,Sharp MX-M350N,<title>MX-M350N,DefaultCred-Administrator:admin,printer,False
 Sharp Printer,Sharp BP-####,<title>Machine Identification - BP-,DefaultCred-Administrator:admin,printer,False
 Sharp Printer,Sharp MX-####,<title>Machine Identification - MX-,DefaultCred-Administrator:admin,printer,False
+Intermec Printer,Intermec PC43T Printer,PC43t,DefaultCred-user:<blank>,printer,False
 HP Printer,HP Color LaserJet,HP Color LaserJet,,printer,False
 HP Printer,HP LaserJet,HP LaserJet,,printer,False
 HP Printer,HP DesignJet,HP DesignJet,,printer,False
